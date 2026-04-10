@@ -1,55 +1,47 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-pip-log.txt
-pip-delete-this-directory.txt
+# OS
+.DS_Store
+Thumbs.db
 
-# Virtual environments
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
+# IDE and Editor
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.DS_Store
-
-# Testing
-.coverage
-.pytest_cache/
-htmlcov/
+*.sublime-workspace
+*.sublime-project
 
 # Temporary files
 *.tmp
 *.bak
-.mypy_cache/
-.dmypy.json
-dmypy.json
+*.backup
 
-# OS
-.DS_Store
-Thumbs.db
+# System files
+.git/local/
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Backup and lock files
+*.lock
+*.orig
+.merge_*
+
+# OS specific
+desktop.ini
+.Spotlight-V100
+.Trashes
+
+# Test directories
+scenario_engine/tests/
+

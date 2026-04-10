@@ -1,4 +1,4 @@
-# SKILLs Repository
+# SKILLs 仓库
 
 Claude Code SKILLs 集合仓库，包含多个专业化的 SKILL 定义，用于增强代码分析、生成和工程实践功能。
 
@@ -16,12 +16,14 @@ INCOSE 场景工程 SKILL，提供系统工程场景分析和建模能力。
 ```
 SKILLs/
 ├── README.md                    # 主仓库说明（此文件）
+├── README_zh.md                 # 中文说明
 ├── .gitignore                   # Git 忽略配置
 ├── CONTRIBUTING.md              # 贡献指南
 │
 ├── scenario_engine/             # 场景工程 SKILL
 │   ├── SKILL.md                # SKILL 定义文件
 │   ├── README.md               # SKILL 说明文档
+│   ├── README_zh.md            # SKILL 中文说明
 │   └── assets/
 │       ├── templates/          # 场景模板文件
 │       ├── prompts/            # 提示词文件
