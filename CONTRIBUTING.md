@@ -1,48 +1,49 @@
-# 贡献指南
+# Contributing Guide
 
-感谢你对 SKILLs 仓库的兴趣和贡献！
+Thank you for your interest and contributions to the SKILLs repository!
 
-## 📋 贡献类型
+## 📋 Types of Contributions
 
-我们欢迎以下类型的贡献：
+We welcome the following types of contributions:
 
-1. **新 SKILL 开发** - 创建新的 SKILL 定义
-2. **SKILL 改进** - 增强现有 SKILL 功能
-3. **模板和资源** - 添加有用的模板、提示词、示例
-4. **文档** - 改进和完善文档
-5. **Bug 修复** - 修复现有 SKILL 中的问题
+1. **New SKILL Development** - Create new SKILL definitions
+2. **SKILL Improvements** - Enhance existing SKILL functionality
+3. **Templates and Resources** - Add useful templates, prompts, examples
+4. **Documentation** - Improve and refine documentation
+5. **Bug Fixes** - Fix issues in existing SKILLs
 
-## 🚀 工作流程
+## 🚀 Workflow
 
-### 1. Fork 和分支
+### 1. Fork and Branch
 
 ```bash
-# Fork 仓库（通过 GitHub UI）
-# Clone 你的 fork
+# Fork repository (via GitHub UI)
+# Clone your fork
 git clone https://github.com/your-username/SKILLs.git
 
-# 创建特性分支（从 dev 分支）
+# Create feature branch (from dev branch)
 git checkout -b feature/your-feature-name
 ```
 
-### 2. 创建新 SKILL
+### 2. Create New SKILL
 
-如果添加新的 SKILL，遵循标准目录结构：
+If adding a new SKILL, follow the standard directory structure:
 
 ```
 your-skill-name/
-├── SKILL.md                 # SKILL 定义文件（必须）
-├── README.md               # SKILL 文档（必须）
+├── SKILL.md                 # SKILL definition file (required)
+├── README.md               # SKILL documentation (required, English)
+├── README_zh.md            # SKILL documentation (optional, Chinese)
 └── assets/
-    ├── templates/          # 模板文件
-    ├── prompts/            # 提示词文件
-    ├── examples/           # 使用示例
-    └── references/         # 参考文档
+    ├── templates/          # Template files
+    ├── prompts/            # Prompt files
+    ├── examples/           # Usage examples
+    └── references/         # Reference documents
 ```
 
-### 3. SKILL.md 文件要求
+### 3. SKILL.md File Requirements
 
-新 SKILL 必须包含以下 YAML frontmatter：
+New SKILLs must include the following YAML frontmatter:
 
 ```yaml
 ---
@@ -55,123 +56,116 @@ version: "0.1.0"
 ---
 ```
 
-### 4. 提交改动
+### 4. Commit Changes
 
 ```bash
-# 添加改动
+# Add changes
 git add .
 
-# 提交（遵循提交信息规范）
-git commit -m "feat: 添加新 SKILL"
-git commit -m "docs: 改进 XXX SKILL 文档"
-git commit -m "fix: 修复 XXX SKILL 中的问题"
+# Commit (follow commit message conventions)
+git commit -m "feat: add new SKILL"
+git commit -m "docs: improve XXX SKILL documentation"
+git commit -m "fix: fix issue in XXX SKILL"
 
-# 推送到你的 fork
+# Push to your fork
 git push origin feature/your-feature-name
 ```
 
-### 5. 提交 Pull Request
+### 5. Submit Pull Request
 
-1. 在 GitHub 上创建 Pull Request
-2. 目标分支：`dev`（开发新特性）或 `master`（bug 修复）
-3. 描述你的改动
-4. 等待审查和批准
+1. Create Pull Request on GitHub
+2. Target branch: `dev` (for new features) or `master` (for bug fixes)
+3. Describe your changes
+4. Wait for review and approval
 
-## 📝 提交信息规范
+## 📝 Commit Message Convention
 
-使用以下格式提交信息：
+Use the following format for commit messages:
 
 ```
-feat: 添加新功能描述
-fix: 修复 bug 描述
-docs: 文档更新描述
-refactor: 代码重构描述
-test: 测试相关描述
-chore: 杂项改动描述
+feat: add new feature description
+fix: fix bug description
+docs: documentation update description
+refactor: code refactor description
+test: test-related description
+chore: misc changes description
 ```
 
-**示例**：
+**Examples**:
 ```bash
 git commit -m "feat: Add INCOSE scenario analysis SKILL"
 git commit -m "docs: Update scenario-engine README with examples"
 git commit -m "fix: Correct typo in use-case template"
 ```
 
-## 🎨 代码规范
+## 🎨 Code Standards
 
-### 文档规范
+### Documentation Standards
 
-- 使用 Markdown 格式
-- 遵循 [文档标准](scenario_engine/assets/references/documentation-standards.md)
-- 保持清晰和一致的风格
-- 检查拼写和语法
+- Use Markdown format
+- Maintain clear and consistent style
+- Check spelling and grammar
+- Default to English, optionally provide Chinese version
 
-### 命名规范
+### Naming Conventions
 
-**文件名**：
-- 使用小写字母
-- 用连字符分隔单词：`scenario-template.md`
-- 避免空格和特殊字符
+**File names**:
+- Use lowercase letters
+- Separate words with hyphens: `scenario-template.md`
+- Avoid spaces and special characters
 
-**SKILL 名称**：
-- 使用小写字母
-- 用连字符分隔：`skill-name`
-- 有意义且描述性
+**SKILL names**:
+- Use lowercase letters
+- Separate with hyphens: `skill-name`
+- Meaningful and descriptive
 
-### 模板和示例
+### Templates and Examples
 
-- 使用已有的模板确保一致性
-- 提供现实的示例
-- 包含清晰的说明和注释
+- Use existing templates to ensure consistency
+- Provide realistic examples
+- Include clear instructions and comments
 
-## ✅ 检查清单
+## ✅ Checklist
 
-提交 PR 前，确保：
+Before submitting PR, ensure:
 
-- [ ] 代码/文档清晰明了
-- [ ] 拼写和语法正确
-- [ ] 遵循命名规范
-- [ ] 附加必要的 YAML frontmatter
-- [ ] 包含相关的 README 或文档
-- [ ] 如果是新 SKILL，更新主 README.md
-- [ ] 提交信息清晰有意义
-- [ ] 本地测试通过（如适用）
+- [ ] Code/documentation is clear
+- [ ] Spelling and grammar are correct
+- [ ] Naming conventions are followed
+- [ ] Required YAML frontmatter is attached
+- [ ] Relevant README or documentation is included (English by default)
+- [ ] If new SKILL, update main README.md
+- [ ] Commit message is clear and meaningful
+- [ ] Local tests pass (if applicable)
 
-## 🐛 报告 Bug
+## 🐛 Reporting Bugs
 
-如果发现 bug：
+If you find a bug:
 
-1. 检查是否已有相关 issue
-2. 创建新 issue 并详细描述：
-   - Bug 描述
-   - 复现步骤
-   - 预期行为
-   - 实际行为
-   - 相关 SKILL 名称
+1. Check if there's already a related issue
+2. Create new issue with detailed description:
+   - Bug description
+   - Reproduction steps
+   - Expected behavior
+   - Actual behavior
+   - Related SKILL name
 
-## 💡 建议和讨论
+## 💡 Suggestions and Discussions
 
-- 在 Discussions 中提出想法
-- 标记相关的 issue
-- 提供背景和用例
+- Propose ideas in Discussions
+- Tag related issues
+- Provide background and use cases
 
-## 📚 资源
+## 🤝 Community
 
-- [SKILL 定义文档](scenario_engine/SKILL.md)
-- [场景工程最佳实践](scenario_engine/assets/references/best-practices.md)
-- [文档标准](scenario_engine/assets/references/documentation-standards.md)
-- [INCOSE 实践](scenario_engine/assets/references/incose-practices.md)
+- Respect all contributors
+- Provide constructive feedback
+- Help others improve
 
-## 🤝 社区
+## 📄 License
 
-- 尊重所有贡献者
-- 建设性提供反馈
-- 帮助他人改进
-
-## 📄 许可证
-
-通过提交贡献，你同意你的改动在 MIT 许可证下发布。
+By submitting contributions, you agree that your changes are released under the MIT license.
 
 ---
 
-感谢你的贡献！我们期待与你合作！🎉
+Thank you for your contributions! We look forward to working with you! 🎉

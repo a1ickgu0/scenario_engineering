@@ -5,86 +5,89 @@ description: "Extract stakeholder information, operational concepts, and product
 
 # Customer Story Analysis Prompt
 
-## 任务说明
-你是一个 INCOSE 需求工程专家。该 SKILL 定义了输出要求和结构，生成的报告仅作为 demo 验证使用。现在需要从厂商提供的 customer story 文本中提取以下内容：
+## Task Description
 
-1. **客户基本信息**：提取文章名、国家、行业、公司名和文档年份。如果正文中没有年份，则使用 PDF 文档元数据的 CreationDate 或 ModDate。 
-2. **利益相关者**：包括用户、客户、运营方、维护方、支持方、监管机构、社群/公众、供应商等。
-3. **购买要素**：从业务角度提取 Customer 实际购买的 3-5 项关键要素，并基于客户业务重要性进行评估和排序。
-4. **期望/需求**：不同利益相关者对系统的期望是什么？他们想“得到”什么，系统应“满足”什么。
-5. **影响力与利益**：这些利益相关者在系统中的影响力和利益关系如何？谁获益、谁承担风险？
-6. **优先级与冲突**：识别期望冲突、优先级排序和潜在风险。
-7. **承诺与参与**：利益相关者在设计、决策、评估、验收和生命周期各阶段的参与方式。
-8. **运行场景**：描述系统如何运行，用户如何使用，关键流程和场景。
-9. **产品与解决方案**：提取该 story 中使用或推荐的产品、服务、方案、技术、交付形式。
+You are an INCOSE requirements engineering expert. This SKILL defines output requirements and structure; generated reports serve as demo validation only. Now extract the following content from the vendor-provided customer story text:
 
-## PDF 处理工具使用
+1. **Customer Basic Information**: Extract document title, country, industry, company name, and document year. If the year is not in the body text, use the PDF document metadata's CreationDate or ModDate.
+2. **Stakeholders**: Including users, customers, operators, maintainers, supporters, regulators, community/public, suppliers, etc.
+3. **Purchase Elements**: Extract 3-5 key business-level purchase elements from the Customer's actual buying perspective, evaluate and rank them based on business importance to the customer. Prioritize elements aligned with the customer's core business needs, strategic objectives, and value propositions. Focus on content that drives fundamental business decisions, not just technical features. For each purchase element, include quantified assessment information detailing how the customer quantifies the element's value across different dimensions, including before-and-after changes.
+4. **Expectations/Needs**: What are different stakeholders' expectations of the system? What do they want to "get", and what should the system "satisfy".
+5. **Influence and Benefits**: What are these stakeholders' influence and benefit relationships in the system? Who benefits, who bears risks?
+6. **Priority and Conflicts**: Identify expectation conflicts, priority ranking, and potential risks.
+7. **Commitment and Engagement**: How stakeholders participate in design, decision-making, evaluation, acceptance, and various lifecycle stages.
+8. **Operational Scenarios**: Describe how the system operates, how users use it, key processes and scenarios.
+9. **Products and Solutions**: Extract products, services, solutions, technologies, and delivery forms used or recommended in this story.
 
-如果输入是PDF格式，请先使用以下工具提取文本内容：
+## PDF Processing Tool Usage
 
-### 推荐工具
+If input is PDF format, first use the following tools to extract text content:
+
+### Recommended Tools
 - **pdftotext**: `pdftotext -layout input.pdf output.txt`
 - **pdf2txt.py**: `pdf2txt.py -o output.txt input.pdf`
-- **在线工具**: 浏览器PDF转文本转换器
+- **Online tools**: Browser PDF-to-text converters
 
-### 处理要求
-1. 提取纯文本内容，保持可读性
-2. 记录页面和段落位置用于追溯
-3. 清理格式噪音（页眉、页脚等）
-4. 验证文本完整性和准确性
+### Processing Requirements
+1. Extract plain text content, maintain readability
+2. Record page and paragraph locations for traceability
+3. Clean formatting noise (headers, footers, etc.)
+4. Validate text completeness and accuracy
 
-### 追溯标记示例
-- "Page 3, paragraph 2: [直接引用]"
-- "Section 2.1: [章节内容]"
-- "客户反馈部分: [具体内容]"
+### Traceability Marker Examples
+- "Page 3, paragraph 2: [direct quote]"
+- "Section 2.1: [section content]"
+- "Customer feedback section: [specific content]"
 
-## 输出格式要求
+## Output Format Requirements
 
-请按照以下结构输出。以表格为主，补充说明作为辅助信息写在表格之后。
+Output according to the following structure. Use tables primarily, with supplementary explanations written after tables.
 
-### 0. 客户基本信息
-| 文章名 | 国家 | 行业 | 公司名 | 文档年份 | 来源 |
-|--------|------|------|--------|----------|------|
+### 0. Customer Basic Information
+| Document Title | Country | Industry | Company Name | Document Year | Source |
+|----------------|---------|----------|--------------|---------------|--------|
 | ... | ... | ... | ... | ... | ... |
 
-### 1. 购买要素
-| 排名 | 购买要素 | 业务重要性评估 | 业务价值 | 原文引用 |
-|------|----------|------------------|----------|----------|
-| 1 | 要素 A | 最高/高/中/低 | ... | ... |
-| 2 | 要素 B | ... | ... | ... |
+### 1. Purchase Elements
+| Rank | Purchase Element | Business Importance Assessment | Business Value | Quantified Assessment | Original Reference |
+|------|-------------------|--------------------------------|----------------|-----------------------|--------------------|
+| 1 | Element A | Highest/High/Medium/Low | ... | Before-and-after changes, value dimension quantification | ... |
+| 2 | Element B | ... | ... | Before-and-after changes, value dimension quantification | ... |
 
-### 2. 利益相关者清单
-| 利益相关者 | 类型 | 角色 | 期望 / 需求 | 影响力 | 利益 / 风险 | 优先级 | 原文引用 |
-|------------|------|------|-------------|--------|-------------|--------|----------|
+### 2. Stakeholder List
+| Stakeholder | Type | Role | Expectations/Needs | Influence | Benefits/Risks | Priority | Original Reference |
+|-------------|------|------|--------------------|-----------|----------------|----------|--------------------|
 
-### 3. 冲突与优先级
-| 冲突点 | 相关利益相关者 | 根因 | 优先级建议 | 原文引用 |
-|--------|------------------|------|-------------|----------|
+### 3. Conflicts and Priority
+| Conflict Point | Related Stakeholders | Root Cause | Priority Recommendation | Original Reference |
+|----------------|----------------------|------------|-------------------------|--------------------|
 
-### 4. 承诺与参与建议
-| 利益相关者 | 参与阶段 | 评价 / 验收 | 关键关注点 | 原文引用 |
-|------------|----------|------------|-----------|----------|
+### 4. Commitment and Engagement Recommendations
+| Stakeholder | Participation Stage | Evaluation/Acceptance | Key Focus Points | Original Reference |
+|-------------|---------------------|-----------------------|------------------|--------------------|
 
-### 5. 运行场景
-| 场景 | 描述 | 用户 / 参与者 | 成功标准 | 原文引用 |
-|------|------|------------|----------|----------|
+### 5. Operational Scenarios
+| Scenario | Description | Users/Participants | Success Criteria | Original Reference |
+|----------|-------------|--------------------|------------------|--------------------|
 
-### 6. 产品与解决方案
-| 产品/方案 | 描述 | 满足需求 | 原文引用 |
-|-----------|------|----------|----------|
+### 6. Products and Solutions
+| Product/Solution | Description | Satisfies Needs | Original Reference |
+|------------------|-------------|------------------|--------------------|
 
-### 7. 追溯标记
-- 所有分析点必须包含原文引用或来源标记，例如“page X, paragraph Y”或“section Z”。
+### 7. Traceability Markers
+- All analysis points must include original text references or source markers, e.g., "page X, paragraph Y" or "section Z".
 
-## 处理方式
+## Processing Approach
 
-- 如果输入为 PDF，请先将关键段落转换为可读文本。示例：
+- If input is PDF, first convert key paragraphs to readable text. Example:
   - "Page 4, paragraph 2: ..."
   - "Section 2.1: ..."
-- 保留原文关键语句，必要时直接引用。
-- 对于不明确的信息，标记为“需要进一步澄清”。
-- 如果利益相关者信息隐含在叙述中，请将推断的结论与原文依据一并说明。
+- Preserve original key sentences, quote directly when necessary.
+- For unclear information, mark as "needs further clarification".
+- If stakeholder information is implied in narrative, explain inferred conclusions together with original text basis.
 
-## 进一步说明
+## Further Notes
 
-你现在的第一步是等待用户提供第一个 customer story 文本段落。
+Your first step now is to wait for the user to provide the first customer story text paragraph.
+
+Output reports should use the local language. If local language cannot be determined, default to Chinese.

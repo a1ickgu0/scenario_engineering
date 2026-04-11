@@ -1,59 +1,68 @@
 # SKILLs Repository
 
-Claude Code SKILLs 集合仓库，包含多个专业化的 SKILL 定义，用于增强代码分析、生成和工程实践功能。
+A collection of Claude Code SKILL definitions containing specialized prompts/workflows to enhance code analysis, generation, and engineering practices.
 
-## 📚 SKILL 列表
+## 📚 SKILL List
 
 ### scenario_engine
-INCOSE 场景工程 SKILL，提供系统工程场景分析和建模能力。
 
-- **位置**: [`scenario_engine/`](./scenario_engine/)
-- **用途**: 系统工程场景分析、建模、需求分解
-- **关键词**: 场景，系统工程，INCOSE，需求，用例
+INCOSE scenario engineering SKILL providing systems engineering scenario analysis and modeling capabilities.
 
-## 🏗️ 项目结构
+- **Location**: [`scenario_engine/`](./scenario_engine/)
+- **Purpose**: Systems engineering scenario analysis, modeling, requirements decomposition
+- **Keywords**: scenario, systems engineering, INCOSE, requirements, use case
+
+## 🏗️ Project Structure
 
 ```
 SKILLs/
-├── README.md                    # 主仓库说明（此文件）
-├── .gitignore                   # Git 忽略配置
-├── CONTRIBUTING.md              # 贡献指南
+├── README.md                    # Repository documentation (English - this file)
+├── README_zh.md                 # Chinese documentation
+├── .gitignore                   # Git ignore configuration
+├── CONTRIBUTING.md              # Contribution guidelines
 │
-├── scenario_engine/             # 场景工程 SKILL
-│   ├── SKILL.md                # SKILL 定义文件
-│   ├── README.md               # SKILL 说明文档
+├── scenario_engine/             # Scenario engineering SKILL
+│   ├── SKILL.md                 # SKILL definition file
+│   ├── README.md                # SKILL documentation (English)
+│   ├── README_zh.md             # SKILL documentation (Chinese)
 │   └── assets/
-│       ├── templates/          # 场景模板文件
-│       ├── prompts/            # 提示词文件
-│       ├── scripts/            # 辅助脚本
-│       └── examples/           # 使用示例
+│       ├── templates/           # Scenario template files
+│       ├── prompts/             # Prompt files
+│       ├── scripts/             # Helper scripts
+│       └── examples/            # Usage examples
 │
-└── [other-skill]/              # 其他 SKILL（遵循相同结构）
+└── [other-skill]/               # Other SKILLs (follow same structure)
     └── ...
 ```
 
-## 🚀 SKILL 使用
+## 🚀 SKILL Usage
 
-每个 SKILL 可以通过以下方式使用：
+Each SKILL can be used in the following ways:
 
-1. **在 Copilot 中**: 输入 `/` 后查找 SKILL 名称
-2. **通过提示词**: 提及 SKILL 相关的关键词，Agent 会自动加载
+1. **In Copilot**: Enter `/` and search for SKILL name
+2. **Via prompts**: Mention SKILL-related keywords, Agent will auto-load
 
-## 📝 创建新 SKILL
+## 📝 Creating New SKILLs
 
-参考 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解如何创建新的 SKILL。
+Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for how to create new SKILLs.
 
-基本步骤：
-1. 创建 `<skill-name>/` 目录
-2. 添加 `SKILL.md` 文件（SKILL 定义）
-3. 创建 `assets/` 目录组织资源
-4. 编写 `README.md` 文档
+Basic steps:
 
-## 🔄 分支管理
+1. Create `<skill-name>/` directory
+2. Add `SKILL.md` file (SKILL definition)
+3. Create `assets/` directory to organize resources
+4. Write `README.md` documentation (English)
+5. Optionally add `README_zh.md` for Chinese version
 
-- `master` - 生产稳定版本
-- `dev` - 开发分支，新特性和改进
+## 🔄 Branch Management
 
-## 📄 许可证
+- `master` - Production stable version
+- `dev` - Development branch for new features and improvements
+
+## 📄 License
 
 MIT
+
+---
+
+**[中文版本](README_zh.md)**

@@ -1,121 +1,121 @@
 # Customer Story Analysis Guidelines
 
-本文件指导如何对厂商 customer story 进行 INCOSE 需求工程分析。
+This file guides how to perform INCOSE requirements engineering analysis on vendor customer stories.
 
-## 核心分析维度
+## Core Analysis Dimensions
 
-### 1. 利益相关者识别
+### 1. Stakeholder Identification
 
-应识别以下类型的利益相关者：
-- 用户
-- 客户
-- 运营方
-- 维护方
-- 支持方
-- 监管机构
-- 社群/公众
-- 供应商
+Identify the following types of stakeholders:
+- Users
+- Customers
+- Operators
+- Maintainers
+- Supporters
+- Regulators
+- Community/Public
+- Suppliers
 
-分析时要关注：
-- 角色与职责
-- 期望与需求
-- 价值和风险
-- 影响力和决策能力
-- 与系统的关系
+During analysis, focus on:
+- Roles and responsibilities
+- Expectations and needs
+- Values and risks
+- Influence and decision-making power
+- Relationship with the system
 
-### 2. 购买要素
+### 2. Purchase Elements
 
-购买要素应从业务价值角度提取，通常包含：
-- 成本节约
-- 提升效率
-- 风险降低
-- 合规性
-- 用户体验
+Extract purchase elements from a business value perspective, typically including:
+- Cost savings
+- Efficiency improvement
+- Risk reduction
+- Compliance
+- User experience
 
-要求至少提取 3-5 项，并且要与 story 中的描述保持一致。
+Require at least 3-5 items, consistent with descriptions in the story.
 
-### 3. 期望与需求
+### 3. Expectations and Needs
 
-对于每个利益相关者，明确：
-- 他们想“得到”什么？
-- 系统应“满足”什么？
-- 哪些是核心需求，哪些是期望性需求？
+For each stakeholder, clarify:
+- What do they want to "get"?
+- What should the system "satisfy"?
+- Which are core needs vs. desired needs?
 
-### 4. 影响力与利益
+### 4. Influence and Benefits
 
-分析每个利益相关者的：
-- 对系统决策的影响力程度
-- 从系统中获得的价值
-- 可能承担的风险或成本
+Analyze each stakeholder's:
+- Degree of influence on system decisions
+- Value gained from the system
+- Potential risks or costs incurred
 
-### 5. 优先级与冲突
+### 5. Priority and Conflicts
 
-识别：
-- 不同利益相关者之间的冲突点
-- 可能的优先级排序
-- 这些冲突是否会导致项目风险或设计权衡
+Identify:
+- Conflict points between different stakeholders
+- Possible priority ranking
+- Whether these conflicts lead to project risks or design trade-offs
 
-### 6. 承诺与参与
+### 6. Commitment and Engagement
 
-给出利益相关者在生命周期不同阶段的参与建议：
-- 需求定义
-- 设计评审
-- 测试和验收
-- 运营验证
-- 持续改进
+Provide stakeholder participation recommendations at different lifecycle stages:
+- Requirements definition
+- Design review
+- Testing and acceptance
+- Operations validation
+- Continuous improvement
 
-### 7. 运行使用构想
+### 7. Operational Concept
 
-从 customer story 中提取“运行概念”或“使用构想”：
-- 谁在什么时间、什么地点以何种方式使用系统？
-- 系统如何支持核心业务流程？
-- 输入、输出、成功条件是什么？
-- 是否存在环境、时序或流程前置条件？
+Extract "operational concept" or "usage concept" from the customer story:
+- Who uses the system, when, where, and how?
+- How does the system support core business processes?
+- What are inputs, outputs, and success conditions?
+- Are there environmental, timing, or process prerequisites?
 
-### 8. 产品与解决方案识别
+### 8. Product and Solution Identification
 
-明确 story 中提到的：
-- 具体产品或产品线
-- 服务或解决方案模式
-- 技术组件或平台
-- 交付方式和实施方式
+Clarify what is mentioned in the story:
+- Specific products or product lines
+- Services or solution patterns
+- Technical components or platforms
+- Delivery and implementation methods
 
-## 回溯与证据
+## Traceability and Evidence
 
-每个要点都必须保留原文依据。常见形式：
+Every point must preserve original text basis. Common forms:
 
-- 直接引用句子
-- 页码/段落标记
-- 引用章节标题
-- 原文中的关键词
+- Direct quote sentences
+- Page/paragraph markers
+- Reference section titles
+- Keywords from original text
 
-如果使用推断结论，则必须注明：
+If using inferred conclusions, must note:
 
-- 推断来源
-- 原文依据
-- 推荐进一步验证的信息点
+- Inference source
+- Original text basis
+- Information points recommended for further verification
 
-## 输出建议格式
+## Output Format Recommendations
 
-建议使用结构化表格和分项列表，使分析易于阅读和审查。
+Recommend using structured tables and itemized lists to make analysis easy to read and review.
 
-### 示例：利益相关者表
+### Example: Stakeholder Table
 
-| 利益相关者 | 类型 | 期望/需求 | 影响 | 利益/风险 | 优先级 | 原文引用 |
-|------------|------|-----------|------|-----------|--------|----------|
+| Stakeholder | Type | Expectations/Needs | Influence | Benefits/Risks | Priority | Original Reference |
+|-------------|------|--------------------|-----------|----------------|----------|--------------------|
 
-### 示例：运行使用构想
+### Example: Operational Concept
 
-- 场景 A：...
-  - 原文引用："..."
-  - 参与者：...
-  - 目标：...
-  - 关键成功条件：...
+- Scenario A: ...
+  - Original reference: "..."
+  - Participants: ...
+  - Goal: ...
+  - Key success criteria: ...
 
-## 进一步工作
+## Further Work
 
-此 SKILL 的初步目标是整理提取策略和分析结构。后续可以继续扩展：
-- 自动识别 PDF 引用位置
-- 生成需求规格草案
-- 输出产品/功能列表
-- 形成需求优先级决策表
+The initial goal of this SKILL is to organize extraction strategies and analysis structure. Future expansions can include:
+- Automatic PDF reference location identification
+- Requirement specification draft generation
+- Product/feature list output
+- Requirement priority decision table formation

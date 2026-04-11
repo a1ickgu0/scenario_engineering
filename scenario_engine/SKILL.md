@@ -23,6 +23,8 @@ This SKILL is designed for generic INCOSE requirements engineering work that beg
 
 The analysis must preserve original wording and support traceability to the source text.
 
+The generated reports should use the local language. If the local language cannot be determined, default to Chinese for report generation.
+
 > Note: Generated analysis reports are demo outputs for validation. The actual requirements and output rules should be defined and maintained in this SKILL.
 
 ## When to Use
@@ -61,7 +63,7 @@ When direct PDF reading is not available, use external PDF processing tools to e
 For each customer story, the SKILL should produce:
 
 - **Customer basic information**: document title, country, industry, company name, and document year
-- **Purchase elements**: 3-5 business-level buying factors described in the story, evaluated and ranked by business importance
+- **Purchase elements**: 3-5 business-level buying factors described in the story, evaluated and ranked by business importance. Prioritize elements that align with the customer's core business needs, strategic objectives, and value propositions. Focus on what drives the fundamental business decisions rather than just technical features. For each purchase element, include quantified assessment information, detailing how the customer quantifies the value of this element across different dimensions, including before-and-after changes (e.g., cost reduction from X to Y, time savings of Z%, efficiency improvements).
 - **Stakeholder listing**: Who the stakeholders are and their roles
 - **Expectations/needs**: What each stakeholder expects or requires from the system
 - **Influence and value**: How stakeholders influence the system or are affected by it, including value and risk
