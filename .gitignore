@@ -45,4 +45,5 @@ desktop.ini
 
 # Test directories
 scenario_engine/tests/
+scenario_modeler/tests/
 
