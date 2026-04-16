@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document provides standard industry classification taxonomy for organizing and analyzing scenario_engine outputs. It defines primary and secondary industry categories.
+This document provides standard industry classification taxonomy for organizing and analyzing scenario_analyzer outputs. It defines primary and secondary industry categories.
 
 ---
 

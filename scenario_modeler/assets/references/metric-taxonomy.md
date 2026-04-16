@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document provides standardized metric terminology and classification for normalizing quantified metrics from scenario_engine analysis outputs.
+This document provides standardized metric terminology and classification for normalizing quantified metrics from scenario_analyzer analysis outputs.
 
 ---
 

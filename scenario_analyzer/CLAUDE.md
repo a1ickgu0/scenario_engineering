@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## SKILL Overview
 
-This is the **scenario_engine** SKILL - an INCOSE requirements engineering workflow for extracting stakeholder information, operational concepts, and product/solution details from vendor customer story PDFs or text narratives. Outputs are structured for OpenSCENARIO DSL preparation via the downstream `scenario_modeler` SKILL.
+This is the **scenario_analyzer** SKILL - an INCOSE requirements engineering workflow for extracting stakeholder information, operational concepts, and product/solution details from vendor customer story PDFs or text narratives. Outputs are structured for OpenSCENARIO DSL preparation via the downstream `scenario_modeler` SKILL.
 
 ## Directory Structure
 
 ```
-scenario_engine/
+scenario_analyzer/
 ├── SKILL.md                              # SKILL metadata (YAML frontmatter + definition)
 ├── README.md                             # English documentation
 ├── README_zh.md                          # Chinese documentation

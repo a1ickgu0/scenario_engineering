@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize relationship patterns from multiple scenario_engine analysis outputs. Build relationship model with hierarchical, collaborative, conflicting, and dependency relations for OpenSCENARIO DSL preparation.
+Synthesize relationship patterns from multiple scenario_analyzer analysis outputs. Build relationship model with hierarchical, collaborative, conflicting, and dependency relations for OpenSCENARIO DSL preparation.
 
 ---
 

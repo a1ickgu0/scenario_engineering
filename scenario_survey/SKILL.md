@@ -1,6 +1,6 @@
 ---
 name: scenario_survey
-description: "Pre-sales survey SKILL for generating industry-specific questionnaires to collect customer expectations and requirements. Outputs structured narratives that feed directly into scenario_engine analysis. Uses customer-friendly language without technical jargon, supports multi-language output (default English), with guided techniques for complete stakeholder identification, detailed usage scenarios, and clear success criteria."
+description: "Pre-sales survey SKILL for generating industry-specific questionnaires to collect customer expectations and requirements. Outputs structured narratives that feed directly into scenario_analyzer analysis. Uses customer-friendly language without technical jargon, supports multi-language output (default English), with guided techniques for complete stakeholder identification, detailed usage scenarios, and clear success criteria."
 tags:
   - pre-sales-survey
   - interview-guide
@@ -17,7 +17,7 @@ version: "0.2.0"
 
 ## Overview
 
-This SKILL designs and executes **pre-sales surveys** to collect customer expectations and requirements BEFORE solution proposal. It generates industry-specific questionnaires using customer-friendly language, avoiding technical jargon like INCOSE terminology. Supports multi-language output (default English). The outputs are structured narratives ready for `scenario_engine` analysis.
+This SKILL designs and executes **pre-sales surveys** to collect customer expectations and requirements BEFORE solution proposal. It generates industry-specific questionnaires using customer-friendly language, avoiding technical jargon like INCOSE terminology. Supports multi-language output (default English). The outputs are structured narratives ready for `scenario_analyzer` analysis.
 
 **Key Positioning**:
 - **Timing**: Pre-sales stage (before solution decision)
@@ -33,7 +33,7 @@ This SKILL designs and executes **pre-sales surveys** to collect customer expect
 
 **Output Flow**:
 ```
-scenario_survey → Survey Questionnaire → Interview/Survey Execution → Narrative Document → scenario_engine
+scenario_survey → Survey Questionnaire → Interview/Survey Execution → Narrative Document → scenario_analyzer
 ```
 
 ## Language Handling
@@ -324,7 +324,7 @@ Every questionnaire must follow this framework:
 
 ### Narrative Document Output
 
-Survey results synthesized into narrative format matching scenario_engine input requirements:
+Survey results synthesized into narrative format matching scenario_analyzer input requirements:
 
 ```
 ## Customer Requirements Narrative
@@ -390,7 +390,7 @@ Survey conductor should verify:
 4. **Survey Execution**: Conduct interview or self-reported survey
 5. **Completeness Check**: Verify all required areas covered
 6. **Narrative Synthesis**: Convert results into structured narrative document
-7. **Output Delivery**: Provide narrative ready for scenario_engine input
+7. **Output Delivery**: Provide narrative ready for scenario_analyzer input
 
 ## Version History
 

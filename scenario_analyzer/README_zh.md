@@ -113,7 +113,7 @@ python -c "import pdfminer; pdfminer.high_level.extract_text('input.pdf')"
 - 直接引用原文内容
 
 ```
-scenario_engine/
+scenario_analyzer/
 ├── SKILL.md                # SKILL 元数据定义
 ├── README.md               # 当前说明文档
 ├── README_zh.md            # 中文说明文档

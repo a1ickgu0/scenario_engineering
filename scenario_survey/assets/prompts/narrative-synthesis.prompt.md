@@ -1,6 +1,6 @@
 ---
 name: narrative-synthesis
-description: "Synthesize pre-sales survey/interview results into structured customer requirements narrative ready for scenario_engine analysis. Transforms collected expectations and requirements into narrative format, preserving original quotes and target data."
+description: "Synthesize pre-sales survey/interview results into structured customer requirements narrative ready for scenario_analyzer analysis. Transforms collected expectations and requirements into narrative format, preserving original quotes and target data."
 ---
 
 # Narrative Synthesis Prompt
@@ -9,7 +9,7 @@ description: "Synthesize pre-sales survey/interview results into structured cust
 
 Convert **pre-sales survey** or interview results into a structured customer requirements narrative document. The output must:
 
-1. Follow narrative format suitable for scenario_engine input
+1. Follow narrative format suitable for scenario_analyzer input
 2. Preserve original quotes and target expectations
 3. Use customer's own language and expressions
 4. Structure information in logical flow (expectations, not outcomes)

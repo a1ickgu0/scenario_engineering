@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize and abstract purchase factors from multiple scenario_engine analysis outputs into a hierarchical model: Business Driver Layer → Technical Implementation Layer → Quantified Metrics Layer.
+Synthesize and abstract purchase factors from multiple scenario_analyzer analysis outputs into a hierarchical model: Business Driver Layer → Technical Implementation Layer → Quantified Metrics Layer.
 
 ---
 

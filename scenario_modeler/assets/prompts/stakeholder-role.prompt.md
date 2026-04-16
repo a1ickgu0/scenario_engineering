@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Extract and synthesize concrete stakeholder roles from multiple scenario_engine analysis outputs. Build a comprehensive role catalog with attributes, industry context, and category mappings.
+Extract and synthesize concrete stakeholder roles from multiple scenario_analyzer analysis outputs. Build a comprehensive role catalog with attributes, industry context, and category mappings.
 
 ---
 

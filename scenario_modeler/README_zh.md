@@ -2,7 +2,7 @@
 
 ## 概述
 
-`scenario_modeler` SKILL 从多个 `scenario_engine` 分析输出中综合抽象出结构化模型。将单个案例层面的分析转化为跨案例归纳模型，揭示行业、利益相关者和购买决策的模式、共性和差异。
+`scenario_modeler` SKILL 从多个 `scenario_analyzer` 分析输出中综合抽象出结构化模型。将单个案例层面的分析转化为跨案例归纳模型，揭示行业、利益相关者和购买决策的模式、共性和差异。
 
 本 SKILL 为 OpenSCENARIO DSL 建模准备结构化输入，提供生命周期、状态、环境、实体、关系和参数化模型。
 
@@ -45,7 +45,7 @@
 
 ## 输入要求
 
-**来源文档**：多个 `scenario_engine` SKILL 生成的 `-analysis.md` 文件
+**来源文档**：多个 `scenario_analyzer` SKILL 生成的 `-analysis.md` 文件
 
 **必需字段**：
 - 客户基本信息（行业、国家、公司、年份）
@@ -162,7 +162,7 @@ scenario_modeler/
 
 ## 相关 SKILL
 
-- **scenario_engine**：生成单个案例分析的源 SKILL
+- **scenario_analyzer**：生成单个案例分析的源 SKILL
 - **pattern_modeler**：（已废弃）原名，已更名为 scenario_modeler
 
 ## 版本历史

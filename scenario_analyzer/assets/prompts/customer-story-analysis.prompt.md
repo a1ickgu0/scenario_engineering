@@ -18,9 +18,10 @@ You are an INCOSE requirements engineering expert. This SKILL defines output req
 4. **Purchase Elements**: 3-5 business-level buying factors ranked by importance with quantified metrics
 
 ### Stakeholder Analysis
-5. **Stakeholder List**: Roles, expectations, influence, value/risk, relationship types, priority
-6. **Conflicts and Priority**: Conflicting expectations and priority recommendations
-7. **Engagement and Commitment**: Lifecycle participation recommendations
+5. **Stakeholder List**: Roles, pain points, expectations, influence, value/risk, relationship types, priority
+6. **Pain Points Extraction**: Specific difficulties each stakeholder faces in current state (workflow bottlenecks, efficiency obstacles, experience barriers)
+7. **Conflicts and Priority**: Conflicting expectations and priority recommendations
+8. **Engagement and Commitment**: Lifecycle participation recommendations
 
 ### OpenSCENARIO Preparation Models
 8. **State Model**: Stakeholder, system, and organization states with transition triggers
@@ -88,11 +89,27 @@ Describe the outcomes after deployment:
 
 ---
 
-### 2. 利益相关者清单 (Stakeholder List)
+### 2. 利益相关者清单 (Stakeholder List with Pain Points)
 
-| 利益相关者 | 类型 | 角色 | 期望/需求 | 影响力 | 价值/风险 | 关系类型 | 优先级 | 原文引用 |
-|------------|------|------|----------|--------|----------|----------|--------|----------|
-| Stakeholder A | 类型 | 角色 | ... | High/Medium/Low | Value: ...; Risk: ... | Hierarchical/Collaborative/Conflicting/Dependency | 1/2/3 | "..." |
+| 利益相关者 | 类型 | 角色 | 痛点/困难 | 期望/需求 | 影响力 | 价值/风险 | 关系类型 | 优先级 | 原文引用 |
+|------------|------|------|----------|----------|--------|----------|----------|--------|----------|
+| Stakeholder A | 类型 | 角色 | Workflow bottlenecks, efficiency obstacles, experience barriers | ... | High/Medium/Low | Value: ...; Risk: ... | Hierarchical/Collaborative/Conflicting/Dependency | 1/2/3 | "..." |
+
+**痛点定义**:
+- **Workflow bottlenecks (工作流程瓶颈)**: 影响角色工作效率的流程障碍
+- **Efficiency obstacles (效率障碍)**: 导致角色资源浪费的因素
+- **Experience barriers (体验障碍)**: 影响角色满意度或用户体验的问题
+- **Decision constraints (决策约束)**: 妨碍角色做出有效决策的因素
+
+**痛点提取要求**:
+- 痛点必须来自原文描述，标注引用位置
+- 区分"痛点"与"期望": 痛点是当前状态的问题，期望是期望状态的解决方案
+- 每个利益相关者至少提取一个痛点
+
+**综述说明** (每个表格后必须包含):
+1. **核心痛点**: 各角色面临的最普遍问题
+2. **痛点分布**: 不同角色类型的痛点集中区域
+3. **痛点-期望关联**: 痛点如何驱动期望的形成
 
 **关系类型定义**:
 - **Hierarchical (层级关系)**: 上级-下级, 管理关系
@@ -330,7 +347,7 @@ Organization: [Company Name]
 
 ### 12. 追溯与备注 (Traceability and Notes)
 
-- 本分析基于 `scenario_engine/SKILL.md` 的结构要求
+- 本分析基于 `scenario_analyzer/SKILL.md` 的结构要求
 - 所有分析项均包含原文引用或来源标记
 - 对于推断结论，注明推断来源和原文依据
 - 关键指标汇总和战略重点说明
@@ -341,14 +358,18 @@ Organization: [Company Name]
 
 1. If input is PDF, first convert key paragraphs to readable text with page references
 2. Extract initial state from "problems before solution" descriptions
-3. Extract final state from "benefits/outcomes" descriptions
-4. Identify stakeholder states based on problem → solution → satisfaction flow
-5. Identify system states based on deployment → operation flow
-6. Map environment constraints from industry, region, and organization context
-7. Build entity hierarchy from stakeholder roles and organization descriptions
-8. Build system composition from products/solutions list
-9. Extract lifecycle phases from scenario timeline
-10. Parameterize all quantified metrics with structured format
+3. **Extract stakeholder pain points** from problem descriptions at role level:
+   - Identify workflow bottlenecks for each role
+   - Identify efficiency obstacles and experience barriers
+   - Link pain points to specific stakeholders with original quotes
+4. Extract final state from "benefits/outcomes" descriptions
+5. Identify stakeholder states based on problem → solution → satisfaction flow
+6. Identify system states based on deployment → operation flow
+7. Map environment constraints from industry, region, and organization context
+8. Build entity hierarchy from stakeholder roles and organization descriptions
+9. Build system composition from products/solutions list
+10. Extract lifecycle phases from scenario timeline
+11. Parameterize all quantified metrics with structured format
 
 ## Further Notes
 

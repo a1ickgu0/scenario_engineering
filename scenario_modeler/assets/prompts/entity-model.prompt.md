@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize entity patterns from multiple scenario_engine analysis outputs. Build entity model with organization entities, system entities, and external entities, including attributes and relationships for OpenSCENARIO DSL preparation.
+Synthesize entity patterns from multiple scenario_analyzer analysis outputs. Build entity model with organization entities, system entities, and external entities, including attributes and relationships for OpenSCENARIO DSL preparation.
 
 ---
 

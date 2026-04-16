@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize interaction sequence patterns from operational scenarios of multiple scenario_engine analysis outputs. Build interaction sequence model with actors, actions, triggers, conditions, and state transitions for OpenSCENARIO DSL preparation.
+Synthesize interaction sequence patterns from operational scenarios of multiple scenario_analyzer analysis outputs. Build interaction sequence model with actors, actions, triggers, conditions, and state transitions for OpenSCENARIO DSL preparation.
 
 ---
 

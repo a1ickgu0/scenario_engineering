@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document provides methodological guidance for building synthesis models from multiple scenario_engine analysis outputs. It defines principles, processes, and quality criteria for model construction.
+This document provides methodological guidance for building synthesis models from multiple scenario_analyzer analysis outputs. It defines principles, processes, and quality criteria for model construction.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize conflict patterns from the conflict sections of multiple scenario_engine analysis outputs. Build a conflict pattern library with types, stakeholder involvement, industry distribution, and resolution strategies.
+Synthesize conflict patterns from the conflict sections of multiple scenario_analyzer analysis outputs. Build a conflict pattern library with types, stakeholder involvement, industry distribution, and resolution strategies.
 
 ---
 

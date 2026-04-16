@@ -44,6 +44,6 @@ desktop.ini
 .Trashes
 
 # Test directories
-scenario_engine/tests/
+scenario_analyzer/tests/
 scenario_modeler/tests/
 

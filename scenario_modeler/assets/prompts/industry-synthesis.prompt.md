@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize industry-level patterns from multiple scenario_engine analysis outputs, including industry classification, regional distribution, typical challenges, stakeholder distributions, solution preferences, **purchase factors per industry**, and **critical analysis**.
+Synthesize industry-level patterns from multiple scenario_analyzer analysis outputs, including industry classification, regional distribution, typical challenges, stakeholder distributions, solution preferences, **purchase factors per industry**, and **critical analysis**.
 
 ---
 
@@ -202,7 +202,7 @@ For each conclusion, include:
 ## Example Usage
 
 ```
-Input: 28 analysis documents from scenario_engine/tests/result_v2/analysis/
+Input: 28 analysis documents from scenario_analyzer/tests/result_v2/analysis/
 Output:
 - Education industry: 5 cases (Aberdeen City Council, Alleyn's School, Annie Wright Schools, Moreno Valley USD)
 - Purchase factors (Education): 

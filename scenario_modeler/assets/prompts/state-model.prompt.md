@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize state patterns from multiple scenario_engine analysis outputs. Build state model with state definitions, state types, and transition conditions for stakeholders, systems, and organizations.
+Synthesize state patterns from multiple scenario_analyzer analysis outputs. Build state model with state definitions, state types, and transition conditions for stakeholders, systems, and organizations.
 
 ---
 

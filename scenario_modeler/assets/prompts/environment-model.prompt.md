@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize environment/contextual patterns from multiple scenario_engine analysis outputs. Build environment model with industry constraints, regional characteristics, and organizational context for OpenSCENARIO DSL preparation.
+Synthesize environment/contextual patterns from multiple scenario_analyzer analysis outputs. Build environment model with industry constraints, regional characteristics, and organizational context for OpenSCENARIO DSL preparation.
 
 ---
 

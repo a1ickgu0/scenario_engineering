@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Abstract stakeholder category classifications from multiple scenario_engine analysis outputs. Define standard category types with clear boundaries and traits for cross-industry comparison.
+Abstract stakeholder category classifications from multiple scenario_analyzer analysis outputs. Define standard category types with clear boundaries and traits for cross-industry comparison.
 
 ---
 

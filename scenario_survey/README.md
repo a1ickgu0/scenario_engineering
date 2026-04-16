@@ -2,7 +2,7 @@
 
 ## Introduction
 
-scenario_survey is a **pre-sales** survey SKILL for generating industry-specific questionnaires to collect customer expectations and requirements. Outputs structured narrative documents ready for scenario_engine analysis.
+scenario_survey is a **pre-sales** survey SKILL for generating industry-specific questionnaires to collect customer expectations and requirements. Outputs structured narrative documents ready for scenario_analyzer analysis.
 
 **Key Positioning**:
 - **Timing**: Pre-sales stage (before solution decision)
@@ -78,7 +78,7 @@ Generate localized questionnaires for customers from major countries. English is
 
 ## Use Cases
 
-- Collect customer requirements before running scenario_engine analysis
+- Collect customer requirements before running scenario_analyzer analysis
 - Plan pre-sales customer interviews
 - Understand customer solution expectations and success criteria
 - Design differentiated questionnaires for different industries
@@ -213,7 +213,7 @@ After survey completion, verify:
 ```
 scenario_survey (pre-sales expectation collection)
     ↓ outputs requirements narrative
-scenario_engine (structured analysis)
+scenario_analyzer (structured analysis)
     ↓ outputs analysis report
 scenario_modeler (cross-case modeling)
     ↓ outputs industry/stakeholder/purchase factor models

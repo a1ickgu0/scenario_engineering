@@ -2,7 +2,7 @@
 
 ## 简介
 
-scenario_survey 是一个**售前阶段**调研 SKILL，用于生成行业定制化问卷，收集客户的方案期望和需求。输出可直接输入 scenario_engine 进行分析的叙事文档。
+scenario_survey 是一个**售前阶段**调研 SKILL，用于生成行业定制化问卷，收集客户的方案期望和需求。输出可直接输入 scenario_analyzer 进行分析的叙事文档。
 
 **核心定位**：
 - **时机**：售前阶段（方案决策前）
@@ -78,7 +78,7 @@ scenario_survey 是一个**售前阶段**调研 SKILL，用于生成行业定制
 
 ## 使用场景
 
-- 在执行 scenario_engine 分析前，需要收集客户需求素材
+- 在执行 scenario_analyzer 分析前，需要收集客户需求素材
 - 售前阶段规划客户访谈
 - 需要了解客户的方案期望和成功标准
 - 需要针对不同行业设计差异化问卷
@@ -214,7 +214,7 @@ scenario_survey 是一个**售前阶段**调研 SKILL，用于生成行业定制
 ```
 scenario_survey (售前收集期望)
     ↓ 输出需求叙事文档
-scenario_engine (结构化分析)
+scenario_analyzer (结构化分析)
     ↓ 输出分析报告
 scenario_modeler (跨案例建模)
     ↓ 输出行业/利益相关者/购买因素模型

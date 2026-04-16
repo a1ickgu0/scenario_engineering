@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize product/solution preferences from multiple scenario_engine analysis outputs. Build solution preference patterns by industry, purchase factor, and stakeholder expectations.
+Synthesize product/solution preferences from multiple scenario_analyzer analysis outputs. Build solution preference patterns by industry, purchase factor, and stakeholder expectations.
 
 ---
 

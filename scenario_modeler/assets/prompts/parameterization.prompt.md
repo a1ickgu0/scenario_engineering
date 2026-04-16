@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize configurable parameters from multiple scenario_engine analysis outputs. Build parameterization model with metric parameters, role attribute parameters, scenario parameters, and constraint parameters for OpenSCENARIO DSL preparation.
+Synthesize configurable parameters from multiple scenario_analyzer analysis outputs. Build parameterization model with metric parameters, role attribute parameters, scenario parameters, and constraint parameters for OpenSCENARIO DSL preparation.
 
 ---
 

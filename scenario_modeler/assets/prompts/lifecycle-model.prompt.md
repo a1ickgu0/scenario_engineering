@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Synthesize scenario lifecycle patterns from operational scenario sections of multiple scenario_engine analysis outputs. Build lifecycle model with phases, triggers, actions, and completion criteria, structured for OpenSCENARIO DSL preparation.
+Synthesize scenario lifecycle patterns from operational scenario sections of multiple scenario_analyzer analysis outputs. Build lifecycle model with phases, triggers, actions, and completion criteria, structured for OpenSCENARIO DSL preparation.
 
 ---
 

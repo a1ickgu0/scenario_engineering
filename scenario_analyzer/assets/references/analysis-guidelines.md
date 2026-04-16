@@ -18,11 +18,41 @@ Identify the following types of stakeholders:
 
 During analysis, focus on:
 - Roles and responsibilities
+- **Pain points and challenges** (see Section 1.1 below)
 - Expectations and needs
 - Values and risks
 - Influence and decision-making power
 - Relationship with the system
 - **Relationship types**: Hierarchical, Collaborative, Conflicting, Dependency
+
+#### 1.1 Pain Points and Challenges
+
+For each stakeholder, extract specific difficulties faced in current state:
+
+| Pain Point Type | Definition | Examples |
+|-----------------|------------|----------|
+| **Workflow bottlenecks** | Process obstacles affecting efficiency | Time-consuming troubleshooting, manual configuration, fragmented tools |
+| **Efficiency obstacles** | Factors causing resource waste | Repetitive tasks, slow response times, lack of automation |
+| **Experience barriers** | Issues affecting satisfaction | Unstable connectivity, complex authentication, poor user experience |
+| **Decision constraints** | Factors hindering effective decisions | Lack of real-time data, limited visibility, information gaps |
+
+**Pain Point Extraction Requirements**:
+- Pain points must come from original text with citations
+- Distinguish from expectations: Pain points are current state problems, expectations are desired state solutions
+- Each stakeholder must have at least one identified pain point
+- Pain points establish the causal chain to expectations (why the stakeholder needs what they need)
+
+**Example Pain Point Extraction**:
+```
+原文： "IT team spent days troubleshooting network issues, responding reactively to problems"
+→ Stakeholder: IT Operations Team
+→ Pain Points: 
+  - Workflow bottleneck: Time-consuming troubleshooting (days)
+  - Efficiency obstacle: Reactive response mode (no proactive capability)
+  - Experience barrier: Lack of unified tools for diagnosis
+→ Expectation: Automation, unified management platform, proactive monitoring
+→ Original Quote: "troubleshooting days→hours" (line X)
+```
 
 ### 2. Purchase Elements
 

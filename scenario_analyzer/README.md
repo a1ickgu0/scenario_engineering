@@ -115,7 +115,7 @@ python -c "import pdfminer; pdfminer.high_level.extract_text('input.pdf')"
 ## 📁 Directory Structure
 
 ```
-scenario_engine/
+scenario_analyzer/
 ├── SKILL.md                # SKILL metadata definition
 ├── README.md               # This documentation (English)
 ├── README_zh.md            # Chinese documentation

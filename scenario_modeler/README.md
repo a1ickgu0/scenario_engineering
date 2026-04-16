@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `scenario_modeler` SKILL synthesizes and abstracts structured models from multiple `scenario_engine` analysis outputs. It transforms individual case-level analyses into cross-case归纳 models that reveal patterns across industries, stakeholders, and purchase decisions.
+The `scenario_modeler` SKILL synthesizes and abstracts structured models from multiple `scenario_analyzer` analysis outputs. It transforms individual case-level analyses into cross-case归纳 models that reveal patterns across industries, stakeholders, and purchase decisions.
 
 This SKILL prepares structured inputs for OpenSCENARIO DSL modeling by providing lifecycle, state, environment, entity, relationship, and parameterization models.
 
@@ -45,7 +45,7 @@ This SKILL prepares structured inputs for OpenSCENARIO DSL modeling by providing
 
 ## Input Requirements
 
-**Source**: Multiple `-analysis.md` files from `scenario_engine` SKILL
+**Source**: Multiple `-analysis.md` files from `scenario_analyzer` SKILL
 
 **Required Fields**:
 - Customer basic information (industry, country, company, year)
@@ -163,7 +163,7 @@ Each model conclusion includes:
 
 ## Related SKILLs
 
-- **scenario_engine**: Source SKILL that generates individual case analyses
+- **scenario_analyzer**: Source SKILL that generates individual case analyses
 - **pattern_modeler**: (deprecated) Original name, renamed to scenario_modeler
 
 ## Version History

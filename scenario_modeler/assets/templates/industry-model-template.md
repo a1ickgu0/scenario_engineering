@@ -267,7 +267,7 @@
 ## 10. Notes
 
 ### Data Quality Notes
-- All cases analyzed using scenario_engine SKILL v0.2.0 with unified output structure
+- All cases analyzed using scenario_analyzer SKILL v0.2.0 with unified output structure
 - Each case includes complete traceability references for verification
 
 ### Analysis Limitations
