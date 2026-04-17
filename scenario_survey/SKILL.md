@@ -10,7 +10,7 @@ tags:
   - narrative-synthesis
   - scenario-engine-input
   - multi-language
-version: "0.2.0"
+version: "0.3.0"
 ---
 
 # Scenario Survey SKILL
@@ -385,14 +385,134 @@ Survey conductor should verify:
 ## Workflow
 
 1. **Industry Selection**: User specifies target industry
-2. **Country Specification**: User specifies customer country for language customization (default English if unspecified)
-3. **Questionnaire Generation**: Generate industry-customized questionnaire in specified language
-4. **Survey Execution**: Conduct interview or self-reported survey
-5. **Completeness Check**: Verify all required areas covered
-6. **Narrative Synthesis**: Convert results into structured narrative document
-7. **Output Delivery**: Provide narrative ready for scenario_analyzer input
+2. **Template Reference**: **MANDATORY** - Read and follow the corresponding industry template from `assets/templates/` directory
+3. **Country Specification**: User specifies customer country for language customization (default English if unspecified)
+4. **Questionnaire Generation**: Generate industry-customized questionnaire following template structure and numbering
+5. **Survey Execution**: Conduct interview or self-reported survey
+6. **Completeness Check**: Verify all required areas covered
+7. **Narrative Synthesis**: Convert results into structured narrative document
+8. **Output Delivery**: Provide narrative ready for scenario_analyzer input
+
+### Industry Template Reference Rules
+
+**IMPORTANT**: When generating industry-specific questionnaires, you MUST reference the corresponding template file from `assets/templates/` directory.
+
+#### TR-01: Mandatory Template Reference
+
+**Rule**: Before generating any industry questionnaire, you MUST read the corresponding template file. Do not generate questionnaires solely based on SKILL.md generic rules.
+
+| Industry | Template File | Template Path |
+|----------|---------------|---------------|
+| Education | education-template.md | assets/templates/education-template.md |
+| Healthcare | healthcare-template.md | assets/templates/healthcare-template.md |
+| Hospitality | hospitality-template.md | assets/templates/hospitality-template.md |
+| Logistics | logistics-template.md | assets/templates/logistics-template.md |
+| Manufacturing | manufacturing-template.md | assets/templates/manufacturing-template.md |
+| Retail | retail-template.md | assets/templates/retail-template.md |
+| Services | services-template.md | assets/templates/services-template.md |
+| Sports/Entertainment | sports-entertainment-template.md | assets/templates/sports-entertainment-template.md |
+| Generic/Other | generic-template.md | assets/templates/generic-template.md |
+
+#### TR-02: Template Structure Compliance
+
+**Rule**: Generated questionnaires must follow the template's structure:
+- Use numbered questions (Q1, Q2, Q3...)
+- Include [Follow-up] prompts for deeper responses
+- Include industry-specific guidance boxes (e.g., [Retail Industry Common Factors])
+- Include perspective switch guidance (e.g., ["A Day's Work" - Store Perspective])
+- Include completeness checklist matching template appendix
+
+| Template Element | Required in Output | Example |
+|------------------|--------------------|---------|
+| Numbered questions | Required | "1. Could you briefly introduce your company?" |
+| Follow-up prompts | Required | "[Follow-up] What specifically does this look like?" |
+| Industry guidance boxes | Required | "[Retail Industry Common Factors]" |
+| Perspective guidance | Required | "["A Day's Work" - Store Perspective]" |
+| Completeness checklist | Required | "Appendix: Pre-Sales Survey Completeness Checklist" |
+
+#### TR-03: Local Language Adaptation
+
+**Rule**: Translate template content to customer's local language while preserving template structure and numbering. Add local-specific compliance/regulatory questions where applicable.
+
+| Adaptation Type | Requirement | Example |
+|-----------------|-------------|---------|
+| Language translation | Translate all questions to local language | English → Chinese for Hong Kong customers |
+| Structure preservation | Keep numbering, follow-ups, guidance boxes | Q1-Q36 numbering preserved |
+| Local additions | Add local compliance/regulatory questions | Hong Kong: PDPO, payment compliance, food safety |
+
+#### TR-04: Template Selection Priority
+
+**Rule**: When customer industry is specified, use industry-specific template first. Only use generic-template.md when industry is unspecified or not covered by existing templates.
+
+| Scenario | Template Selection |
+|----------|-------------------|
+| Specified industry with template | Use industry-specific template (e.g., retail-template.md for Retail) |
+| Specified industry without template | Use generic-template.md with industry customization |
+| Unspecified industry | Use generic-template.md |
+
+### Template Reference Workflow
+
+```
+Step 1: Identify Industry
+├── User specifies industry (e.g., "Retail")
+├── Check assets/templates/ for corresponding template
+└── If found → retail-template.md
+└── If not found → generic-template.md
+
+Step 2: Read Template
+├── Read full template file content
+├── Extract structure (numbering, sections, follow-ups)
+├── Identify industry-specific guidance boxes
+└── Identify completeness checklist items
+
+Step 3: Adapt to Local Language
+├── Translate questions to customer's local language
+├── Preserve numbering and structure
+├── Add local-specific compliance questions
+└── Maintain follow-up prompts and guidance boxes
+
+Step 4: Generate Questionnaire
+├── Follow template question numbering
+├── Include all template sections
+├── Add local additions in appropriate sections
+└── Include completeness checklist from template
+
+Step 5: Output Validation
+├── Verify numbering matches template
+├── Verify follow-ups included
+├── Verify guidance boxes preserved
+├── Verify completeness checklist included
+```
+
+### Template Reference Completeness Check
+
+**Pre-Generation Check**:
+```
+- [ ] Template file identified for specified industry
+- [ ] Template file content read
+- [ ] Template structure extracted
+- [ ] Template numbering noted
+```
+
+**Post-Generation Check**:
+```
+- [ ] Questionnaire numbering matches template
+- [ ] Follow-up prompts included
+- [ ] Industry guidance boxes included
+- [ ] Completeness checklist included
+- [ ] Local language adaptation complete
+- [ ] Local additions added where applicable
+```
+
+---
 
 ## Version History
 
+- **0.3.0** (2026-04-16):
+  - **Added Industry Template Reference Rules**: TR-01 Mandatory Template Reference, TR-02 Template Structure Compliance, TR-03 Local Language Adaptation, TR-04 Template Selection Priority
+  - **Updated Workflow**: Added mandatory Step 2 "Template Reference" before questionnaire generation
+  - **Added Template Reference Workflow**: Detailed process for reading and adapting templates
+  - **Added Template Reference Completeness Check**: Pre-generation and post-generation verification checklist
+  - **Added Template Mapping Table**: Industry-to-template-file mapping for all 9 templates
 - **0.2.0** (2026-04-12): Repositioned to pre-sales stage; added multi-language support (default English); updated all question framing from post-implementation to pre-sales expectations; added country-based language customization
 - **0.1.0** (2026-04-12): Initial scenario_survey SKILL draft
