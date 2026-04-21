@@ -47,3 +47,6 @@ desktop.ini
 scenario_analyzer/tests/
 scenario_modeler/tests/
 
+
+# local reports
+report/

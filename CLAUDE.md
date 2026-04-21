@@ -9,174 +9,247 @@ This is a SKILLs repository containing specialized SKILL definitions for Claude 
 ## SKILL Chain Architecture
 
 ```
-scenario_survey (售前收集期望) → scenario_analyzer (结构化分析) → scenario_modeler (跨案例建模)
+scenario_engineering (顶层编排)
+    ↓
+scenario_survey (售前收集期望) → scenario_parser (文档提取) → scenario_analyzer (结构化分析) → scenario_modeler (跨案例建模)
 ```
 
-| Stage | SKILL | Input | Output |
-|-------|-------|-------|--------|
-| Pre-Sales | scenario_survey | Industry + Country | Industry questionnaire + Narrative document |
-| Analysis | scenario_analyzer | Narrative/PDF | Structured analysis (12 sections) |
-| Modeling | scenario_modeler | Multiple analyses | Industry/Stakeholder/Purchase models |
+| Stage | Phase | SKILL | Input | Output |
+|-------|-------|-------|-------|--------|
+| Orchestration | 0 | scenario_engineering | Project config | Directory structure, state.json |
+| Pre-Sales | 1 | scenario_survey | Industry + Country | Questionnaire + Narrative |
+| Extraction | 2a | scenario_parser | PDF/Text/Narrative | extracted.md + extracted.json |
+| Analysis | 2b | scenario_analyzer | Parser outputs | 12-section analysis |
+| Modeling | 3 | scenario_modeler | Multiple analyses | Industry/Stakeholder/Purchase models |
+| Finalization | 4 | scenario_engineering | All outputs | Summary + Archive |
 
 ## Current SKILLs
 
-### scenario_survey (v0.2.0)
+### scenario_engineering (v0.1.0) - NEW
 
-**Pre-sales survey SKILL** for collecting customer expectations before solution proposal.
+**Top-level orchestration SKILL** for coordinating the complete workflow.
+
+**Structure**: [scenario_engineering/](scenario_engineering/)
+- [SKILL.md](scenario_engineering/SKILL.md) - Orchestration definition
+- [assets/templates/](scenario_engineering/assets/templates/) - State/Config/Progress templates
+- [assets/references/](scenario_engineering/assets/references/) - Phase definitions, Recovery guidelines
+
+**Key Features**:
+- Pipeline orchestration (5 phases: 0-4)
+- Directory management with structured outputs
+- Dual-format progress tracking (JSON state + MD reports)
+- Task recovery with checkpoint-based resume
+- SKILL coordination and invocation mapping
+
+**Invocation**: Keywords like "orchestration", "pipeline", "workflow", "project setup"
+
+### scenario_survey (v0.3.0)
+
+**Pre-sales survey SKILL** for collecting customer expectations.
 
 **Structure**: [scenario_survey/](scenario_survey/)
-- [SKILL.md](scenario_survey/SKILL.md) - SKILL definition (pre-sales + multi-language)
-- [README.md](scenario_survey/README.md) - English documentation
-- [README_zh.md](scenario_survey/README_zh.md) - Chinese documentation
-- [assets/templates/](scenario_survey/assets/templates/) - 9 industry-specific questionnaires
+- [SKILL.md](scenario_survey/SKILL.md) - SKILL definition
+- [assets/templates/](scenario_survey/assets/templates/) - 9 industry questionnaires
 
 **Key Features**:
 - Customer-friendly language (no INCOSE jargon)
 - Multi-language support (default English)
-- Guided elicitation for stakeholder/scenario/criteria completeness
-- Industry-specific templates (Hospitality, Healthcare, Education, Logistics, etc.)
+- Industry-specific templates
 
-**Invocation**: Keywords like "survey", "questionnaire", "interview guide", "pre-sales", "customer expectations"
+**Invocation**: Keywords like "survey", "questionnaire", "interview guide", "pre-sales"
 
-### scenario_analyzer (v0.2.0)
+### scenario_parser (v0.1.0) - NEW
 
-**INCOSE requirements engineering SKILL** for structured analysis of customer stories.
+**Document extraction SKILL** for parsing into structured intermediate data.
+
+**Structure**: [scenario_parser/](scenario_parser/)
+- [SKILL.md](scenario_parser/SKILL.md) - Parser definition
+- [assets/templates/](scenario_parser/assets/templates/) - extracted-json-template.json, extracted-md-template.md
+- [assets/references/](scenario_parser/assets/references/) - extraction-patterns.md
+
+**Output**: Dual-format files:
+- `{customer}-extracted.md` - Human-readable with references
+- `{customer}-extracted.json` - Structured data for Analyzer
+
+**JSON Structure**:
+```json
+{
+  "customer_info": { "title", "company", "industry", "country" },
+  "stakeholder_mentions": [{ "name", "role_type", "expectations_raw", "reference" }],
+  "pain_points_mentions": [{ "stakeholder", "pain_point", "reference" }],
+  "product_mentions": [{ "name", "type", "reference" }],
+  "metrics_mentions": [{ "value", "unit", "context", "reference" }],
+  "raw_quotes": [{ "quote", "speaker", "reference" }]
+}
+```
+
+**Invocation**: Keywords like "parser", "extract", "PDF parsing", "document extraction"
+
+### scenario_analyzer (v0.7.0) - MODIFIED
+
+**INCOSE requirements engineering SKILL** for structured analysis.
 
 **Structure**: [scenario_analyzer/](scenario_analyzer/)
-- [SKILL.md](scenario_analyzer/SKILL.md) - SKILL metadata and definition
-- [README.md](scenario_analyzer/README.md) - Usage documentation
-- [assets/prompts/](scenario_analyzer/assets/prompts/) - Core analysis prompt
+- [SKILL.md](scenario_analyzer/SKILL.md) - SKILL definition
+- [assets/prompts/](scenario_analyzer/assets/prompts/) - Analysis prompt
 - [assets/references/](scenario_analyzer/assets/references/) - Analysis guidelines
 
-**Output Structure** (12 sections):
-1. Customer Basic Information
-2. Purchase Elements (ranked, quantified)
-3. Stakeholder List (roles, expectations, influence, relationships)
-4. State Model (stakeholder/system/organization states)
-5. Environment Model (industry/regional/organizational/technical)
-6. Entity Model (organization/system/external hierarchy)
-7. Lifecycle Phases (triggers/actions/completion criteria)
-8. Operational Scenarios (trigger/conditions/transitions)
-9. Engagement and Commitment
-10. Products and Solutions
-11. Parameterization Model (metrics/roles/scenarios/constraints)
-12. Traceability and Notes
+**Input Change**: Now requires Parser outputs (`*-extracted.md` + `*-extracted.json`)
 
-**Invocation**: Keywords like "customer story", "stakeholder analysis", "INCOSE", "requirements extraction"
+**Output Structure** (12 sections, numbered 0-12):
+- 0. Customer Basic Information
+- 1. Purchase Elements (ranked, quantified)
+- 2. Stakeholder List (roles, pain points, expectations)
+- 3. Conflicts and Priority
+- 4. State Model
+- 5. Environment Model
+- 6. Entity Model
+- 7. Lifecycle Phases
+- 8. Operational Scenarios
+- 9. Engagement and Commitment
+- 10. Products and Solutions
+- 11. Parameterization Model
+- 12. Traceability and Notes
 
-### scenario_modeler (v0.1.0)
+**Invocation**: Keywords like "customer story", "stakeholder analysis", "INCOSE"
 
-**Cross-case modeling SKILL** for synthesizing multiple analyses into patterns.
+### scenario_modeler (v0.5.0)
+
+**Cross-case modeling SKILL** for synthesizing patterns.
 
 **Structure**: [scenario_modeler/](scenario_modeler/)
 - [SKILL.md](scenario_modeler/SKILL.md) - SKILL definition
-- [README.md](scenario_modeler/README.md) - Documentation
 - [assets/prompts/](scenario_modeler/assets/prompts/) - 17 synthesis prompts
 - [assets/templates/](scenario_modeler/assets/templates/) - 14 output templates
 
 **Output Models**:
 - Industry Model (patterns, challenges, solutions)
 - Stakeholder Model (Category + Role layers)
-- Purchase Factor Model (Driver → Implementation → Metrics hierarchy)
-- Cross-analysis matrices
-- Critical analysis with credibility ratings
+- Purchase Factor Model (Driver → Implementation → Metrics)
 
-**Invocation**: Keywords like "model synthesis", "cross-case", "industry model", "pattern extraction"
+**Invocation**: Keywords like "model synthesis", "cross-case", "pattern extraction"
 
 ## Workflow Example
 
 ```
-# Step 1: Generate survey questionnaire
-/scenario_survey
+# Option A: Orchestrated (Full Pipeline)
+/scenario_engineering --new
 → Industry: Hospitality, Country: Malaysia
-→ Output: hospitality-malaysia-questionnaire-en.md
+→ Input: ./customer-stories/*.pdf
+→ Outputs complete project directory
 
-# Step 2: After interview, synthesize narrative
-/scenario_survey --synthesize
-→ Output: customer-requirements-narrative.md
+# Option B: Manual Step-by-Step
+/scenario_survey
+→ Output: questionnaire + narrative
 
-# Step 3: Structured analysis
+/scenario_parser
+→ Input: narrative or PDF
+→ Output: extracted.md + extracted.json
+
 /scenario_analyzer
-→ Input: narrative document
-→ Output: hotel-analysis.md (12 sections)
+→ Input: extracted.md + extracted.json
+→ Output: analysis.md (12 sections)
 
-# Step 4: Cross-case modeling (multiple cases)
 /scenario_modeler
-→ Input: multiple -analysis.md files
+→ Input: multiple analysis.md files
 → Output: Industry/Stakeholder/Purchase models
+```
+
+## Critical Operational Rules
+
+### scenario_engineering: Recovery Rules
+
+- **RR-01**: Forward recovery only (no rollback)
+- **RR-02**: Skip completed work (check processed_files)
+- **RR-03**: Parser outputs are checkpoints (Analyzer can resume separately)
+- **RR-04**: state.json tracks phase2a_parser and phase2b_analyzer independently
+
+### scenario_survey: Industry Template Reference (TR-01 to TR-04)
+
+**MANDATORY**: Read corresponding template from `assets/templates/` first.
+
+| Industry | Template File |
+|----------|---------------|
+| Hospitality | hospitality-template.md |
+| Healthcare | healthcare-template.md |
+| Education | education-template.md |
+| Logistics | logistics-template.md |
+| Manufacturing | manufacturing-template.md |
+| Retail | retail-template.md |
+| Services | services-template.md |
+| Sports/Entertainment | sports-entertainment-template.md |
+| Generic/Other | generic-template.md |
+
+### scenario_parser: Extraction Rules
+
+- **ER-01**: Every extracted item must include reference (`Page X, Line Y`)
+- **ER-02**: Preserve original language (do not translate)
+- **ER-03**: Multiple mentions recorded separately
+- **ER-04**: JSON must be parseable, MD must be readable
+
+### scenario_analyzer: Quality Requirements
+
+**Input Validation**: Check Parser outputs before analysis:
+- extracted.json parseable
+- Required fields present (customer_info, stakeholder_mentions)
+- At least 1 product_mention
+
+**Output Completeness**: All 12 sections (0-12) must be generated.
+
+**Traceability**: Use references from extracted files.
+
+**Parallel Processing**:
+
+| Document Count | Recommended Agents |
+|----------------|-------------------|
+| 1-5 | 1 (serial) |
+| 6-15 | 2-3 |
+| 16-30 | 4-5 |
+| 31-50 | 6-8 |
+| 50+ | 8-10 |
+
+## Directory Structure (scenario_engineering)
+
+```
+project-{name}-{timestamp}/
+├── state.json                     # Progress state
+├── config.json                    # Configuration
+├── inputs/
+│   ├── raw/                       # Original PDFs/texts
+│   └── extracted/                 # PDF-to-text
+├── outputs/
+│   ├── progress/                  # MD progress reports
+│   ├── phase1-survey/
+│   ├── phase2-parser/             # Parser outputs (NEW)
+│   │   └── extracted/             # *.md + *.json
+│   ├── phase2b-analyzer/          # Analyzer outputs (NEW)
+│   │   └── reports/               # *-analysis.md
+│   ├── phase3-model/
+│   └── final-report/
+└── archive/
+    └── state-final.json
 ```
 
 ## PDF Processing Workflow
 
-When processing customer story PDFs for scenario_analyzer:
+When processing customer story PDFs:
 
 1. **Extract text**: `pdftotext -layout input.pdf output.txt`
-2. **Add references**: Mark page numbers, sections for traceability
-3. **Clean content**: Remove headers, footers, formatting noise
-4. **Validate**: Ensure extracted text is readable and complete
+2. **Add references**: Mark page numbers, sections
+3. **Clean content**: Remove headers, footers
+4. **Validate**: Ensure text is complete
 
 ## Language Handling
 
-Generate localized output for customers from major countries. English is the fallback only for minor countries.
+Generate localized output for customers from major countries. English is fallback for minor countries.
 
-### Major Countries - Local Language Output
-
-**East Asia**:
-| Country | Language |
-|---------|----------|
-| China, Taiwan, Hong Kong | Chinese (Simplified) 简体中文 |
-| Japan | Japanese 日本語 |
-| South Korea | Korean 한국어 |
-
-**Europe**:
-| Country | Language |
-|---------|----------|
-| Germany, Austria, Switzerland (German) | German Deutsch |
-| France, Belgium (French), Luxembourg, Monaco | French Français |
-| Italy, Switzerland (Italian) | Italian Italiano |
-| Spain, Andorra, Latin America | Spanish Español |
-| Russia, Belarus, Kazakhstan, Ukraine | Russian Русский |
-| Netherlands, Belgium (Dutch) | Dutch Nederlands |
-| Poland | Polish Polski |
-| Portugal | Portuguese Português |
-| Sweden, Norway, Denmark, Finland, Iceland | Nordic languages |
-
-**Southeast Asia**:
-| Country | Language |
-|---------|----------|
-| Malaysia | Malay Bahasa Melayu |
-| Thailand | Thai ภาษาไทย |
-| Vietnam | Vietnamese Tiếng Việt |
-| Indonesia | Indonesian Bahasa Indonesia |
-| Philippines | Filipino |
-
-**South Asia**:
-| Country | Language |
-|---------|----------|
-| India | Hindi हिन्दी |
-| Pakistan | Urdu اردو |
-
-**Middle East & North Africa**:
-| Country | Language |
-|---------|----------|
-| Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, Oman, Egypt, Jordan, Lebanon, Iraq, Morocco, Algeria, Tunisia | Arabic العربية |
-
-**South America**:
-| Country | Language |
-|---------|----------|
-| Brazil | Portuguese Português |
-| Other Latin America | Spanish Español |
-
-**English-Speaking Countries**:
-| Country | Language |
-|---------|----------|
-| USA, UK, Canada, Australia, New Zealand, Ireland, South Africa, Singapore | English |
-
-### Minor Countries / Unspecified - English Fallback
-
-| Country | Language |
-|---------|----------|
-| Minor countries, unspecified regions, countries without major language support | English |
+| Region | Countries | Language |
+|--------|-----------|----------|
+| East Asia | China, Japan, Korea | Chinese/Japanese/Korean |
+| Europe | Germany, France, Italy, Spain | German/French/Italian/Spanish |
+| Southeast Asia | Malaysia, Thailand, Vietnam | Malay/Thai/Vietnamese |
+| Middle East | Saudi Arabia, UAE, Egypt | Arabic |
+| English-speaking | USA, UK, Australia | English |
 
 ## Creating New SKILLs
 

@@ -1,0 +1,130 @@
+{
+  "document_meta": {
+    "source_file": "{{SOURCE_FILE}}",
+    "source_type": "{{SOURCE_TYPE}}",
+    "extracted_at": "{{EXTRACTED_AT}}",
+    "parser_version": "0.1.0",
+    "language": "{{LANGUAGE}}",
+    "page_count": {{PAGE_COUNT}},
+    "line_count": {{LINE_COUNT}},
+    "generated_file_name": {
+      "timestamp": "{{TIMESTAMP}}",
+      "content_type": "{{CONTENT_TYPE}}",
+      "key_identifier": "{{KEY_IDENTIFIER}}",
+      "sequence": "{{SEQUENCE}}",
+      "base_name": "{{TIMESTAMP}}-{{CONTENT_TYPE}}-{{KEY_IDENTIFIER}}",
+      "md_file": "{{TIMESTAMP}}-{{CONTENT_TYPE}}-{{KEY_IDENTIFIER}}-extracted.md",
+      "json_file": "{{TIMESTAMP}}-{{CONTENT_TYPE}}-{{KEY_IDENTIFIER}}-extracted.json",
+      "analyzer_output": "{{TIMESTAMP}}-{{CONTENT_TYPE}}-{{KEY_IDENTIFIER}}-analysis.md"
+    },
+    "content_classification": {
+      "detected_type": "{{CONTENT_TYPE}}",
+      "type_confidence": "{{TYPE_CONFIDENCE}}",
+      "type_reason": "{{TYPE_REASON}}",
+      "classification_criteria_matched": ["{{CRITERIA}}"]
+    }
+  },
+  "content_extract": {
+    "industry": "{{INDUSTRY}}",
+    "country": "{{COUNTRY}}",
+    "company": "{{COMPANY_NAME}}",
+    "company_normalized": "{{COMPANY_NAME_NORMALIZED}}",
+    "year": "{{YEAR}}",
+    "product_name": "{{PRODUCT_NAME}}",
+    "product_normalized": "{{PRODUCT_NAME_NORMALIZED}}",
+    "report_topic": "{{REPORT_TOPIC}}"
+  },
+  "initial_state": {
+    "description": "{{INITIAL_STATE_DESCRIPTION}}",
+    "key_problems": [
+      {
+        "problem": "{{PROBLEM_DESCRIPTION}}",
+        "reference": "{{PROBLEM_REFERENCE}}"
+      }
+    ],
+    "organizational_context": "{{ORG_CONTEXT}}",
+    "reference": "{{INITIAL_STATE_REFERENCE}}"
+  },
+  "final_state": {
+    "description": "{{FINAL_STATE_DESCRIPTION}}",
+    "benefits": [
+      {
+        "benefit": "{{BENEFIT_DESCRIPTION}}",
+        "reference": "{{BENEFIT_REFERENCE}}"
+      }
+    ],
+    "reference": "{{FINAL_STATE_REFERENCE}}"
+  },
+  "stakeholder_mentions": [
+    {
+      "name": "{{STAKEHOLDER_NAME}}",
+      "role_type": "{{ROLE_TYPE}}",
+      "context": "{{CONTEXT}}",
+      "expectations_raw": "{{EXPECTATIONS_RAW}}",
+      "influence_hint": "{{INFLUENCE_HINT}}",
+      "reference": "{{STAKEHOLDER_REFERENCE}}"
+    }
+  ],
+  "pain_points_mentions": [
+    {
+      "stakeholder": "{{STAKEHOLDER}}",
+      "pain_point": "{{PAIN_POINT}}",
+      "category_hint": "{{CATEGORY_HINT}}",
+      "impact": "{{IMPACT}}",
+      "reference": "{{PAIN_POINT_REFERENCE}}"
+    }
+  ],
+  "product_mentions": [
+    {
+      "name": "{{PRODUCT_NAME}}",
+      "vendor": "{{VENDOR}}",
+      "type": "{{PRODUCT_TYPE}}",
+      "context": "{{PRODUCT_CONTEXT}}",
+      "features": ["{{FEATURE}}"],
+      "reference": "{{PRODUCT_REFERENCE}}"
+    }
+  ],
+  "metrics_mentions": [
+    {
+      "metric_name": "{{METRIC_NAME}}",
+      "value": "{{VALUE}}",
+      "unit": "{{UNIT}}",
+      "context": "{{METRIC_CONTEXT}}",
+      "comparison": "{{COMPARISON}}",
+      "type_hint": "{{METRIC_TYPE}}",
+      "reference": "{{METRIC_REFERENCE}}"
+    }
+  ],
+  "environment_mentions": {
+    "industry": [
+      {
+        "constraint": "{{INDUSTRY_CONSTRAINT}}",
+        "type": "{{CONSTRAINT_TYPE}}",
+        "reference": "{{REFERENCE}}"
+      }
+    ],
+    "regional": [],
+    "organizational": [],
+    "technical": []
+  },
+  "raw_quotes": [
+    {
+      "quote": "{{QUOTE}}",
+      "speaker": "{{SPEAKER}}",
+      "speaker_role": "{{SPEAKER_ROLE}}",
+      "context": "{{QUOTE_CONTEXT}}",
+      "topic": "{{QUOTE_TOPIC}}",
+      "reference": "{{QUOTE_REFERENCE}}"
+    }
+  ],
+  "scenario_mentions": [
+    {
+      "scenario_name": "{{SCENARIO_NAME}}",
+      "participants": ["{{PARTICIPANT}}"],
+      "context": "{{SCENARIO_CONTEXT}}",
+      "trigger": "{{TRIGGER}}",
+      "outcome": "{{OUTCOME}}",
+      "reference": "{{SCENARIO_REFERENCE}}"
+    }
+  ]
+}

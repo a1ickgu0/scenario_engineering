@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "project_name": "{{PROJECT_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "version": "1.0.0"
+  },
+  "config": {
+    "industry": "{{INDUSTRY}}",
+    "country": "{{COUNTRY}}",
+    "language": "{{LANGUAGE}}",
+    "input_mode": "{{INPUT_MODE}}",
+    "independent_directory": "{{INDEPENDENT_DIRECTORY}}",
+    "input_sources": [
+      "{{INPUT_SOURCE_1}}",
+      "{{INPUT_SOURCE_2}}"
+    ],
+    "output_directory": "{{OUTPUT_DIRECTORY}}",
+    "skip_phase1": false,
+    "skip_phase2": false,
+    "parallel_agents": 4,
+    "checkpoint_frequency": 5
+  },
+  "progress": {
+    "current_phase": 0,
+    "phase_status": {
+      "phase0_init": "pending",
+      "phase1_survey": "pending",
+      "phase2_analysis": "pending",
+      "phase3_model": "pending",
+      "phase4_final": "pending"
+    },
+    "phase_details": {
+      "phase0_init": {
+        "directories_created": false,
+        "inputs_validated": false,
+        "started_at": null,
+        "completed_at": null
+      },
+      "phase1_survey": {
+        "questionnaires_generated": 0,
+        "narratives_generated": 0,
+        "processed_files": [],
+        "pending_files": [],
+        "failed_files": [],
+        "started_at": null,
+        "completed_at": null
+      },
+      "phase2_analysis": {
+        "total_documents": 0,
+        "processed": 0,
+        "pending": 0,
+        "failed": 0,
+        "processed_files": [],
+        "pending_files": [],
+        "failed_files": [],
+        "started_at": null,
+        "completed_at": null
+      },
+      "phase3_model": {
+        "analysis_files_collected": 0,
+        "models_generated": false,
+        "started_at": null,
+        "completed_at": null
+      },
+      "phase4_final": {
+        "validation_complete": false,
+        "started_at": null,
+        "completed_at": null
+      }
+    }
+  },
+  "checkpoints": [],
+  "errors": [],
+  "resume_info": {
+    "resume_from_phase": 0,
+    "resume_action": "start_new",
+    "resume_files": []
+  }
+}

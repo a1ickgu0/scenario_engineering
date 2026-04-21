@@ -1,32 +1,68 @@
 ---
 name: scenario_analyzer
-description: "INCOSE requirements engineering SKILL for extracting stakeholder, usage, and solution information from vendor customer story PDFs or narratives. Designed for use in Claude, other LLM workflows, or manual analyst processes, with table-first structured output and traceability references. Outputs are structured for OpenSCENARIO DSL preparation."
+description: "INCOSE requirements engineering SKILL for analyzing extracted customer data from scenario_parser outputs (MD + JSON). Generates structured 12-section analysis reports with stakeholder analysis, state models, environment models, entity hierarchies, and parameterization. Designed for downstream analysis generation, outputs structured for OpenSCENARIO DSL preparation."
 tags:
   - incose
   - requirements-engineering
-  - customer-story
+  - analysis-generation
   - stakeholder-analysis
-  - pdf-analysis
+  - state-model
   - traceability
   - openscenario-preparation
-version: "0.6.0"
+version: "0.7.0"
 ---
 
-# Scenario Engineering SKILL
+# Scenario Analyzer SKILL
 
 ## Overview
 
-This SKILL is designed for generic INCOSE requirements engineering work that begins from a vendor customer story in PDF or text format. It is suitable for Claude, other LLM environments, or manual analyst workflows. The primary goal is to extract and structure:
+This SKILL performs INCOSE requirements engineering analysis on **extracted data from scenario_parser**. It reads intermediate files (MD + JSON) and generates structured 12-section analysis reports.
 
-1. Stakeholder information and expectations
-2. Operational concept / run scenarios
-3. Products and solutions described in the story
+**Input Sources**:
+| Source | Format | Purpose |
+|--------|--------|---------|
+| Parser Output MD | `*-extracted.md` | Context verification, human review |
+| Parser Output JSON | `*-extracted.json` | Structured data input |
 
-The analysis must preserve original wording and support traceability to the source text.
+**Primary Goals**:
+1. Analyze stakeholder information and generate structured tables
+2. Build state/environment/entity/lifecycle models
+3. Construct operational scenarios with triggers/transitions
+4. Generate parameterization for OpenSCENARIO DSL
 
-The generated reports should use the local language. If the local language cannot be determined, default to Chinese for report generation.
+**Output**: 12-section analysis report with full traceability
 
-> Note: Generated analysis reports are demo outputs for validation. The actual requirements and output rules should be defined and maintained in this SKILL.
+**Note**: This SKILL now requires scenario_parser output as input. For direct PDF processing, use scenario_parser first.
+
+## Input Requirements
+
+### Required Input Files
+
+| File | Required | Purpose |
+|------|----------|---------|
+| `{customer}-extracted.md` | Yes | Context verification, reference checking |
+| `{customer}-extracted.json` | Yes | Structured data for analysis generation |
+
+### JSON Input Structure
+
+Analyzer expects JSON with these sections (from scenario_parser):
+- `document_meta` - Source file metadata
+- `customer_info` - Customer basic information
+- `initial_state` - Problem context before solution
+- `final_state` - Outcome after solution
+- `stakeholder_mentions` - Raw stakeholder information
+- `pain_points_mentions` - Extracted pain points
+- `product_mentions` - Product/solution information
+- `metrics_mentions` - Quantified metrics
+- `environment_mentions` - Environment constraints
+- `raw_quotes` - Original quotes with speakers
+
+### Direct Input Mode (Legacy)
+
+For backward compatibility, direct text/PDF input is still supported but requires in-SKILL extraction:
+- Input: Raw text or narrative document
+- Processing: Perform extraction internally before analysis
+- Note: Recommended to use scenario_parser first for better quality
 
 ## Quality Requirements (质量要求)
 
@@ -414,6 +450,111 @@ Step 3: 问题文档清单生成
 
 ---
 
+## Analyzer Workflow from Parser Data
+
+### Step-by-Step Process
+
+**Based on Parser extracted.json + extracted.md**:
+
+```
+Step 1: Load Parser Output
+├── Read extracted.json (structured data)
+├── Read extracted.md (context verification)
+└── Validate input completeness
+
+Step 2: Customer Info Processing (Section 0)
+├── Extract from customer_info field
+├── Format initial_state from parser
+├── Format final_state from parser
+└── Generate customer basic info table
+
+Step 3: Purchase Elements Analysis (Section 1)
+├── Analyze metrics_mentions for quantification
+├── Rank purchase factors by business value
+├── Add supplementary explanations
+└── Parameterize each element
+
+Step 4: Stakeholder Analysis (Section 2)
+├── Classify stakeholder_mentions by role type
+├── Categorize pain_points_mentions
+├── Determine influence levels
+├── Map relationships (Hierarchical/Collaborative/Conflicting/Dependency)
+├── Generate stakeholder table with synthesis
+
+Step 5: Conflicts & Priority (Section 3)
+├── Identify conflicting expectations
+├── Analyze stakeholder priorities
+├── Recommend resolution approaches
+
+Step 6: State Model Generation (Section 4)
+├── Build stakeholder state transitions
+├── Build system state transitions
+├── Build organization state transitions
+├── Generate state transition path diagrams
+
+Step 7: Environment Model (Section 5)
+├── Organize industry constraints from environment_mentions
+├── Organize regional constraints
+├── Organize organizational constraints
+├── Organize technical constraints
+└── Generate 4-dimension environment tables
+
+Step 8: Entity Model (Section 6)
+├── Build organization hierarchy from stakeholder_mentions
+├── Build system hierarchy from product_mentions
+├── Identify external entity connections
+└── Generate entity tree structures
+
+Step 9: Lifecycle Phases (Section 7)
+├── Extract from lifecycle_mentions
+├── Define phase triggers/actions/completion criteria
+└── Generate phase sequence table
+
+Step 10: Operational Scenarios (Section 8)
+├── Build from scenario_mentions
+├── Define trigger/condition/transition structure
+├── Generate scenario flow tables
+
+Step 11: Engagement & Commitment (Section 9)
+├── Recommend stakeholder participation stages
+├── Define evaluation focus per stakeholder
+
+Step 12: Products & Solutions (Section 10)
+├── Organize product_mentions hierarchy
+├── Map products to entity model
+├── Generate product table
+
+Step 13: Parameterization Model (Section 11)
+├── Collect metrics_mentions
+├── Define role attributes
+├── Define scenario parameters
+├── Define constraint parameters
+└── Generate parameterization tables
+
+Step 14: Traceability & Notes (Section 12)
+├── Compile all raw_quotes
+├── List inference notes
+├── Document analysis methodology
+```
+
+### Parser-to-Analyzer Data Mapping
+
+| Parser JSON Field | Analyzer Section | Usage |
+|-------------------|------------------|-------|
+| `customer_info` | Section 0 | Basic info table |
+| `initial_state` | Section 0 | Problem context |
+| `final_state` | Section 0 | Outcome summary |
+| `stakeholder_mentions` | Section 2 | Stakeholder classification |
+| `pain_points_mentions` | Section 2 | Pain point categorization |
+| `metrics_mentions` | Section 1, 11 | Purchase ranking, Parameterization |
+| `product_mentions` | Section 10 | Products hierarchy |
+| `environment_mentions` | Section 5 | 4-dimension model |
+| `scenario_mentions` | Section 8 | Operational scenarios |
+| `lifecycle_mentions` | Section 7 | Phase sequence |
+| `raw_quotes` | Section 12 | Traceability compilation |
+
+---
+
 ## When to Use
 
 - **Customer story analysis**: When a vendor customer story is provided in PDF or text form
@@ -785,6 +926,14 @@ pdftotext -f 1 -l 10 input.pdf output.txt
 ---
 
 ## Version History
+
+- **0.7.0** (2026-04-21):
+  - **Architecture Split**: Analyzer now accepts scenario_parser output (MD + JSON) as primary input
+  - **Updated Input Requirements**: Added Parser Output input specification with JSON structure requirements
+  - **Added Analyzer Workflow from Parser Data**: Step-by-step process for generating analysis from extracted data
+  - **Added Parser-to-Analyzer Data Mapping**: Field-to-section mapping table
+  - **Updated Description**: Changed from direct PDF processing to downstream analysis generation
+  - **Legacy Support**: Direct text/PDF input still supported for backward compatibility
 
 - **0.6.0** (2026-04-16):
   - **Added Stakeholder Pain Points Extraction**: New dimension for extracting role-specific challenges, workflow bottlenecks, efficiency obstacles, and experience barriers before solution deployment

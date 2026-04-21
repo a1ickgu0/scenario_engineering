@@ -1,0 +1,56 @@
+{
+  "project": {
+    "name": "{{PROJECT_NAME}}",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "timestamp": "{{TIMESTAMP}}"
+  },
+  "execution": {
+    "mode": "{{MODE}}",
+    "start_from_phase": 0,
+    "dry_run": false,
+    "validate_only": false
+  },
+  "input": {
+    "mode": "{{INPUT_MODE}}",
+    "independent_directory": "{{INDEPENDENT_DIRECTORY_PATH}}",
+    "sources": [
+      {
+        "type": "pdf",
+        "path": "inputs/raw/{{DOCUMENT_NAME}}.pdf",
+        "extracted_path": "inputs/extracted/{{DOCUMENT_NAME}}.txt"
+      }
+    ],
+    "industry": "{{INDUSTRY}}",
+    "country": "{{COUNTRY}}",
+    "language": "{{LANGUAGE}}"
+  },
+  "output": {
+    "base_directory": "project-{{PROJECT_NAME}}-{{TIMESTAMP}}",
+    "progress_directory": "outputs/progress",
+    "phase1_directory": "outputs/phase1-survey",
+    "phase2_directory": "outputs/phase2-analysis",
+    "phase3_directory": "outputs/phase3-model",
+    "final_directory": "outputs/final-report"
+  },
+  "processing": {
+    "parallel_agents": 4,
+    "checkpoint_frequency": 5,
+    "skip_phase1": false,
+    "skip_phase2": false,
+    "retry_failed_documents": true
+  },
+  "skill_references": {
+    "scenario_survey": {
+      "template_path": "../scenario_survey/assets/templates/{{INDUSTRY}}-template.md",
+      "skill_path": "../scenario_survey/SKILL.md"
+    },
+    "scenario_analyzer": {
+      "prompt_path": "../scenario_analyzer/assets/prompts/customer-story-analysis.prompt.md",
+      "skill_path": "../scenario_analyzer/SKILL.md"
+    },
+    "scenario_modeler": {
+      "templates_path": "../scenario_modeler/assets/templates/",
+      "skill_path": "../scenario_modeler/SKILL.md"
+    }
+  }
+}
