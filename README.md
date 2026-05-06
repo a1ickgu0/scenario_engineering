@@ -11,7 +11,7 @@ A collection of Claude Code SKILL definitions containing specialized prompts/wor
 - **Location**: [`scenario_engineering/`](./scenario_engineering/)
 - **Purpose**: Pipeline orchestration, directory management, progress tracking, task recovery
 - **Keywords**: orchestration, workflow coordination, pipeline management, task recovery
-- **Version**: 0.1.0
+- **Version**: 0.2.0
 - **Input**: Project configuration (industry, country, input sources)
 - **Output**: Complete project directory with all intermediate and final outputs
 - **Phases**: 0 (Init) → 1 (Survey) → 2a (Parser) → 2b (Analyzer) → 3 (Modeler) → 4 (Final)
@@ -23,7 +23,7 @@ A collection of Claude Code SKILL definitions containing specialized prompts/wor
 - **Location**: [`scenario_survey/`](./scenario_survey/)
 - **Purpose**: Pre-sales requirements gathering, customer expectation collection, stakeholder identification
 - **Keywords**: pre-sales survey, interview guide, questionnaire, stakeholder elicitation, expectation collection
-- **Version**: 0.3.0
+- **Version**: 0.3.1
 - **Input**: Industry selection + Customer country (for language customization)
 - **Output**: Industry-customized survey questionnaires + Customer requirements narrative documents
 - **Languages**: English (default), Chinese, Japanese, German, French, Spanish, Arabic
@@ -35,7 +35,7 @@ A collection of Claude Code SKILL definitions containing specialized prompts/wor
 - **Location**: [`scenario_parser/`](./scenario_parser/)
 - **Purpose**: Data extraction, PDF parsing, intermediate format generation
 - **Keywords**: document extraction, PDF parsing, data extraction, intermediate output
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Input**: PDF files, text documents, survey narratives
 - **Output**: `*-extracted.md` + `*-extracted.json` (dual-format intermediate files)
 - **Output Structure**: customer_info, stakeholder_mentions, pain_points, products, metrics, quotes
@@ -219,6 +219,42 @@ SKILLs/
 
 ---
 
+## 🎯 Entry Point Selection
+
+Choose the appropriate SKILL entry point based on your available input materials:
+
+| Entry Point | Starting SKILL | Input Required | Use Case |
+|-------------|----------------|----------------|----------|
+| **Full Pipeline** | scenario_engineering | None (start fresh) | Complete end-to-end workflow |
+| **Survey Only** | scenario_survey | Industry + Country | Generate questionnaires only |
+| **Parser Only** | scenario_parser | PDF/Text files | Extract structured data from documents |
+| **Analyzer Only** | scenario_analyzer | extracted.md + extracted.json | Generate analysis reports from parsed data |
+| **Modeler Only** | scenario_modeler | Multiple *-analysis.md files | Synthesize cross-case models |
+
+### Decision Tree
+
+```
+What do you want to do?
+    ↓
+├── Complete new project → scenario_engineering --new
+│
+├── Continue existing work → scenario_engineering --resume
+│
+├── Generate questionnaire only → /scenario_survey
+│   (Have: Industry, Country, Language)
+│
+├── Extract from existing PDFs → /scenario_parser
+│   (Have: PDF/Text documents)
+│
+├── Analyze extracted data → /scenario_analyzer
+│   (Have: *-extracted.md + *-extracted.json)
+│
+└── Model from analyses → /scenario_modeler
+    (Have: Multiple *-analysis.md files)
+```
+
+---
+
 ## 🚀 SKILL Usage
 
 Each SKILL can be used in the following ways:
@@ -267,6 +303,24 @@ Each SKILL can be used in the following ways:
 ---
 
 ## 📊 Recent Changes
+
+- **2026-05-06**: Entry point selection and LLM capability checks
+  - **Updated `scenario_engineering`** (v0.1.0 → v0.2.0)
+    - Added Entry Point Selection section with decision tree
+    - Added `--from-skill` option for direct SKILL invocation
+    - Distinguished entry point vs. phase selection
+  - **Updated `scenario_survey`** (v0.3.0 → v0.3.1)
+    - Added LLM file capability check for template reading
+    - Added fallback to Bash cat command
+  - **Updated `scenario_parser`** (v0.1.0 → v0.1.1)
+    - Added LLM file capability check for PDF processing
+    - Added local Python PDF tools (pdfplumber, pdftotext)
+    - Added Python extraction script examples
+  - **Updated README.md**
+    - Added Entry Point Selection section
+    - Updated version numbers for all modified SKILLs
+
+- **2026-04-21**: Architecture refactoring
 
 - **2026-04-21**: Architecture refactoring
   - **Added `scenario_engineering`** (v0.1.0) - Top-level orchestration SKILL

@@ -11,7 +11,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 - **位置**: [`scenario_engineering/`](./scenario_engineering/)
 - **用途**: 管道编排、目录管理、进度跟踪、任务恢复
 - **关键词**: 编排、工作流协调、管道管理、任务恢复
-- **版本**: 0.1.0
+- **版本**: 0.2.0
 - **输入**: 项目配置（行业、国家、输入来源）
 - **输出**: 完整项目目录，包含所有中间和最终输出
 - **阶段**: 0（初始化）→ 1（调研）→ 2a（解析）→ 2b（分析）→ 3（建模）→ 4（完成）
@@ -23,7 +23,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 - **位置**: [`scenario_survey/`](./scenario_survey/)
 - **用途**: 售前需求收集、客户期望采集、利益相关者识别
 - **关键词**: 售前调研、访谈指南、问卷生成、利益相关者引导、期望收集
-- **版本**: 0.3.0
+- **版本**: 0.3.1
 - **输入**: 行业选择 + 客户国家（语言定制）
 - **输出**: 行业定制问卷 + 客户需求叙事文档
 - **语言**: 英文（默认）、中文、日语、德语、法语、西班牙语、阿拉伯语
@@ -35,7 +35,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 - **位置**: [`scenario_parser/`](./scenario_parser/)
 - **用途**: 数据提取、PDF解析、中间格式生成
 - **关键词**: 文档提取、PDF解析、数据提取、中间输出
-- **版本**: 0.1.0
+- **版本**: 0.1.1
 - **输入**: PDF文件、文本文档、调研叙事
 - **输出**: `*-extracted.md` + `*-extracted.json`（双格式中间文件）
 - **输出结构**: customer_info、stakeholder_mentions、pain_points、products、metrics、quotes
@@ -219,6 +219,42 @@ SKILLs/
 
 ---
 
+## 🎯 入口点选择
+
+根据您手头的输入材料选择合适的 SKILL 入口点：
+
+| 入口点 | 起始 SKILL | 输入要求 | 使用场景 |
+|-------------|----------------|----------------|----------|
+| **完整管道** | scenario_engineering | 无（全新开始）| 完整端到端工作流 |
+| **仅问卷** | scenario_survey | 行业 + 国家 | 仅生成调研问卷 |
+| **仅提取** | scenario_parser | PDF/文本文件 | 从文档提取结构化数据 |
+| **仅分析** | scenario_analyzer | extracted.md + extracted.json | 从解析数据生成分析报告 |
+| **仅建模** | scenario_modeler | 多个 *-analysis.md 文件 | 综合跨案例模型 |
+
+### 决策树
+
+```
+您想做什么？
+    ↓
+├── 新建完整项目 → scenario_engineering --new
+│
+├── 继续现有工作 → scenario_engineering --resume
+│
+├── 仅生成问卷 → /scenario_survey
+│   （拥有：行业、国家、语言）
+│
+├── 从现有 PDF 提取 → /scenario_parser
+│   （拥有：PDF/文本文档）
+│
+├── 分析已提取数据 → /scenario_analyzer
+│   （拥有：*-extracted.md + *-extracted.json）
+│
+└── 从已有分析建模 → /scenario_modeler
+    （拥有：多个 *-analysis.md 文件）
+```
+
+---
+
 ## 🚀 SKILL 使用
 
 每个 SKILL 可以通过以下方式使用：
@@ -267,6 +303,22 @@ SKILLs/
 ---
 
 ## 📊 最近变更
+
+- **2026-05-06**: 入口点选择和 LLM 能力检查
+  - **更新 `scenario_engineering`** (v0.1.0 → v0.2.0)
+    - 添加入口点选择部分和决策树
+    - 添加 `--from-skill` 选项用于直接 SKILL 调用
+    - 区分入口点选择和阶段选择
+  - **更新 `scenario_survey`** (v0.3.0 → v0.3.1)
+    - 添加模板读取的 LLM 文件能力检查
+    - 添加回退到 Bash cat 命令
+  - **更新 `scenario_parser`** (v0.1.0 → v0.1.1)
+    - 添加 PDF 处理的 LLM 文件能力检查
+    - 添加本地 Python PDF 工具（pdfplumber、pdftotext）
+    - 添加 Python 提取脚本示例
+  - **更新 README.md 和 README_zh.md**
+    - 添加入口点选择部分
+    - 更新所有修改 SKILL 的版本号
 
 - **2026-04-21**: 架构重构
   - **新增 `scenario_engineering`** (v0.1.0) - 顶层编排 SKILL

@@ -10,7 +10,7 @@ tags:
   - narrative-synthesis
   - scenario-engine-input
   - multi-language
-version: "0.3.0"
+version: "0.3.1"
 ---
 
 # Scenario Survey SKILL
@@ -101,6 +101,66 @@ Generate localized questionnaires for customers from major countries. English is
 | Minor countries, unspecified regions, or countries without major language support | English | Default fallback |
 
 **Invocation**: User must specify customer country for language customization. The SKILL generates questionnaires in the local language for major countries; only defaults to English for minor/unspecified countries.
+
+## LLM File Capability Check
+
+**NOT ALL LLM PROVIDERS SUPPORT FILE UPLOAD/READ**
+
+When reading industry templates or existing survey documents, check LLM file capability:
+
+| LLM Capability | Supports | Action |
+|----------------|----------|--------|
+| Direct file read | ✅ Yes | LLM can read template files directly |
+| No file support | ❌ No | Read templates via Bash cat command or copy content |
+
+### Check Method
+
+```python
+# Pseudo-code for LLM capability check
+llm_supports_files = check_llm_capability("file_read")
+
+if llm_supports_files:
+    # Direct approach: LLM reads templates
+    approach = "direct_llm_read"
+else:
+    # Fallback: Use Bash cat command
+    approach = "bash_cat_read"
+```
+
+### Template Reading Fallback (When LLM No File Support)
+
+**Using Bash cat command**:
+```bash
+# Read template file via Bash tool
+cat assets/templates/hospitality-template.md
+```
+
+**Template content caching**:
+- For SKILL execution without file support, consider embedding key template sections
+- Or provide simplified template content in SKILL.md as fallback
+
+### Template Reading Decision Flow
+
+```
+Need to Read Industry Template
+    ↓
+Check LLM File Capability
+    ├── YES → LLM directly reads template file
+    │         ├── Parse template structure
+    │         └── Generate questionnaire
+    │
+    └── NO  → Use Bash cat command
+              ├── Read template file content
+              └── LLM processes text content
+```
+
+### Error Handling
+
+| Error Type | Detection | Recovery |
+|------------|-----------|----------|
+| LLM cannot read file | File read API error | Fallback to Bash cat |
+| Template file not found | File path error | Use generic-template.md or built-in template structure |
+| Template read timeout | Long read time | Retry with smaller chunks |
 
 ## When to Use
 
@@ -507,6 +567,11 @@ Step 5: Output Validation
 ---
 
 ## Version History
+
+- **0.3.1** (2026-05-06): Add LLM file capability check
+  - LLM capability detection for file upload/read
+  - Fallback to Bash cat command when LLM no file support
+  - Template reading decision flow and error handling
 
 - **0.3.0** (2026-04-16):
   - **Added Industry Template Reference Rules**: TR-01 Mandatory Template Reference, TR-02 Template Structure Compliance, TR-03 Local Language Adaptation, TR-04 Template Selection Priority

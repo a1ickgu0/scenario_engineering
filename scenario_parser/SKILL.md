@@ -10,7 +10,7 @@ tags:
   - json-output
   - md-output
   - parser
-version: "0.1.0"
+version: "0.1.1"
 ---
 
 # Scenario Parser SKILL
@@ -426,11 +426,114 @@ Analyzer 输出文件名保持一致的结构：
 }
 ```
 
+## LLM File Capability Check
+
+**NOT ALL LLM PROVIDERS SUPPORT FILE UPLOAD/READ**
+
+Before processing documents, check LLM file capability:
+
+| LLM Capability | Supports | Action |
+|----------------|----------|--------|
+| Direct file read | ✅ Yes | LLM can read PDF/Text files directly |
+| No file support | ❌ No | Use local Python tools for PDF extraction |
+
+### Check Method
+
+```python
+# Pseudo-code for LLM capability check
+llm_supports_files = check_llm_capability("file_read")
+
+if llm_supports_files:
+    # Direct approach: LLM reads files
+    approach = "direct_llm_read"
+else:
+    # Fallback: Use Python tools
+    approach = "local_python_extraction"
+```
+
+### Local Python PDF Tools (When LLM No File Support)
+
+**Required Tools**:
+```bash
+# Install dependencies
+pip install PyPDF2 pdfplumber pypdf
+
+# Or use system command
+# macOS: brew install poppler
+# Linux: apt-get install poppler-utils
+```
+
+**Python PDF Extraction Script**:
+
+```python
+import pdfplumber
+from pathlib import Path
+
+def extract_pdf_to_text(pdf_path: str) -> str:
+    """Extract text from PDF with page/line references"""
+    text_with_refs = []
+    
+    with pdfplumber.open(pdf_path) as pdf:
+        for page_num, page in enumerate(pdf.pages, start=1):
+            text = page.extract_text()
+            lines = text.split('\n')
+            for line_num, line in enumerate(lines, start=1):
+                text_with_refs.append(f"[Page {page_num}, Line {line_num}] {line}")
+    
+    return '\n'.join(text_with_refs)
+
+# Usage
+pdf_path = "/path/to/document.pdf"
+text = extract_pdf_to_text(pdf_path)
+```
+
+**Alternative: Using pdftotext (Command Line)**:
+```bash
+pdftotext -layout input.pdf output.txt
+```
+
+### PDF Processing Decision Flow
+
+```
+Input: Document
+    ↓
+Check LLM File Capability
+    ├── YES → LLM directly reads file
+    │         ├── Parse content
+    │         └── Extract structured data
+    │
+    └── NO  → Use local Python tool
+              ├── Extract PDF to text with refs
+              ├── Save to intermediate file
+              └── LLM processes text
+```
+
+### Error Handling
+
+| Error Type | Detection | Recovery |
+|------------|-----------|----------|
+| LLM cannot read file | File read API error | Fallback to Python tool |
+| Python tool missing | Module import error | Auto-install or prompt user |
+| PDF corrupted | Extraction fails | Log to problem list |
+
 ## Extraction Workflow
 
 ```
+Step 0: LLM Capability Check
+├── Check if LLM supports file upload/read
+├── If YES: Proceed with direct file read
+└── If NO: Use local Python PDF tool first
+
 Step 1: Source Processing
-├── If PDF: pdftotext -layout input.pdf output.txt
+├── If LLM supports files:
+│   └── LLM directly reads PDF/Text file
+└── If LLM no file support:
+    ├── Use Python pdfplumber or pdftotext
+    ├── Extract text with page/line references
+    └── Save to intermediate .txt file
+├── Add line markers (format: Line N, Page M)
+├── Clean headers/footers
+└── Validate text completeness
 ├── Add line markers (format: Line N, Page M)
 ├── Clean headers/footers
 └── Validate text completeness
@@ -660,6 +763,11 @@ Parser outputs are checkpoint files:
 - State.json tracks Parser completion separately
 
 ## Version History
+
+- **0.1.1** (2026-05-06): Add LLM file capability check
+  - LLM capability detection for file upload/read
+  - Fallback to local Python PDF tools when LLM no file support
+  - Python pdfplumber/pdftotext extraction examples
 
 - **0.1.0** (2026-04-21): Initial scenario_parser SKILL
   - Document extraction from PDF/text/narratives

@@ -10,7 +10,7 @@ tags:
   - directory-management
   - end-to-end-analysis
   - state-persistence
-version: "0.1.0"
+version: "0.2.0"
 ---
 
 # Scenario Engineering SKILL
@@ -44,6 +44,87 @@ scenario_survey → scenario_analyzer → scenario_modeler
 - **Structured outputs**: Require organized directory with intermediate files
 - **Quality validation**: Need comprehensive completeness check
 
+## Entry Point Selection
+
+Select the appropriate SKILL entry point based on available input materials:
+
+| Entry Point | Starting SKILL | Input Required | Use Case |
+|-------------|----------------|----------------|----------|
+| **Full Pipeline** | scenario_engineering | None (start fresh) | Complete end-to-end workflow |
+| **Survey Only** | scenario_survey | Industry + Country | Generate questionnaires only |
+| **Parser Only** | scenario_parser | PDF/Text files | Extract structured data from documents |
+| **Analyzer Only** | scenario_analyzer | extracted.md + extracted.json | Generate analysis reports from parsed data |
+| **Modeler Only** | scenario_modeler | Multiple *-analysis.md files | Synthesize cross-case models |
+
+### Decision Tree
+
+```
+What do you want to do?
+    ↓
+├── Complete new project → scenario_engineering --new
+│
+├── Continue existing work → scenario_engineering --resume
+│
+├── Generate questionnaire only → /scenario_survey
+│   (Have: Industry, Country, Language)
+│
+├── Extract from existing PDFs → /scenario_parser
+│   (Have: PDF/Text documents)
+│
+├── Analyze extracted data → /scenario_analyzer
+│   (Have: *-extracted.md + *-extracted.json)
+│
+└── Model from analyses → /scenario_modeler
+    (Have: Multiple *-analysis.md files)
+```
+
+### Direct SKILL Invocation Examples
+
+**Example 1: Generate Questionnaire Only**
+```
+/scenario_survey
+→ Industry: Hospitality
+→ Country: Malaysia
+→ Language: English
+→ Output: questionnaire.md
+```
+
+**Example 2: Extract from Existing PDFs**
+```
+/scenario_parser
+→ Input: /path/to/customer-stories/*.pdf
+→ Output: *-extracted.md + *-extracted.json
+→ Feed to: scenario_analyzer
+```
+
+**Example 3: Analyze Already Extracted Data**
+```
+/scenario_analyzer
+→ Input: outputs/phase2-parser/extracted/*-extracted.*
+→ Output: *-analysis.md
+→ Feed to: scenario_modeler
+```
+
+**Example 4: Model from Existing Analyses**
+```
+/scenario_modeler
+→ Input: outputs/phase2b-analyzer/reports/*-analysis.md
+→ Output: industry-model.md, stakeholder-model.md, purchase-factor-model.md
+```
+
+### Entry Point vs. Phase Selection
+
+| Concept | Scope | Usage |
+|---------|-------|-------|
+| **Entry Point** | SKILL-level | Choose which SKILL to invoke directly |
+| **Phase Selection** | Pipeline-level | Choose which phase to resume within full pipeline |
+
+**Example**:
+- `--from-skill parser` → Start directly with parser (Entry Point)
+- `--from-phase 2` → Resume pipeline at Phase 2 (Phase Selection)
+
+Both are supported in scenario_engineering with different default behaviors.
+
 ## Execution Modes
 
 | Mode | Description | Usage |
@@ -51,6 +132,7 @@ scenario_survey → scenario_analyzer → scenario_modeler
 | `--new` | Start fresh project | New analysis pipeline |
 | `--resume` | Resume interrupted task | Recovery from crash/interrupt |
 | `--from-phase N` | Start from specific phase | Skip completed earlier phases |
+| `--from-skill SKILL` | Start from specific SKILL | Direct SKILL entry point |
 | `--validate` | Validate existing outputs | Quality check, report missing items |
 | `--dry-run` | Plan without execution | Preview directory structure |
 
@@ -63,8 +145,38 @@ Else:
 
 User can override with:
   --from-phase 2  → Skip phase 0-1, start analysis
+  --from-skill parser  → Start directly from scenario_parser
+  --from-skill analyzer → Start directly from scenario_analyzer
+  --from-skill modeler → Start directly from scenario_modeler
   --validate      → Check outputs, no new generation
   --dry-run       → Show plan, no execution
+```
+
+### --from-skill Option Details
+
+**Supported Values**:
+- `--from-skill survey` → Start with scenario_survey only
+- `--from-skill parser` → Start with scenario_parser (requires PDFs)
+- `--from-skill analyzer` → Start with scenario_analyzer (requires extracted files)
+- `--from-skill modeler` → Start with scenario_modeler (requires analysis files)
+
+**Behavior**:
+```
+When --from-skill is specified:
+  1. Skip all phases before the specified SKILL
+  2. Initialize project directory structure
+  3. Validate input requirements for target SKILL
+  4. Invoke the specified SKILL directly
+  5. Update state.json with appropriate phase markers
+```
+
+**Example: Starting from Parser**
+```
+/scenario_engineering --from-skill parser
+→ Input: /path/to/documents/*.pdf
+→ Skips: Phase 0 (init), Phase 1 (survey)
+→ Starts: Phase 2a (parser)
+→ Requires: Valid PDF/Text input directory
 ```
 
 ## Phase Definitions
@@ -654,6 +766,13 @@ scenario_engineering/
 ```
 
 ## Version History
+
+- **0.2.0** (2026-05-06): Add entry point selection
+  - Added Entry Point Selection section with decision tree
+  - Added --from-skill option for direct SKILL invocation
+  - Added Direct SKILL Invocation Examples
+  - Distinguished entry point vs. phase selection
+  - Updated execution modes table
 
 - **0.1.0** (2026-04-21): Initial scenario_engineering SKILL design
   - Top-level orchestration for scenario_survey → scenario_analyzer → scenario_modeler
