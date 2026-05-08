@@ -54,6 +54,8 @@
 |-------|-------|-----------|
 | Title | {{DOCUMENT_TITLE}} | {{TITLE_REFERENCE}} |
 | Company | {{COMPANY_NAME}} | {{COMPANY_REFERENCE}} |
+| Company Identification Basis | {{COMPANY_EVIDENCE}} | {{COMPANY_REFERENCE}} |
+| Filename Used As Evidence | {{FILENAME_USED_AS_EVIDENCE}} | {{COMPANY_NOTES}} |
 | Industry | {{INDUSTRY}} | {{INDUSTRY_REFERENCE}} |
 | Country | {{COUNTRY}} | {{COUNTRY_REFERENCE}} |
 | Year | {{YEAR}} | {{YEAR_REFERENCE}} |
@@ -100,10 +102,10 @@
 
 ## 4. Stakeholder Mentions
 
-| Name | Role Type | Context | Expectation (Raw) | Reference |
-|------|-----------|---------|-------------------|-----------|
-| {{STAKEHOLDER_1}} | {{ROLE_TYPE_1}} | {{CONTEXT_1}} | {{EXPECTATION_1}} | {{REF_1}} |
-| {{STAKEHOLDER_2}} | {{ROLE_TYPE_2}} | {{CONTEXT_2}} | {{EXPECTATION_2}} | {{REF_2}} |
+| Name | Role Type | Role Title | Stakeholder Layer | Decision Level | Context | Expectation (Raw) | Reference |
+|------|-----------|------------|-------------------|----------------|---------|-------------------|-----------|
+| {{STAKEHOLDER_1}} | {{ROLE_TYPE_1}} | {{ROLE_TITLE_1}} | {{LAYER_1}} | {{DECISION_LEVEL_1}} | {{CONTEXT_1}} | {{EXPECTATION_1}} | {{REF_1}} |
+| {{STAKEHOLDER_2}} | {{ROLE_TYPE_2}} | {{ROLE_TITLE_2}} | {{LAYER_2}} | {{DECISION_LEVEL_2}} | {{CONTEXT_2}} | {{EXPECTATION_2}} | {{REF_2}} |
 
 ---
 
@@ -136,9 +138,9 @@
 
 ## 7. Metrics Mentions
 
-| Metric | Value | Unit | Context | Comparison | Reference |
-|--------|-------|------|---------|------------|-----------|
-| {{METRIC_1}} | {{VALUE_1}} | {{UNIT_1}} | {{CONTEXT_1}} | {{COMPARISON_1}} | {{REF_1}} |
+| Metric | Value | Unit | Before | After | Change | MoE Candidate | Context | Comparison | Reference |
+|--------|-------|------|--------|-------|--------|---------------|---------|------------|-----------|
+| {{METRIC_1}} | {{VALUE_1}} | {{UNIT_1}} | {{BEFORE_1}} | {{AFTER_1}} | {{CHANGE_1}} | {{MOE_1}} | {{CONTEXT_1}} | {{COMPARISON_1}} | {{REF_1}} |
 
 **Type Hints**:
 - `efficiency` - 效率指标
@@ -179,9 +181,9 @@
 
 ## 9. Raw Quotes
 
-| Quote | Speaker | Role | Topic | Reference |
-|-------|---------|------|-------|-----------|
-| "{{QUOTE}}" | {{SPEAKER}} | {{ROLE}} | {{TOPIC}} | {{REFERENCE}} |
+| Quote | Language | Speaker | Role | Topic | Reference |
+|-------|----------|---------|------|-------|-----------|
+| "{{QUOTE}}" | {{QUOTE_LANGUAGE}} | {{SPEAKER}} | {{ROLE}} | {{TOPIC}} | {{REFERENCE}} |
 
 ---
 
@@ -206,6 +208,7 @@
 ### Required Fields Check
 - [ ] Title extracted ✓/✗
 - [ ] Company extracted ✓/✗
+- [ ] Company not inferred solely from filename ✓/✗
 - [ ] Initial state exists ✓/✗
 - [ ] Final state exists ✓/✗
 - [ ] At least 1 stakeholder ✓/✗

@@ -12,17 +12,17 @@ The goal of this SKILL is to guide analysts in extracting from customer story te
 4. Stakeholder expectations/needs, influence and benefits, priority/conflicts, commitment and engagement
 5. Operational concept / usage concept
 6. Referenced products, services, and solutions
-7. **State Model**: Stakeholder, system, and organization states with transitions
+7. **ConOps State Model**: operational threads, actor/system states, and transitions grounded in mission/business use
 8. **Environment Model**: Industry, regional, organizational, and technical constraints
 9. **Entity Model**: Organization hierarchy, system composition, external connections
 10. **Lifecycle Phases**: Phase sequence with triggers and completion criteria
-11. **Parameterization Model**: Structured metrics for OpenSCENARIO DSL
+11. **Parameterization Model**: Structured metrics for OpenSCENARIO DSL, including MoE analysis
 
 ## 🔍 Core Capabilities
 
 ### 1. Stakeholder Extraction
 - Identify users, customers, operators, maintainers, supporters, regulators, community/public, suppliers, etc.
-- Distinguish roles, expectations, values, risks, priorities, and conflicts
+- Distinguish organizational layers, role titles, expectations, values, risks, priorities, and conflicts
 - Link lifecycle participation and acceptance
 - **Relationship types**: Hierarchical, Collaborative, Conflicting, Dependency
 
@@ -30,7 +30,8 @@ The goal of this SKILL is to guide analysts in extracting from customer story te
 - Extract 3-5 business purchase elements from the customer story
 - Evaluate and rank these elements based on business importance to the customer
 - Describe from customer perspective "why buy" and "what problem needs solving"
-- **Parameterization**: Structured format for quantified metrics
+- Include strategic intent, business intent, and quantified before/after evidence
+- **MoE**: Analyze effectiveness indicators with source, argument, and basis
 
 ### 3. Operational Concept
 - Describe system operation/usage concept
@@ -51,11 +52,10 @@ The goal of this SKILL is to guide analysts in extracting from customer story te
 - Provide tool integration guides and command examples
 - Maintain page and paragraph references for traceability
 
-### 7. State Model (OpenSCENARIO Preparation)
-- Stakeholder states: Need Identified → Evaluating → Decided → Satisfied/Dissatisfied
-- System states: Not Deployed → Deploying → Running → Upgrading → Fault/Recovering
-- Organization states: Problem Identified → Solution Seeking → Procurement → Implementation → Normal Operation
-- State transition triggers and conditions
+### 7. ConOps State Model (OpenSCENARIO Preparation)
+- Build state models from real operational threads rather than generic procurement placeholders
+- Separate actor state, system state, and outcome state
+- Link transitions to before/after benefits and MoE
 
 ### 8. Environment Model (OpenSCENARIO Preparation)
 - Industry environment: Regulations, standards, compliance requirements
@@ -131,14 +131,14 @@ scenario_analyzer/
 
 1. Copy or convert the vendor customer story PDF text content into readable text for analysis
 2. Activate this SKILL and specify the dimensions you need to extract:
-   - Purchase elements
-   - Stakeholders and expectations
+   - Purchase elements with strategic intent, business intent, and MoE
+   - Stakeholders with organizational layer and role title
    - Influence and benefits
    - Priority and conflicts
    - Commitment and engagement
    - Operational usage concept
    - Products and solutions
-   - **State model** (for OpenSCENARIO)
+   - **ConOps state model** (for OpenSCENARIO)
    - **Environment model** (for OpenSCENARIO)
    - **Entity model** (for OpenSCENARIO)
    - **Lifecycle phases** (for OpenSCENARIO)
@@ -152,20 +152,24 @@ This SKILL is suitable for Claude, other LLM platforms, or manual analysis workf
 ```
 ## 0. 客户基本信息 (Customer Basic Information)
    - 基本信息 table
+   - company identity basis
    - 应用产品与方案之前的问题 (Initial State)
    - 整体使用效果/收益综述 (Final State)
+   - before/after comparison
 
 ## 1. 购买要素 (Purchase Elements with Parameterization)
+   - strategic intent / business intent / quantified value
+   - 1.1 MoE analysis
 
 ## 2. 利益相关者清单 (Stakeholder List with Relationship Types)
+   - organizational layer + role title split
 
 ## 3. 冲突与优先级 (Conflicts and Priority)
 
-## 4. 状态模型 (State Model)
-   - 利益相关者状态表
-   - 系统状态表
-   - 组织状态表
-   - 状态转换路径图
+## 4. 基于 ConOps 的状态模型 (ConOps-Grounded State Model)
+   - operational thread state table
+   - actor/system state tables
+   - state transition explanation
 
 ## 5. 环境模型 (Environment Model)
    - 行业环境表

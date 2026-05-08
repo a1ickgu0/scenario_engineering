@@ -46,13 +46,13 @@ After extraction, clean headers/footers and validate text completeness before an
 All analyses must follow this structured table format (12 sections):
 
 ### Core Sections (0-3)
-- **0. Customer Basic Information**: title, country, industry, company, year, initial/final states
-- **1. Purchase Elements**: 3-5 business factors ranked by importance with parameterized metrics
-- **2. Stakeholder List**: role, type, expectations, influence, benefits/risks, relationship types, priority
+- **0. Customer Basic Information**: title, country, industry, company, year, company identity basis, initial/final states, before/after comparison
+- **1. Purchase Elements**: 3-5 business factors ranked by importance with strategic intent, business intent, quantified metrics, and MoE
+- **2. Stakeholder List**: organizational layer, role title, type, expectations, influence, benefits/risks, relationship types, priority
 - **3. Conflicts and Priority**: conflict points, stakeholders, root cause, recommendations
 
 ### OpenSCENARIO Preparation Sections (4-7, 11)
-- **4. State Model**: Stakeholder/System/Organization states with transition triggers and paths
+- **4. ConOps State Model**: operational threads, actor/system states, and transition logic grounded in real operations
 - **5. Environment Model**: Industry/Regional/Organizational/Technical environment constraints
 - **6. Entity Model**: Organization hierarchy tree, System composition tree, External connections
 - **7. Lifecycle Phases**: Phase sequence with triggers, actions, completion criteria
@@ -74,20 +74,17 @@ Every analysis point must include original text references:
 
 Inferred conclusions must note the inference source and original text basis.
 
+For non-Chinese quotes, preserve the original quote and add a concise Chinese rendering.
+
 ## Output Language
 
 Use the local language of the source document. Default to Chinese if the language cannot be determined.
 
-## State Model Definitions
+## ConOps State Model Definitions
 
-### Stakeholder States
-- Need Identified → Evaluating → Decision Ready → Decided → Expecting → Accepting → Satisfied/Dissatisfied
-
-### System States
-- Not Deployed → Deploying → Deployed → Running → Upgrading / Degraded → Fault → Recovering
-
-### Organization States
-- Problem Identified → Solution Seeking → Procurement → Implementation → Validation → Normal Operation
+- Do not use generic stakeholder/system/organization placeholder states unless the source explicitly supports them.
+- Build states from real operational threads: actor pre-state, enabling system state, key action, outcome state.
+- Link transitions to before/after benefits and MoE where possible.
 
 ## Environment Dimensions
 

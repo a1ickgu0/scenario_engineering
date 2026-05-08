@@ -5,8 +5,8 @@
     "extracted_at": "{{EXTRACTED_AT}}",
     "parser_version": "0.1.0",
     "language": "{{LANGUAGE}}",
-    "page_count": {{PAGE_COUNT}},
-    "line_count": {{LINE_COUNT}},
+    "page_count": "{{PAGE_COUNT}}",
+    "line_count": "{{LINE_COUNT}}",
     "generated_file_name": {
       "timestamp": "{{TIMESTAMP}}",
       "content_type": "{{CONTENT_TYPE}}",
@@ -29,6 +29,13 @@
     "country": "{{COUNTRY}}",
     "company": "{{COMPANY_NAME}}",
     "company_normalized": "{{COMPANY_NAME_NORMALIZED}}",
+    "company_identification_basis": {
+      "evidence": "{{COMPANY_EVIDENCE}}",
+      "reference": "{{COMPANY_REFERENCE}}",
+      "filename_used_as_evidence": false,
+      "confidence": "{{COMPANY_CONFIDENCE}}",
+      "notes": "{{COMPANY_NOTES}}"
+    },
     "year": "{{YEAR}}",
     "product_name": "{{PRODUCT_NAME}}",
     "product_normalized": "{{PRODUCT_NAME_NORMALIZED}}",
@@ -59,6 +66,10 @@
     {
       "name": "{{STAKEHOLDER_NAME}}",
       "role_type": "{{ROLE_TYPE}}",
+      "role_title_raw": "{{ROLE_TITLE_RAW}}",
+      "stakeholder_layer_hint": "{{STAKEHOLDER_LAYER_HINT}}",
+      "decision_level_hint": "{{DECISION_LEVEL_HINT}}",
+      "department_hint": "{{DEPARTMENT_HINT}}",
       "context": "{{CONTEXT}}",
       "expectations_raw": "{{EXPECTATIONS_RAW}}",
       "influence_hint": "{{INFLUENCE_HINT}}",
@@ -89,6 +100,12 @@
       "metric_name": "{{METRIC_NAME}}",
       "value": "{{VALUE}}",
       "unit": "{{UNIT}}",
+      "before_value": "{{BEFORE_VALUE}}",
+      "after_value": "{{AFTER_VALUE}}",
+      "change_expression": "{{CHANGE_EXPRESSION}}",
+      "moe_candidate": "{{MOE_CANDIDATE}}",
+      "source_claim": "{{SOURCE_CLAIM}}",
+      "basis_hint": "{{BASIS_HINT}}",
       "context": "{{METRIC_CONTEXT}}",
       "comparison": "{{COMPARISON}}",
       "type_hint": "{{METRIC_TYPE}}",
@@ -110,6 +127,7 @@
   "raw_quotes": [
     {
       "quote": "{{QUOTE}}",
+      "language": "{{QUOTE_LANGUAGE}}",
       "speaker": "{{SPEAKER}}",
       "speaker_role": "{{SPEAKER_ROLE}}",
       "context": "{{QUOTE_CONTEXT}}",
@@ -125,6 +143,14 @@
       "trigger": "{{TRIGGER}}",
       "outcome": "{{OUTCOME}}",
       "reference": "{{SCENARIO_REFERENCE}}"
+    }
+  ],
+  "lifecycle_mentions": [
+    {
+      "phase": "{{PHASE}}",
+      "activities": ["{{ACTIVITY}}"],
+      "duration": "{{DURATION}}",
+      "reference": "{{LIFECYCLE_REFERENCE}}"
     }
   ]
 }

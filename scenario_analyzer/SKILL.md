@@ -1,6 +1,6 @@
 ---
 name: scenario_analyzer
-description: "INCOSE requirements engineering SKILL for analyzing extracted customer data from scenario_parser outputs (MD + JSON). Generates structured 12-section analysis reports with stakeholder analysis, state models, environment models, entity hierarchies, and parameterization. Designed for downstream analysis generation, outputs structured for OpenSCENARIO DSL preparation."
+description: "INCOSE requirements engineering SKILL for analyzing extracted customer data from scenario_parser outputs (MD + JSON). Generates structured 12-section analysis reports with stakeholder analysis, ConOps-grounded state models, environment models, entity hierarchies, bilingual traceability support, MoE analysis, and parameterization. Designed for downstream analysis generation, outputs structured for OpenSCENARIO DSL preparation."
 tags:
   - incose
   - requirements-engineering
@@ -9,7 +9,7 @@ tags:
   - state-model
   - traceability
   - openscenario-preparation
-version: "0.7.0"
+version: "0.7.1"
 ---
 
 # Scenario Analyzer SKILL
@@ -26,9 +26,9 @@ This SKILL performs INCOSE requirements engineering analysis on **extracted data
 
 **Primary Goals**:
 1. Analyze stakeholder information and generate structured tables
-2. Build state/environment/entity/lifecycle models
+2. Build ConOps-grounded state/environment/entity/lifecycle models
 3. Construct operational scenarios with triggers/transitions
-4. Generate parameterization for OpenSCENARIO DSL
+4. Generate parameterization and MoE analysis for OpenSCENARIO DSL
 
 **Output**: 12-section analysis report with full traceability
 
@@ -47,15 +47,15 @@ This SKILL performs INCOSE requirements engineering analysis on **extracted data
 
 Analyzer expects JSON with these sections (from scenario_parser):
 - `document_meta` - Source file metadata
-- `customer_info` - Customer basic information
+- `content_extract` - Customer basic information and identity basis
 - `initial_state` - Problem context before solution
 - `final_state` - Outcome after solution
-- `stakeholder_mentions` - Raw stakeholder information
+- `stakeholder_mentions` - Raw stakeholder information with layer/title hints
 - `pain_points_mentions` - Extracted pain points
 - `product_mentions` - Product/solution information
-- `metrics_mentions` - Quantified metrics
+- `metrics_mentions` - Quantified metrics, before/after comparison, MoE hints
 - `environment_mentions` - Environment constraints
-- `raw_quotes` - Original quotes with speakers
+- `raw_quotes` - Original quotes with speakers and language
 
 ### Direct Input Mode (Legacy)
 
@@ -63,6 +63,28 @@ For backward compatibility, direct text/PDF input is still supported but require
 - Input: Raw text or narrative document
 - Processing: Perform extraction internally before analysis
 - Note: Recommended to use scenario_parser first for better quality
+
+### Input Validation (NEW - Required Before Analysis)
+
+**IMPORTANT**: Before generating analysis, validate Parser output.
+
+| Validation Type | Check Method | Fail Condition | Recovery Action |
+|---------------|-------------|---------------|---------------|
+| **File Pair Exists** | Both MD and JSON present | One missing | Skip analysis, report missing file |
+| **JSON Valid** | Parse JSON | JSON parse error | Report error, skip to next document |
+| **MD Exists** | Check MD file | MD missing | Proceed with JSON-only (warning) |
+| **File Consistency** | Base name match | Mismatched names | Identify correct pair manually |
+| **Reference Integrity** | MD references map to JSON | Broken references | Flag for review |
+
+**Validation Checklist**:
+```
+Before Analysis:
+- [ ] extracted.md exists
+- [ ] extracted.json exists and is parseable
+- [ ] File base names match
+- [ ] Required JSON fields present
+- [ ] Reference markers in MD exist
+```
 
 ## Quality Requirements (质量要求)
 
@@ -77,6 +99,9 @@ For backward compatibility, direct text/PDF input is still supported but require
 | **准确性** | 提取的信息必须准确反映原文内容，不得臆造或推测 | 原文对照验证 |
 | **结构化** | 表格必须包含所有要求的列，树状结构必须完整展示 | 格式规范检查 |
 | **痛点准确性** | 痛点提取必须准确反映原文中各角色面临的具体困难，不得臆造 | 原文对照验证 |
+| **层级拆分** | 利益相关者必须拆分层级与角色名，不得混写 | 表格字段检查 |
+| **MoE 完整性** | 关键效果必须包含 MoE、来源、论据、依据 | MoE 表检查 |
+| **ConOps 有效性** | 状态模型必须基于真实运行线程，不得套泛化占位状态 | ConOps 审核 |
 
 ### Output Completeness Checklist (输出完整性检查清单)
 
@@ -85,10 +110,11 @@ For backward compatibility, direct text/PDF input is still supported but require
 ```
 ## 0. 客户基本信息 ✓/✗
 ## 1. 购买要素 ✓/✗
+## 1.1 MoE 指标分析 ✓/✗
 ## 2. 利益相关者清单 ✓/✗
 ## 2.1 痛点提取完整性 ✓/✗
 ## 3. 冲突与优先级 ✓/✗
-## 4. 状态模型 ✓/✗
+## 4. 基于 ConOps 的状态模型 ✓/✗
 ## 5. 环境模型 ✓/✗
 ## 6. 实体层级模型 ✓/✗
 ## 7. 生命周期阶段 ✓/✗
@@ -99,18 +125,42 @@ For backward compatibility, direct text/PDF input is still supported but require
 ## 12. 追溯与备注 ✓/✗
 ```
 
+### Output Validation (NEW - Required After Analysis)
+
+**IMPORTANT**: After generating analysis, validate output quality.
+
+| Validation Type | Check Method | Fail Condition | Recovery Action |
+|---------------|-------------|---------------|---------------|
+| **Section Presence** | 12 section scan | Missing section | Regenerate missing section |
+| **Table Structure** | Table format check | Violates template | Reformat to template |
+| **Traceability** | Reference scan | Missing references | Add reference markers |
+| **Consistency** | Cross-field verify | Inconsistent data | Investigate and correct |
+| **Language** | Language uniformity | Mixed languages | Normalize to primary |
+
+**Validation Checklist**:
+```
+After Analysis:
+- [ ] All 12 sections present
+- [ ] Tables follow template format
+- [ ] Each key point has source reference
+- [ ] Stakeholder counts are consistent
+- [ ] Language is uniform
+- [ ] No critical data missing
+```
+
 ### Traceability Requirements (追溯性要求)
 
 每个分析项必须包含：
 - **客户名称**: 标注具体客户名（如 "Southern Sun", "Aberdeen City Council"）
 - **原文引用**: 保留原文关键表述（如 "Guest experience is everything"）
 - **引用位置**: 页码、段落或行号标注（如 "Page 3, paragraph 2" 或 "第15行"）
+- **非中文双语支持**: 对于非中文原文引用，必须保留原文并补充简明中文释义
 
 示例格式：
 ```
 | 利益相关者 | 期望 | 影响力 | 客户名 | 原文引用 |
 |------------|------|--------|--------|----------|
-| Guests | 无缝连接体验 | 高 | Southern Sun | "Guest experience is everything" (第18行) |
+| Guests | 无缝连接体验 | 高 | Southern Sun | "Guest experience is everything" / 中文释义: 客户体验至上 (第18行) |
 ```
 
 ---
@@ -463,19 +513,22 @@ Step 1: Load Parser Output
 └── Validate input completeness
 
 Step 2: Customer Info Processing (Section 0)
-├── Extract from customer_info field
+├── Extract from content_extract field
+├── Verify company identity basis and filename-not-primary rule
 ├── Format initial_state from parser
 ├── Format final_state from parser
-└── Generate customer basic info table
+└── Generate customer basic info table with before/after comparison
 
 Step 3: Purchase Elements Analysis (Section 1)
-├── Analyze metrics_mentions for quantification
-├── Rank purchase factors by business value
+├── Analyze metrics_mentions for quantification and before/after deltas
+├── Rank purchase factors by strategic intent and business value
+├── Build MoE analysis with source, argument, and basis
 ├── Add supplementary explanations
 └── Parameterize each element
 
 Step 4: Stakeholder Analysis (Section 2)
 ├── Classify stakeholder_mentions by role type
+├── Split layer from role title
 ├── Categorize pain_points_mentions
 ├── Determine influence levels
 ├── Map relationships (Hierarchical/Collaborative/Conflicting/Dependency)
@@ -487,10 +540,11 @@ Step 5: Conflicts & Priority (Section 3)
 ├── Recommend resolution approaches
 
 Step 6: State Model Generation (Section 4)
-├── Build stakeholder state transitions
-├── Build system state transitions
-├── Build organization state transitions
-├── Generate state transition path diagrams
+├── Identify ConOps operational threads
+├── Build actor states from business operations
+├── Build system/solution states from enabling capabilities
+├── Link transitions to before/after outcomes and MoE
+└── Generate ConOps-grounded transition explanations
 
 Step 7: Environment Model (Section 5)
 ├── Organize industry constraints from environment_mentions
@@ -533,6 +587,7 @@ Step 13: Parameterization Model (Section 11)
 
 Step 14: Traceability & Notes (Section 12)
 ├── Compile all raw_quotes
+├── Add Chinese rendering for non-Chinese quotes
 ├── List inference notes
 ├── Document analysis methodology
 ```
@@ -541,12 +596,12 @@ Step 14: Traceability & Notes (Section 12)
 
 | Parser JSON Field | Analyzer Section | Usage |
 |-------------------|------------------|-------|
-| `customer_info` | Section 0 | Basic info table |
+| `content_extract` | Section 0 | Basic info table and company identity basis |
 | `initial_state` | Section 0 | Problem context |
 | `final_state` | Section 0 | Outcome summary |
 | `stakeholder_mentions` | Section 2 | Stakeholder classification |
 | `pain_points_mentions` | Section 2 | Pain point categorization |
-| `metrics_mentions` | Section 1, 11 | Purchase ranking, Parameterization |
+| `metrics_mentions` | Section 1, 1.1, 11 | Purchase ranking, MoE, Parameterization |
 | `product_mentions` | Section 10 | Products hierarchy |
 | `environment_mentions` | Section 5 | 4-dimension model |
 | `scenario_mentions` | Section 8 | Operational scenarios |
@@ -597,9 +652,11 @@ For each customer story, the SKILL should produce:
 
 ### Purchase Analysis
 - **Purchase elements**: 3-5 business-level buying factors described in the story, evaluated and ranked by business importance. Prioritize elements that align with the customer's core business needs, strategic objectives, and value propositions. Focus on what drives the fundamental business decisions rather than just technical features. For each purchase element, include quantified assessment information, detailing how the customer quantifies the value of this element across different dimensions, including before-and-after changes (e.g., cost reduction from X to Y, time savings of Z%, efficiency improvements).
+- **Strategic and business intent**: For each purchase element, explicitly explain the strategic intent and business intent it serves.
+- **MoE analysis**: For each major outcome, identify candidate MoE indicators and explain their source, argument, and evidence basis.
 
 ### Stakeholder Analysis
-- **Stakeholder listing**: Who the stakeholders are and their roles
+- **Stakeholder listing**: Who the stakeholders are, their organizational layer, and their specific role titles
 - **Pain points and challenges**: Specific difficulties each stakeholder faces in current state, including workflow bottlenecks, efficiency obstacles, and experience barriers
 - **Expectations/needs**: What each stakeholder expects or requires from the system
 - **Influence and value**: How stakeholders influence the system or are affected by it, including value and risk
@@ -608,9 +665,9 @@ For each customer story, the SKILL should produce:
 - **Engagement and commitment**: Suggested stakeholder involvement in decision, evaluation, acceptance, and lifecycle activities
 
 ### State Model (for OpenSCENARIO)
-- **Stakeholder states**: Initial state → Evaluation → Decision → Acceptance → Satisfied/Dissatisfied
-- **System states**: Not Deployed → Deploying → Running → Upgrading → Fault/Recovering
-- **Organization states**: Problem Identified → Solution Seeking → Procurement → Implementation → Normal Operation
+- **ConOps operational threads**: Mission/business threads showing who acts, through what capability, toward what outcome
+- **Actor and system states**: States must be derived from actual operations and enabling capabilities
+- **Before/after outcome linkage**: State transitions should connect pre-deployment problems to post-deployment outcomes
 - **State transition triggers**: Conditions that trigger state changes
 
 ### Environment Model (for OpenSCENARIO)
@@ -654,22 +711,26 @@ The output should be structured with tables as the primary format and supplement
 ```
 ## 0. 客户基本信息
    - 基本信息 table
+   - 公司识别依据与置信度
    - 应用产品与方案之前的问题 (Initial State)
    - 整体使用效果/收益综述 (Final State)
+   - 部署前后效果对比
 
 ## 1. 购买要素 (Purchase Elements with Parameterization)
+   - 战略意图 / 业务意图 / 量化表达
+   - 1.1 MoE 指标分析
 
 ## 2. 利益相关者清单 (Stakeholder List with Pain Points and Relationship Types)
-   - 利益相关者表格（包含痛点/困难列）
+   - 利益相关者表格（必须拆分层级与角色名，包含痛点/困难列）
    - 痛点综述说明
 
 ## 3. 冲突与优先级 (Conflicts and Priority)
 
-## 4. 状态模型 (State Model)
-   - 利益相关者状态表
-   - 系统状态表
-   - 组织状态表
-   - 状态转换路径图
+## 4. 基于 ConOps 的状态模型 (ConOps-Grounded State Model)
+   - ConOps 运行线程状态表
+   - 角色状态表
+   - 系统/方案状态表
+   - 状态转换说明
 
 ## 5. 环境模型 (Environment Model)
    - 行业环境表
@@ -698,6 +759,7 @@ The output should be structured with tables as the primary format and supplement
    - 约束参数表
 
 ## 12. 追溯与备注 (Traceability and Notes)
+   - 非中文原文 + 中文释义
 ```
 
 ### Traceability Format

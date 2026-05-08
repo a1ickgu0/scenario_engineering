@@ -30,14 +30,21 @@
 
 ```json
 {
-  "customer_info": { "title", "company", "industry", "country", "year" },
-  "stakeholder_mentions": [{ "name", "role_type", "expectations_raw", "reference" }],
+  "content_extract": { "company", "industry", "country", "year", "company_identification_basis" },
+  "stakeholder_mentions": [{ "name", "role_type", "role_title_raw", "stakeholder_layer_hint", "expectations_raw", "reference" }],
   "pain_points_mentions": [{ "stakeholder", "pain_point", "reference" }],
   "product_mentions": [{ "name", "type", "reference" }],
-  "metrics_mentions": [{ "value", "unit", "context", "reference" }],
-  "raw_quotes": [{ "quote", "speaker", "reference" }]
+  "metrics_mentions": [{ "value", "unit", "before_value", "after_value", "moe_candidate", "reference" }],
+  "raw_quotes": [{ "quote", "language", "speaker", "reference" }]
 }
 ```
+
+## 提取防错规则
+
+- 文件名只可作为辅助线索，不能单独作为公司/客户识别依据。
+- 利益相关者必须拆分为组织层级与具体角色名。
+- 指标在原文有证据时，要保留部署前/后对比与 MoE 候选标记。
+- 非中文引用保留原文，并保留语言字段供下游双语分析使用。
 
 ## 快速开始
 

@@ -30,14 +30,21 @@ For each document:
 
 ```json
 {
-  "customer_info": { "title", "company", "industry", "country", "year" },
-  "stakeholder_mentions": [{ "name", "role_type", "expectations_raw", "reference" }],
+  "content_extract": { "company", "industry", "country", "year", "company_identification_basis" },
+  "stakeholder_mentions": [{ "name", "role_type", "role_title_raw", "stakeholder_layer_hint", "expectations_raw", "reference" }],
   "pain_points_mentions": [{ "stakeholder", "pain_point", "reference" }],
   "product_mentions": [{ "name", "type", "reference" }],
-  "metrics_mentions": [{ "value", "unit", "context", "reference" }],
-  "raw_quotes": [{ "quote", "speaker", "reference" }]
+  "metrics_mentions": [{ "value", "unit", "before_value", "after_value", "moe_candidate", "reference" }],
+  "raw_quotes": [{ "quote", "language", "speaker", "reference" }]
 }
 ```
+
+## Extraction Guards
+
+- Filename is helper context only and cannot be the sole evidence for company/customer identity.
+- Stakeholders are split into organizational layer and concrete role title.
+- Metrics preserve before/after comparisons and MoE candidates when source evidence exists.
+- Non-Chinese quotes keep original wording, and language is preserved for downstream bilingual analysis.
 
 ## Quick Start
 

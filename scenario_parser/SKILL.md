@@ -10,7 +10,7 @@ tags:
   - json-output
   - md-output
   - parser
-version: "0.1.1"
+version: "0.1.2"
 ---
 
 # Scenario Parser SKILL
@@ -32,12 +32,22 @@ scenario_parser
 → Feed: scenario_analyzer
 ```
 
+## Critical Extraction Rules
+
+- Filename is helper context only and must never be treated as the sole evidence for customer/company identity.
+- `company` must be supported by source title/body/quote/metadata, and the evidence must be recorded in `company_identification_basis`.
+- Stakeholder extraction must separate organizational layer from concrete title:
+  - `stakeholder_layer_hint`: 决策层 / 管理层 / 执行层 / 终端用户 / 外部伙伴
+  - `role_title_raw`: the exact title from source, such as `CEO`, `CIO`, `Digital Infrastructure Manager`
+- Metrics extraction must preserve before/after values when present, and mark likely MoE candidates for downstream analysis.
+- For raw quotes, preserve original language and record it in the output.
+
 ## When to Use
 
 - **PDF batch processing**: Extract data from multiple PDFs before analysis
 - **Pre-analysis preparation**: Convert raw documents to structured format
 - **Data validation**: Review extracted data before analysis generation
-- **Pipeline integration**: Part of scenario_engineering Phase 2a
+- **Pipeline integration**: Part of scenario_engineering Phase 2
 - **Independent execution**: Run parser without immediately triggering analyzer
 
 ## Input Sources
@@ -250,10 +260,9 @@ outputs/phase2-parser/
 │   ├── Healthcare-UK-Royal-Devon-Healthcare-2024-extracted.md
 │   ├── Healthcare-UK-Royal-Devon-Healthcare-2024-extracted.json
 │   └── ...
-├── progress/
-│   └── phase2a-parser-progress.md
-└── problems/
-    └── problem-documents-list.md
+├── problems/
+│   └── problem-documents-list.md
+└── Progress report: outputs/progress/phase2-parser-progress.md
 ```
 
 ### Analyzer File Name Correlation
@@ -285,16 +294,22 @@ Analyzer 输出文件名保持一致的结构：
       "analyzer_output": "Hospitality-Malaysia-Southern-Sun-2026-analysis.md"
     }
   },
-  "customer_info": {
-    "title": "Document title from first page or metadata",
-    "country": "Malaysia",
+  "content_extract": {
     "industry": "Hospitality",
+    "country": "Malaysia",
     "company": "Southern Sun",
+    "company_normalized": "SouthernSun",
+    "company_identification_basis": {
+      "evidence": "Company explicitly named in title and opening paragraph",
+      "reference": "Page 1, Lines 5-10",
+      "filename_used_as_evidence": false,
+      "confidence": "high",
+      "notes": "Filename matched source title but was not used as sole evidence"
+    },
     "year": "2026",
-    "reference": {
-      "title": "Page 1, Line 5",
-      "company": "Page 1, Line 10"
-    }
+    "product_name": "Aruba Central",
+    "product_normalized": "ArubaCentral",
+    "report_topic": "Guest Experience Modernization"
   },
   "initial_state": {
     "description": "原文描述的问题状态和背景...",
@@ -321,6 +336,10 @@ Analyzer 输出文件名保持一致的结构：
     {
       "name": "Guests",
       "role_type": "User",
+      "role_title_raw": "Guest",
+      "stakeholder_layer_hint": "终端用户",
+      "decision_level_hint": "beneficiary",
+      "department_hint": "Hospitality Services",
       "context": "原文上下文片段...",
       "expectations_raw": "期望原文表达...",
       "influence_hint": "原文提及的影响力线索...",
@@ -329,6 +348,10 @@ Analyzer 输出文件名保持一致的结构：
     {
       "name": "IT Director",
       "role_type": "Decision Maker",
+      "role_title_raw": "IT Director",
+      "stakeholder_layer_hint": "管理层",
+      "decision_level_hint": "technical_recommender",
+      "department_hint": "IT",
       "context": "...",
       "expectations_raw": "...",
       "influence_hint": "...",
@@ -359,6 +382,12 @@ Analyzer 输出文件名保持一致的结构：
       "metric_name": "运维效率提升",
       "value": "30",
       "unit": "%",
+      "before_value": "baseline manual operations",
+      "after_value": "30% improvement",
+      "change_expression": "manual troubleshooting days -> hours",
+      "moe_candidate": "yes",
+      "source_claim": "IT team can focus on strategic work after deployment",
+      "basis_hint": "Quantified improvement tied to operational outcome",
       "context": "运维效率提升30%",
       "comparison": "before vs after if mentioned",
       "type_hint": "efficiency | cost | time | quality | satisfaction",
@@ -398,6 +427,7 @@ Analyzer 输出文件名保持一致的结构：
   "raw_quotes": [
     {
       "quote": "Guest experience is everything",
+      "language": "English",
       "speaker": "CIO",
       "speaker_role": "Decision Maker",
       "context": "原文上下文...",
@@ -644,13 +674,36 @@ Step 11: Output Generation
 
 ## Quality Requirements
 
+### Input Validation (NEW - Required Before Extraction)
+
+**IMPORTANT**: Before extracting, validate input sources.
+
+| Validation Type | Check Method | Fail Condition | Recovery Action |
+|---------------|-------------|---------------|---------------|
+| **File Existence** | File path resolution | File not found | Check alternate paths or skip |
+| **File Readability** | File open test | Cannot read (permission/format) | Report error, skip with reason |
+| **Content Type** | File extension check | Unsupported type | Document type: "Unsupported, format: {ext}" |
+| **File Size** | Size threshold check | Too large/small | Warn: "File size X bytes, expect Y-Z" |
+| **LLM Capability** | File read API check | LLM cannot read files | Use local Python tool fallback |
+
+**Validation Checklist**:
+```
+Before Extraction:
+- [ ] Source file exists
+- [ ] Source file is readable
+- [ ] Content type is supported (PDF/TXT/MD)
+- [ ] File size is reasonable (< 50MB)
+- [ ] LLM capability checked (if file input required)
+```
+
 ### Extraction Completeness Check
 
 ```
 Required Fields:
 - [ ] document_meta complete
-- [ ] customer_info.title exists
-- [ ] customer_info.company exists
+- [ ] content_extract.company exists
+- [ ] content_extract.company_identification_basis exists
+- [ ] Company not inferred solely from filename
 - [ ] initial_state.description exists
 - [ ] final_state.description exists
 - [ ] At least 1 stakeholder_mention
@@ -659,6 +712,8 @@ Required Fields:
 Optional but Recommended:
 - [ ] At least 1 pain_points_mention
 - [ ] At least 1 metrics_mention
+- [ ] Stakeholder layer/title split completed where evidence exists
+- [ ] Before/after metric comparison captured where evidence exists
 - [ ] At least 1 raw_quote
 ```
 
@@ -690,10 +745,10 @@ Optional but Recommended:
 ## Progress Report Structure
 
 ```
-# Phase 2a Parser Progress Report
+# Phase 2 Parser Progress Report
 
 ## Execution Status
-- Phase: 2a (Parser)
+- Phase: 2 (Parser)
 - Status: in_progress / completed
 - Started: YYYY-MM-DD HH:MM:SS
 - Last Updated: YYYY-MM-DD HH:MM:SS
@@ -718,7 +773,7 @@ Optional but Recommended:
 ## Next Actions
 - [ ] Continue pending documents
 - [ ] Handle failed documents
-- [ ] Proceed to Phase 2b (Analyzer)
+- [ ] Proceed to Phase 3 (Analyzer)
 ```
 
 ## Integration with scenario_analyzer
@@ -743,12 +798,12 @@ Analyzer workflow:
 Parser Output → Analyzer Input
 
 extracted.json fields → Analyzer sections:
-├── customer_info → Section 0: Customer Basic Information
+├── content_extract → Section 0: Customer Basic Information
 ├── stakeholder_mentions → Section 2: Stakeholder List
 ├── pain_points_mentions → Section 2: Pain Points sub-section
 ├── initial_state → Section 0: Initial State
 ├── final_state → Section 0: Final State
-├── metrics_mentions → Section 1: Purchase Elements, Section 11: Parameterization
+├── metrics_mentions → Section 1: Purchase Elements, Section 1.1 MoE, Section 11: Parameterization
 ├── product_mentions → Section 10: Products and Solutions
 ├── environment_mentions → Section 5: Environment Model
 ├── scenario_mentions → Section 8: Operational Scenarios
@@ -763,6 +818,12 @@ Parser outputs are checkpoint files:
 - State.json tracks Parser completion separately
 
 ## Version History
+
+- **0.1.2** (2026-05-08): Strengthen identity, stakeholder, and metric extraction
+  - Prevent filename-only company inference with explicit evidence tracking
+  - Separate stakeholder layer from concrete role title
+  - Preserve before/after metrics and MoE candidate hints
+  - Preserve raw quote language for bilingual downstream analysis
 
 - **0.1.1** (2026-05-06): Add LLM file capability check
   - LLM capability detection for file upload/read

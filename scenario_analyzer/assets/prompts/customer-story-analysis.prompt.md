@@ -1,6 +1,6 @@
 ---
 name: customer-story-analysis
-description: "Extract stakeholder information, operational concepts, and product/solution details from a customer story PDF or customer narrative text. Preserve original wording and include traceability references. Output structured for OpenSCENARIO DSL preparation with state model, environment model, entity model, lifecycle phases, and parameterization."
+description: "Extract stakeholder information, ConOps-grounded operational concepts, and product/solution details from parser outputs or customer narrative text. Preserve original wording, provide Chinese support for non-Chinese quotes, and include traceability references. Output structured for OpenSCENARIO DSL preparation with ConOps state model, environment model, entity model, lifecycle phases, MoE analysis, and parameterization."
 ---
 
 # Customer Story Analysis Prompt
@@ -11,26 +11,28 @@ You are an INCOSE requirements engineering expert. This SKILL defines output req
 
 ### Core Information
 1. **Customer Basic Information**: Document title, country, industry, company name, document year
-2. **Initial State**: Problems before solution deployment, organizational context
-3. **Final State**: Overall benefits and outcomes after deployment
+2. **Customer Identity Basis**: Explicit evidence proving company identity, including confidence and whether filename was only a hint
+3. **Initial State**: Problems before solution deployment, organizational context
+4. **Final State**: Overall benefits and outcomes after deployment, with before/after comparison
 
 ### Purchase Analysis
-4. **Purchase Elements**: 3-5 business-level buying factors ranked by importance with quantified metrics
+5. **Purchase Elements**: 3-5 business-level buying factors ranked by importance with strategic intent, business intent, and quantified metrics
+6. **MoE Analysis**: Mission/business effectiveness measures, plus source, argument, and evidence basis
 
 ### Stakeholder Analysis
-5. **Stakeholder List**: Roles, pain points, expectations, influence, value/risk, relationship types, priority
-6. **Pain Points Extraction**: Specific difficulties each stakeholder faces in current state (workflow bottlenecks, efficiency obstacles, experience barriers)
-7. **Conflicts and Priority**: Conflicting expectations and priority recommendations
-8. **Engagement and Commitment**: Lifecycle participation recommendations
+7. **Stakeholder List**: Organizational layer, role title, pain points, expectations, influence, value/risk, relationship types, priority
+8. **Pain Points Extraction**: Specific difficulties each stakeholder faces in current state (workflow bottlenecks, efficiency obstacles, experience barriers)
+9. **Conflicts and Priority**: Conflicting expectations and priority recommendations
+10. **Engagement and Commitment**: Lifecycle participation recommendations
 
 ### OpenSCENARIO Preparation Models
-8. **State Model**: Stakeholder, system, and organization states with transition triggers
-9. **Environment Model**: Industry, regional, organizational, and technical environment constraints
-10. **Entity Model**: Organization hierarchy, system composition, external entity connections
-11. **Lifecycle Phases**: Phase sequence with triggers, actions, and completion criteria
-12. **Operational Scenarios**: Usage flows with triggers, conditions, and state transitions
-13. **Products and Solutions**: Solution mapping to entity hierarchy
-14. **Parameterization Model**: Structured parameters for metrics, roles, scenarios, constraints
+11. **ConOps State Model**: Operational threads, actor/system states, and transitions grounded in real mission/business use
+12. **Environment Model**: Industry, regional, organizational, and technical environment constraints
+13. **Entity Model**: Organization hierarchy, system composition, external entity connections
+14. **Lifecycle Phases**: Phase sequence with triggers, actions, and completion criteria
+15. **Operational Scenarios**: Usage flows with triggers, conditions, and state transitions
+16. **Products and Solutions**: Solution mapping to entity hierarchy
+17. **Parameterization Model**: Structured parameters for metrics, roles, scenarios, constraints
 
 ## PDF Processing Tool Usage
 
@@ -60,9 +62,9 @@ Output according to the following structure. Use tables primarily, with suppleme
 
 ### 0. 客户基本信息 (Customer Basic Information)
 
-| 文章名 | 国家 | 行业 | 公司名 | 文档年份 | 来源 |
-|--------|------|------|--------|----------|------|
-| ... | ... | ... | ... | ... | ... |
+| 文章名 | 国家 | 行业 | 公司名 | 文档年份 | 公司识别依据 | 识别置信度 | 文件名仅作提示? | 来源 |
+|--------|------|------|--------|----------|--------------|------------|------------------|------|
+| ... | ... | ... | ... | ... | ... | High/Medium/Low | Yes/No | ... |
 
 #### 应用产品与方案之前的问题 (Initial State Description)
 Describe the problems before solution deployment:
@@ -78,22 +80,39 @@ Describe the outcomes after deployment:
 - Stakeholder satisfaction
 - Original text reference
 
+#### 部署前后效果对比 (Before vs After)
+
+| 维度 | 部署前 | 部署后 | 变化 | 证据来源 |
+|------|--------|--------|------|----------|
+| ... | ... | ... | ... | "..." |
+
 ---
 
 ### 1. 购买要素 (Purchase Elements)
 
-| 排名 | 购买要素 | 业务重要性 | 业务价值 | 量化指标 | 原文引用 |
-|------|----------|-----------|----------|----------|----------|
-| 1 | Element A | Highest/High/Medium/Low | ... | Before: X, After: Y, Change: Z% | "..." |
-| 2 | Element B | ... | ... | ... | "..." |
+| 排名 | 购买要素 | 战略意图 | 业务意图 | 业务重要性 | 业务价值 | 量化指标 | 原文引用 |
+|------|----------|----------|----------|-----------|----------|----------|----------|
+| 1 | Element A | ... | ... | Highest/High/Medium/Low | ... | Before: X, After: Y, Change: Z% | "..." |
+| 2 | Element B | ... | ... | ... | ... | ... | "..." |
+
+**购买要素分析要求**:
+- 不得只写通用词，必须解释该要素如何服务客户战略或业务意图
+- 优先使用原文中明确的前后对比、改善幅度、时间缩短、成本变化、成功率变化
+- 若无法量化，必须说明为何无法量化以及可替代证据
+
+#### 1.1 MoE 指标分析
+
+| MoE指标 | 指标类型 | 部署前 | 部署后 | 变化 | 来源 | 论据/业务主张 | 依据/原文证据 |
+|---------|----------|--------|--------|------|------|---------------|---------------|
+| ... | mission/business/experience/compliance | ... | ... | ... | metric / quote / inferred-with-basis | ... | "..." |
 
 ---
 
 ### 2. 利益相关者清单 (Stakeholder List with Pain Points)
 
-| 利益相关者 | 类型 | 角色 | 痛点/困难 | 期望/需求 | 影响力 | 价值/风险 | 关系类型 | 优先级 | 原文引用 |
-|------------|------|------|----------|----------|--------|----------|----------|--------|----------|
-| Stakeholder A | 类型 | 角色 | Workflow bottlenecks, efficiency obstacles, experience barriers | ... | High/Medium/Low | Value: ...; Risk: ... | Hierarchical/Collaborative/Conflicting/Dependency | 1/2/3 | "..." |
+| 利益相关者 | 层级 | 类型 | 角色名 | 痛点/困难 | 期望/需求 | 影响力 | 价值/风险 | 关系类型 | 优先级 | 原文引用 |
+|------------|------|------|--------|----------|----------|--------|----------|----------|--------|----------|
+| Stakeholder A | 决策层/管理层/执行层/终端用户/外部伙伴 | 类型 | 角色头衔或岗位名 | Workflow bottlenecks, efficiency obstacles, experience barriers | ... | High/Medium/Low | Value: ...; Risk: ... | Hierarchical/Collaborative/Conflicting/Dependency | 1/2/3 | "..." |
 
 **痛点定义**:
 - **Workflow bottlenecks (工作流程瓶颈)**: 影响角色工作效率的流程障碍
@@ -105,6 +124,8 @@ Describe the outcomes after deployment:
 - 痛点必须来自原文描述，标注引用位置
 - 区分"痛点"与"期望": 痛点是当前状态的问题，期望是期望状态的解决方案
 - 每个利益相关者至少提取一个痛点
+- 必须拆分"层级"与"角色名"，例如 `决策层` + `CEO`，不得合并成一个字段
+- 如果原文仅给出角色头衔而未直接说明层级，应基于组织语义给出层级并标注为推断
 
 **综述说明** (每个表格后必须包含):
 1. **核心痛点**: 各角色面临的最普遍问题
@@ -127,57 +148,36 @@ Describe the outcomes after deployment:
 
 ---
 
-### 4. 状态模型 (State Model)
+### 4. 基于 ConOps 的状态模型 (ConOps-Grounded State Model)
 
-#### 4.1 利益相关者状态定义
+**强制要求**:
+- 本节必须基于系统工程 ConOps 描述真实业务/任务运行线程，不得输出与原文无关的泛化采购状态占位表。
+- 优先描述谁在什么情境下、通过什么系统能力、完成什么任务、达到什么业务结果。
+- 若原文没有足够证据支撑某一状态或转换，明确标注“证据不足”，不要套模板补齐。
 
-| 状态 | 中文 | 定义 | 转换触发条件 | 原文依据 |
-|------|------|------|-------------|----------|
-| Need Identified | 需求已识别 | Problem recognized, requirements emerging | Problem discovery event | "..." |
-| Evaluating | 评估中 | Researching solutions and vendors | Evaluation start trigger | "..." |
-| Decision Ready | 决策就绪 | Ready to make purchase decision | Evaluation complete | "..." |
-| Decided | 已决策 | Purchase decision made | Decision event | "..." |
-| Expecting | 期待部署 | Awaiting deployment completion | Contract signed | "..." |
-| Accepting | 验收中 | Testing and validating solution | Deployment complete | "..." |
-| Satisfied | 满意 | Solution meets expectations | Acceptance passed | "..." |
-| Dissatisfied | 不满意 | Solution fails expectations | Acceptance failed | "..." |
+#### 4.1 ConOps 运行线程状态
 
-#### 4.2 系统状态定义
+| 运行线程 | 参与者/系统 | 前置状态 | 关键动作 | 后置状态 | 触发条件 | 成功准则 | 原文依据 |
+|----------|-------------|----------|----------|----------|----------|----------|----------|
+| ... | ... | ... | ... | ... | ... | ... | "..." |
 
-| 状态 | 中文 | 定义 | 转换触发条件 | 原文依据 |
-|------|------|------|-------------|----------|
-| Not Deployed | 未部署 | Solution not yet installed | Initial state | "..." |
-| Deploying | 部署中 | Installation and configuration ongoing | Deployment start | "..." |
-| Deployed | 已部署 | Installation complete, awaiting acceptance | Deployment complete | "..." |
-| Running | 运行中 | Normal operation | Acceptance passed | "..." |
-| Upgrading | 升级中 | Version update or enhancement | Upgrade request | "..." |
-| Degraded | 降级运行 | Partial functionality available | Issue detected | "..." |
-| Fault | 故障 | System failure or error | Fault event | "..." |
-| Recovering | 恢复中 | Recovery actions ongoing | Fault detected | "..." |
+#### 4.2 角色状态定义（基于 ConOps）
 
-#### 4.3 组织状态定义
+| 角色/利益相关者 | 状态 | 中文 | 定义 | 转换触发条件 | 原文依据 |
+|----------------|------|------|------|-------------|----------|
+| ... | ... | ... | ... | ... | "..." |
 
-| 状态 | 中文 | 定义 | 转换触发条件 | 原文依据 |
-|------|------|------|-------------|----------|
-| Problem Identified | 问题已识别 | Issue recognized, seeking solution | Issue discovery | "..." |
-| Solution Seeking | 方案寻址 | Researching potential solutions | Search started | "..." |
-| Procurement | 采购阶段 | Purchasing selected solution | Solution chosen | "..." |
-| Implementation | 实施阶段 | Deploying and configuring solution | Contract signed | "..." |
-| Validation | 验证阶段 | Testing and validating | Deployment complete | "..." |
-| Normal Operation | 正常运营 | Routine operation | Validation passed | "..." |
+#### 4.3 系统/方案状态定义（基于 ConOps）
 
-#### 4.4 状态转换路径图
+| 系统/方案 | 状态 | 中文 | 定义 | 转换触发条件 | 原文依据 |
+|-----------|------|------|------|-------------|----------|
+| ... | ... | ... | ... | ... | "..." |
 
-```
-利益相关者状态路径:
-初始状态 → 需求已识别 → 评估中 → 决策就绪 → 已决策 → 期待部署 → 验收中 → 满意/不满意
+#### 4.4 ConOps 状态转换说明
 
-系统状态路径:
-未部署 → 部署中 → 已部署 → 运行中 → (升级中 → 运行中) / (降级/故障 → 恢复中 → 运行中)
-
-组织状态路径:
-问题已识别 → 方案寻址 → 采购阶段 → 实施阶段 → 验证阶段 → 正常运营
-```
+- 用自然语言总结关键运行线程如何从部署前问题状态转入部署后目标状态
+- 明确状态转换与购买要素、MoE、关键利益相关者之间的因果关系
+- 若存在多条线程，指出主线程与支撑线程
 
 ---
 
@@ -351,6 +351,7 @@ Organization: [Company Name]
 - 所有分析项均包含原文引用或来源标记
 - 对于推断结论，注明推断来源和原文依据
 - 关键指标汇总和战略重点说明
+- 对于非中文原文引用，必须同时给出原文和简明中文释义，例如：`"Guest experience is everything"` / `中文释义：客户体验至上`
 
 ---
 
@@ -362,14 +363,16 @@ Organization: [Company Name]
    - Identify workflow bottlenecks for each role
    - Identify efficiency obstacles and experience barriers
    - Link pain points to specific stakeholders with original quotes
-4. Extract final state from "benefits/outcomes" descriptions
-5. Identify stakeholder states based on problem → solution → satisfaction flow
-6. Identify system states based on deployment → operation flow
-7. Map environment constraints from industry, region, and organization context
-8. Build entity hierarchy from stakeholder roles and organization descriptions
-9. Build system composition from products/solutions list
-10. Extract lifecycle phases from scenario timeline
-11. Parameterize all quantified metrics with structured format
+4. Extract final state from "benefits/outcomes" descriptions and build explicit before/after comparison
+5. Derive purchase elements from strategic intent, business intent, and quantified value evidence
+6. Build MoE analysis with source, argument, and basis
+7. Build ConOps threads and derive actor/system states from real operations, not generic placeholders
+8. Map environment constraints from industry, region, and organization context
+9. Build entity hierarchy from stakeholder roles and organization descriptions
+10. Build system composition from products/solutions list
+11. Extract lifecycle phases from scenario timeline
+12. Parameterize all quantified metrics with structured format
+13. For every non-Chinese original quote, provide a concise Chinese rendering alongside the original
 
 ## Further Notes
 

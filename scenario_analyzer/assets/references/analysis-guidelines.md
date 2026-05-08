@@ -17,6 +17,7 @@ Identify the following types of stakeholders:
 - Suppliers
 
 During analysis, focus on:
+- Organizational layer vs. concrete role title
 - Roles and responsibilities
 - **Pain points and challenges** (see Section 1.1 below)
 - Expectations and needs
@@ -62,10 +63,39 @@ Extract purchase elements from a business value perspective, typically including
 - Risk reduction
 - Compliance
 - User experience
+- Strategic intent
+- Business intent
 
 Require at least 3-5 items, consistent with descriptions in the story.
 
+Each purchase element should explain:
+- Which strategic intent it supports
+- Which business intent it operationalizes
+- What quantified evidence supports it
+- What benefit is demonstrated before vs. after deployment
+
 **Parameterization format**: Each metric should have name, type, value, unit structure.
+
+#### 2.1 Measures of Effectiveness (MoE)
+
+MoE captures mission, business, user, or compliance effectiveness, not just technical activity metrics.
+
+| Required Field | Meaning |
+|----------------|---------|
+| MoE indicator | What business/mission effectiveness improved |
+| Before | Baseline state if present |
+| After | Resulting state if present |
+| Change | Quantified or qualitative delta |
+| Source | Metric / quote / inferred-with-basis |
+| Argument | Why this indicates effectiveness |
+| Basis | Original source evidence |
+
+Typical MoE categories:
+- Mission success
+- Business outcome
+- User experience outcome
+- Compliance outcome
+- Service continuity / resiliency outcome
 
 ### 3. Expectations and Needs
 
@@ -121,46 +151,30 @@ Clarify what is mentioned in the story:
 
 ## OpenSCENARIO Preparation Models
 
-### 9. State Model
+### 9. ConOps-Based State Model
 
-#### Stakeholder States
+Do not use a generic procurement or deployment state template unless the source explicitly supports it.
 
-| State | Chinese | Definition | Typical Transitions |
-|-------|---------|------------|--------------------|
-| Need Unidentified | 需求未识别 | Problem not yet recognized | → Need Identified (problem discovery) |
-| Need Identified | 需求已识别 | Problem recognized, requirements emerging | → Evaluating (solution research) |
-| Evaluating | 评估中 | Researching solutions and vendors | → Decision Ready (evaluation complete) |
-| Decision Ready | 决策就绪 | Ready to make purchase decision | → Decided (decision made) |
-| Decided | 已决策 | Purchase decision made | → Expecting (awaiting deployment) |
-| Expecting | 期待部署 | Awaiting deployment completion | → Accepting (deployment complete) |
-| Accepting | 验收中 | Testing and validating solution | → Satisfied/Dissatisfied (acceptance complete) |
-| Satisfied | 满意 | Solution meets expectations | → Stable Operation (continued satisfaction) |
-| Dissatisfied | 不满意 | Solution fails expectations | → Escalating (issue resolution) |
+State modeling must be grounded in ConOps:
+- Identify the real operational thread or mission thread
+- Specify who acts, with what system capability, under what preconditions
+- Describe the business result or mission result after the action
+- Connect state transitions to purchase elements, benefits, and MoE where possible
 
-#### System States
+Recommended modeling layers:
 
-| State | Chinese | Definition | Typical Transitions |
-|-------|---------|------------|--------------------|
-| Not Deployed | 未部署 | Solution not yet installed | → Deploying (deployment start) |
-| Deploying | 部署中 | Installation and configuration ongoing | → Deployed (deployment complete) |
-| Deployed | 已部署 | Installation complete, awaiting acceptance | → Running (acceptance passed) |
-| Running | 运行中 | Normal operation | → Upgrading (upgrade request) |
-| Upgrading | 升级中 | Version update or enhancement | → Running (upgrade complete) |
-| Degraded | 降级运行 | Partial functionality available | → Running (issue resolved) |
-| Fault | 故障 | System failure or error | → Recovering (fault detected) |
-| Recovering | 恢复中 | Recovery actions ongoing | → Running (recovery complete) |
+| Layer | Focus Question |
+|-------|----------------|
+| Operational Thread | What end-to-end business/mission thread is being executed? |
+| Actor State | What state is the stakeholder in before and after the action? |
+| System State | What capability/state of the solution enables the thread? |
+| Outcome State | What business or mission outcome is achieved? |
 
-#### Organization States
+Recommended ConOps table:
 
-| State | Chinese | Definition | Typical Transitions |
-|-------|---------|------------|--------------------|
-| Problem Unrecognized | 问题未识别 | Organization unaware of issue | → Problem Identified (issue discovery) |
-| Problem Identified | 问题已识别 | Issue recognized, seeking solution | → Solution Seeking (search started) |
-| Solution Seeking | 方案寻址 | Researching potential solutions | → Procurement (solution chosen) |
-| Procurement | 采购阶段 | Purchasing selected solution | → Implementation (contract signed) |
-| Implementation | 实施阶段 | Deploying and configuring solution | → Validation (deployment complete) |
-| Validation | 验证阶段 | Testing and validating | → Normal Operation (validation passed) |
-| Normal Operation | 正常运营 | Routine operation | → Issue Detected (new problem) |
+| Thread | Actors / Systems | Pre-State | Key Action | Post-State | Trigger | Success Criterion | Evidence |
+|--------|------------------|----------|------------|-----------|---------|-------------------|----------|
+| ... | ... | ... | ... | ... | ... | ... | ... |
 
 ### 10. Environment Model
 
@@ -278,6 +292,12 @@ If using inferred conclusions, must note:
 - Original text basis
 - Information points recommended for further verification
 
+### Bilingual Quote Rule
+
+- When the original quote is not Chinese, keep the original quote and provide a concise Chinese rendering.
+- The Chinese rendering should clarify meaning, not replace the original wording.
+- If the quote is already Chinese, no additional translation is required unless clarity demands annotation.
+
 ---
 
 ## Output Format Recommendations
@@ -289,18 +309,19 @@ Recommend using structured tables and itemized lists to make analysis easy to re
 ```
 状态提取示例：
 原文（初始）："原有网络缺乏容量和覆盖，无法支持高密度设备连接"
-→ Stakeholder State: Need Identified (IT团队发现容量缺口)
-→ System State: Degraded (网络容量不足)
-→ Organization State: Problem Identified (教育数字化转型受阻)
+→ Operational Thread: 高密度教学接入线程受阻
+→ Actor Pre-State: IT团队处于被动排障状态，教师/学生处于连接受限状态
+→ System Pre-State: 网络容量不足、覆盖不足
 
 原文（最终）："100%减少故障工单，2倍覆盖容量，所有学习者首次连接成功"
-→ Stakeholder State: Satisfied (IT团队、教师、学生满意)
-→ System State: Running (网络稳定运行)
-→ Organization State: Normal Operation (教育数字化目标达成)
+→ Operational Thread: 高密度教学接入线程稳定运行
+→ Actor Post-State: IT团队转向主动保障，教师/学生获得稳定接入
+→ System Post-State: 网络能力满足高密度接入要求
+→ Outcome State: 教学接入成功率提升，服务工单下降
 
-转换路径：
-Degraded → Deploying → Running
-触发：购买决策完成，30分钟部署完成
+转换说明：
+容量不足/被动排障 → 部署与策略优化 → 稳定接入/主动保障
+触发：新方案上线并满足覆盖、容量与可视化要求
 ```
 
 ### Example: Entity Hierarchy

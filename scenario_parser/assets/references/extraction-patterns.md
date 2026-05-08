@@ -6,6 +6,23 @@ This document defines keyword patterns and extraction rules for scenario_parser.
 
 ---
 
+## Customer Identity Resolution Rules
+
+- Source filename is helper context only and must never be the sole evidence for `company` or customer identity.
+- Company/customer identification must come from document title, body text, captions, quotes, metadata, or explicit contextual evidence in the source.
+- If filename suggests a company but the source body does not support it, keep `company` unresolved or low-confidence and record that condition in `company_identification_basis.notes`.
+- Always record the identification evidence, reference, confidence, and whether the filename was used as a supporting hint.
+
+### Identity Confidence Guidance
+
+| Confidence | Use Condition |
+|------------|---------------|
+| high | Company explicitly named in title/body/quote with direct reference |
+| medium | Company inferred from repeated branded context plus one direct clue |
+| low | Filename or weak contextual hint only; must be flagged for review |
+
+---
+
 ## Role Keyword Patterns
 
 ### Decision Maker Keywords
@@ -59,6 +76,26 @@ This document defines keyword patterns and extraction rules for scenario_parser.
 | Vendor | Vendor, Supplier, Provider | 供应商, 厂商 |
 | Partner | Partner, Reseller, Distributor | 合作伙伴, 经销商 |
 | Regulator | Regulator, Government, Authority | 监管机构, 政府, 管理部门 |
+
+---
+
+## Stakeholder Layer and Role Title Separation
+
+- `role_title_raw` preserves the specific title seen in source text, such as `CEO`, `CIO`, `Digital Infrastructure Manager`, `Front Desk Staff`.
+- `stakeholder_layer_hint` captures the organizational layer, such as `决策层`, `管理层`, `执行层`, `终端用户`, `外部伙伴`.
+- `decision_level_hint` captures decision power, such as `strategic_decision`, `budget_owner`, `technical_recommender`, `operator`, `beneficiary`.
+- Do not collapse layer and role title into one field.
+
+### Layer Mapping Examples
+
+| Source Title | Stakeholder Layer | Decision Level |
+|--------------|-------------------|----------------|
+| CEO / President | 决策层 | strategic_decision |
+| CIO / CTO / VP | 决策层 | budget_owner |
+| Director / Department Head | 管理层 | strategic_decision |
+| Manager / Supervisor | 管理层 | technical_recommender |
+| Engineer / Admin / IT Team | 执行层 | operator |
+| Teacher / Nurse / Front Desk / Guest | 业务执行层 / 终端用户 | beneficiary |
 
 ---
 
@@ -192,6 +229,12 @@ Examples:
 | time | 时间, days, hours, faster, quicker |
 | quality | 质量, quality, reliability, uptime |
 | satisfaction | 满意度, satisfaction, NPS, experience |
+
+### MoE Candidate Identification
+
+- Mark `moe_candidate` as `yes` when the metric reflects mission or business outcome effectiveness rather than only technical activity.
+- Typical MoE signals include: service success rate, first-time-right rate, customer satisfaction, business continuity, coverage outcome, compliance attainment, incident reduction, response improvement, user experience success.
+- Record `source_claim` as the business claim made in the source, and `basis_hint` as the supporting rationale or evidence pattern.
 
 ---
 
