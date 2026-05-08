@@ -1,0 +1,61 @@
+{
+  "repo_name": "scenario_engineering",
+  "schema_version": "1.0",
+  "repository_entry": {
+    "path": ".",
+    "entry": "SKILL.md",
+    "agents_metadata": "agents/openai.yaml",
+    "install_mode": "root_bundle",
+    "description": "Root repository-entry skill so Codex can recognize and install this repo directly from a GitHub URL."
+  },
+  "generated_for": [
+    "Codex",
+    "Claude Code"
+  ],
+  "installer": {
+    "script": "scripts/install-skills.py",
+    "default_codex_dest": "~/.codex/skills",
+    "discovery_files": [
+      "skills-index.json",
+      "*/SKILL.md",
+      "*/agents/openai.yaml"
+    ]
+  },
+  "skills": [
+    {
+      "name": "scenario_engineering",
+      "path": "scenario_engineering",
+      "entry": "SKILL.md",
+      "version": "0.2.0",
+      "description": "Top-level orchestration skill for the full customer requirements workflow."
+    },
+    {
+      "name": "scenario_survey",
+      "path": "scenario_survey",
+      "entry": "SKILL.md",
+      "version": "0.3.1",
+      "description": "Pre-sales survey skill for customer-friendly questionnaires and narratives."
+    },
+    {
+      "name": "scenario_parser",
+      "path": "scenario_parser",
+      "entry": "SKILL.md",
+      "version": "0.1.2",
+      "description": "Document extraction skill for dual-format MD and JSON outputs."
+    },
+    {
+      "name": "scenario_analyzer",
+      "path": "scenario_analyzer",
+      "entry": "SKILL.md",
+      "version": "0.7.1",
+      "description": "INCOSE analysis skill for 12-section reports from parser outputs."
+    },
+    {
+      "name": "scenario_modeler",
+      "path": "scenario_modeler",
+      "entry": "SKILL.md",
+      "version": "0.7.0",
+      "description": "Cross-case modeling skill for industry, stakeholder, and purchase models."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Engineering Skill Pack"
+  short_description: "Discover and route bundled scenario engineering skills from this repo"
+  default_prompt: "Use $scenario_engineering to discover this repository skill pack and route to the right bundled workflow."
+
+policy:
+  allow_implicit_invocation: true

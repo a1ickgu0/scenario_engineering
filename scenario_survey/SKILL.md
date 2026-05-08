@@ -338,6 +338,27 @@ Why is this most important? What would success look like for this?"
 — Which factors are 'must achieve' vs 'should achieve'?"
 ```
 
+## Input Validation (NEW - Required Before Survey Generation)
+
+**IMPORTANT**: Before generating questionnaire, validate input parameters.
+
+| Validation Type | Check Method | Fail Condition | Recovery Action |
+|---------------|-------------|---------------|---------------|
+| **Industry Valid** | Check template exists | Industry not in template list | Use generic-template.md |
+| **Country Valid** | Check language mapping | Country not mapped | Use English fallback |
+| **Template Readable** | Template file access | Cannot read template | Use built-in structure |
+| **LLM Capability** | File read API check | LLM cannot read template | Use Bash cat fallback |
+
+**Validation Checklist**:
+```
+Before Questionnaire Generation:
+- [ ] Industry specified and valid
+- [ ] Country specified and mapped
+- [ ] Template file exists and readable
+- [ ] Language generation method determined
+- [ ] LLM capability checked (if template reading required)
+```
+
 ## Output Requirements
 
 ### Survey Questionnaire Structure

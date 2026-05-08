@@ -1,10 +1,10 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Repository Overview
 
-This is a SKILLs repository containing specialized SKILL definitions for Claude Code. SKILLs form a complete workflow chain from pre-sales survey to cross-case modeling for customer requirements engineering.
+This is a SKILLs repository containing specialized SKILL definitions for Codex. SKILLs form a complete workflow chain from pre-sales survey to cross-case modeling for customer requirements engineering.
 
 ## Repository Distribution
 

@@ -14,7 +14,7 @@ A collection of Claude Code SKILL definitions containing specialized prompts/wor
 - **Version**: 0.2.0
 - **Input**: Project configuration (industry, country, input sources)
 - **Output**: Complete project directory with all intermediate and final outputs
-- **Phases**: 0 (Init) → 1 (Survey) → 2a (Parser) → 2b (Analyzer) → 3 (Modeler) → 4 (Final)
+- **Phases**: 0 (Init) → 1 (Survey) → 2 (Parser) → 3 (Analyzer) → 4 (Modeler) → 5 (Final)
 
 ### scenario_survey
 
@@ -63,6 +63,47 @@ A collection of Claude Code SKILL definitions containing specialized prompts/wor
 - **Input**: Multiple `-analysis.md` files from scenario_analyzer
 - **Output**: Industry Model, Stakeholder Model, Purchase Factor Model with critical analysis
 
+## Install And Discovery
+
+This repository now includes machine-readable discovery metadata for tool-driven installation:
+
+- `SKILL.md` at repository root: direct repository-entry skill for GitHub URL installs
+- `agents/openai.yaml` at repository root: UI metadata for the repository-entry skill
+- `skills-index.json`: repository-level skill manifest
+- `*/agents/openai.yaml`: UI metadata for each skill
+- `scripts/install-skills.py`: local installer for Codex or Claude Code skill directories
+
+Typical usage:
+
+```bash
+# List all skills in this repo
+python3 scripts/install-skills.py --list
+
+# Install every skill into the default Codex directory
+python3 scripts/install-skills.py --all
+
+# Install selected skills into a custom Claude Code skill directory
+python3 scripts/install-skills.py --skill scenario_parser --skill scenario_analyzer --dest /path/to/skills
+```
+
+Discovery guidance for agents given only a GitHub repo URL:
+
+1. Read root `SKILL.md` first if the tool inspects only the repository root.
+2. Read `skills-index.json` to discover bundled child skills.
+3. Resolve the requested skill by `name` and `path`.
+4. Load `<skill>/SKILL.md` as the canonical child-skill entry file.
+5. Optionally read `<skill>/agents/openai.yaml` for UI-facing metadata.
+
+Direct GitHub URL install target for Codex:
+
+```text
+https://github.com/a1ickgu0/scenario_engineering
+```
+
+Expected behavior:
+- Codex can recognize the repository root as an installable entry skill.
+- The root skill then routes work to the correct bundled child skill.
+
 ---
 
 ## 🔗 SKILL Chain Workflow
@@ -97,7 +138,7 @@ The complete workflow from pre-sales to cross-case modeling:
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                     EXTRACTION STAGE (Phase 2a)                           │
+│                     EXTRACTION STAGE (Phase 2)                           │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_parser]                                                       │
@@ -110,7 +151,7 @@ The complete workflow from pre-sales to cross-case modeling:
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      ANALYSIS STAGE (Phase 2b)                            │
+│                      ANALYSIS STAGE (Phase 3)                            │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_analyzer]                                                     │
@@ -124,7 +165,7 @@ The complete workflow from pre-sales to cross-case modeling:
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      MODELING STAGE (Phase 3)                             │
+│                      MODELING STAGE (Phase 4)                             │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_modeler]                                                      │
@@ -137,7 +178,7 @@ The complete workflow from pre-sales to cross-case modeling:
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      FINALIZATION (Phase 4)                               │
+│                      FINALIZATION (Phase 5)                               │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  • Validate completeness                                                 │
@@ -153,7 +194,7 @@ The complete workflow from pre-sales to cross-case modeling:
 |--------|-------|
 | `scenario_analyzer` (PDF → Analysis) | `scenario_parser` + `scenario_analyzer` |
 | Direct PDF processing | Parser outputs intermediate MD + JSON |
-| Single-phase analysis | Phase 2a (Parser) + Phase 2b (Analyzer) |
+| Single-phase analysis | Phase 2 (Parser) + Phase 3 (Analyzer) |
 
 **Benefits of Split**:
 - Decoupling: Parser can run independently for batch PDF processing
@@ -326,7 +367,7 @@ Each SKILL can be used in the following ways:
   - **Added `scenario_engineering`** (v0.1.0) - Top-level orchestration SKILL
   - **Added `scenario_parser`** (v0.1.0) - Document extraction into MD + JSON
   - **Modified `scenario_analyzer`** (v0.7.0) - Now accepts Parser outputs as input
-  - Split Phase 2 into Phase 2a (Parser) + Phase 2b (Analyzer)
+  - Split Phase 2 into Phase 2 (Parser) + Phase 3 (Analyzer)
   - Independent recovery support for Parser/Analyzer
 
 - **2026-04-16**: Enhanced `scenario_analyzer` (v0.6.0)

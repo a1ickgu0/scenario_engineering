@@ -14,7 +14,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 - **版本**: 0.2.0
 - **输入**: 项目配置（行业、国家、输入来源）
 - **输出**: 完整项目目录，包含所有中间和最终输出
-- **阶段**: 0（初始化）→ 1（调研）→ 2a（解析）→ 2b（分析）→ 3（建模）→ 4（完成）
+- **阶段**: 0（初始化）→ 1（调研）→ 2（解析）→ 3（分析）→ 4（建模）→ 5（完成）
 
 ### scenario_survey
 
@@ -63,6 +63,47 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 - **输入**: 来自 scenario_analyzer 的多个 `-analysis.md` 文件
 - **输出**: 行业模型、利益相关者模型、购买要素模型，含批判性分析
 
+## 安装与自动识别
+
+这个仓库现在补充了面向工具链的机器可读分发信息：
+
+- 仓库根目录 `SKILL.md`：支持 GitHub URL 直接识别的仓库入口 skill
+- 仓库根目录 `agents/openai.yaml`：仓库入口 skill 的 UI 元数据
+- `skills-index.json`：仓库级技能清单
+- `*/agents/openai.yaml`：每个技能的 UI 元数据
+- `scripts/install-skills.py`：面向 Codex 或 Claude Code 技能目录的本地安装脚本
+
+常用方式：
+
+```bash
+# 列出仓库中的全部技能
+python3 scripts/install-skills.py --list
+
+# 安装全部技能到默认 Codex 目录
+python3 scripts/install-skills.py --all
+
+# 安装指定技能到自定义 Claude Code 技能目录
+python3 scripts/install-skills.py --skill scenario_parser --skill scenario_analyzer --dest /path/to/skills
+```
+
+当 agent 只拿到 GitHub repo 链接时，建议按这个顺序发现：
+
+1. 如果工具只检查仓库根目录，先读取根目录 `SKILL.md`
+2. 再读取 `skills-index.json`
+3. 按 `name` 和 `path` 定位目标子技能
+4. 读取 `<skill>/SKILL.md` 作为主入口
+5. 如需 UI 元数据，再读取 `<skill>/agents/openai.yaml`
+
+Codex 直接安装可使用这个 GitHub URL：
+
+```text
+https://github.com/a1ickgu0/scenario_engineering
+```
+
+预期行为：
+- Codex 先把仓库根目录识别成一个可安装的入口 skill
+- 再由入口 skill 路由到正确的子 skill
+
 ---
 
 ## 🔗 SKILL 链路工作流
@@ -97,7 +138,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          提取阶段（Phase 2a）                              │
+│                          提取阶段（Phase 2）                              │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_parser]                                                       │
@@ -110,7 +151,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          分析阶段（Phase 2b）                              │
+│                          分析阶段（Phase 3）                              │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_analyzer]                                                     │
@@ -124,7 +165,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          建模阶段（Phase 3）                               │
+│                          建模阶段（Phase 4）                               │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  [scenario_modeler]                                                      │
@@ -137,7 +178,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 └─────────────────────────────────────────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          完成阶段（Phase 4）                               │
+│                          完成阶段（Phase 5）                               │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  • 验证完整性                                                              │
@@ -153,7 +194,7 @@ Claude Code SKILL 集合仓库，包含从售前调研到跨案例建模的完�
 |--------|--------|
 | `scenario_analyzer`（PDF → 分析） | `scenario_parser` + `scenario_analyzer` |
 | 直接 PDF 处理 | Parser 输出中间 MD + JSON |
-| 单阶段分析 | Phase 2a（Parser）+ Phase 2b（Analyzer） |
+| 单阶段分析 | Phase 2（Parser）+ Phase 3（Analyzer） |
 
 **拆分优势**:
 - 解耦：Parser 可独立运行，批量 PDF 处理
@@ -324,7 +365,7 @@ SKILLs/
   - **新增 `scenario_engineering`** (v0.1.0) - 顶层编排 SKILL
   - **新增 `scenario_parser`** (v0.1.0) - 文档提取为 MD + JSON
   - **修改 `scenario_analyzer`** (v0.7.0) - 现接受 Parser 输出作为输入
-  - Phase 2 拆分为 Phase 2a（Parser）+ Phase 2b（Analyzer）
+  - Phase 2 拆分为 Phase 2（Parser）+ Phase 3（Analyzer）
   - Parser/Analyzer 独立恢复支持
 
 - **2026-04-16**: 增强 `scenario_analyzer` (v0.6.0)
