@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Analyzer"
+  short_description: "Generate 12-section requirements analysis"
+  default_prompt: "Use $scenario_analyzer to turn parser outputs into a traceable 12-section requirements analysis report."
+
+policy:
+  allow_implicit_invocation: true

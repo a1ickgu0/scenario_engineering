@@ -1,6 +1,6 @@
 ---
 name: scenario_engineering
-description: "Top-level orchestration SKILL for the complete customer requirements engineering workflow. Coordinates scenario_survey, scenario_analyzer, and scenario_modeler with structured output management, progress tracking, and task recovery support. Manages directory structure, intermediate documents, and execution state persistence."
+description: "Top-level orchestration SKILL for the complete customer requirements engineering workflow. Coordinates scenario_survey, scenario_parser, scenario_analyzer, and scenario_modeler with structured output management, progress tracking, and task recovery support. Manages directory structure, intermediate documents, and execution state persistence."
 tags:
   - orchestration
   - workflow-coordination
@@ -17,10 +17,10 @@ version: "0.2.0"
 
 ## Overview
 
-This SKILL is the **top-level orchestrator** for the complete customer requirements engineering workflow. It coordinates three downstream SKILLs in a structured pipeline:
+This SKILL is the **top-level orchestrator** for the complete customer requirements engineering workflow. It coordinates four downstream SKILLs in a structured pipeline:
 
 ```
-scenario_survey → scenario_analyzer → scenario_modeler
+scenario_survey → scenario_parser → scenario_analyzer → scenario_modeler
 ```
 
 **Core Capabilities**:
@@ -108,7 +108,7 @@ What do you want to do?
 **Example 4: Model from Existing Analyses**
 ```
 /scenario_modeler
-→ Input: outputs/phase2b-analyzer/reports/*-analysis.md
+→ Input: outputs/phase3-analyzer/reports/*-analysis.md
 → Output: industry-model.md, stakeholder-model.md, purchase-factor-model.md
 ```
 
@@ -129,7 +129,7 @@ Both are supported in scenario_engineering with different default behaviors.
 
 | Mode | Description | Usage |
 |------|-------------|-------|
-| `--new` | Start fresh project | New analysis pipeline |
+| `--new` | Start fresh project | New workflow pipeline |
 | `--resume` | Resume interrupted task | Recovery from crash/interrupt |
 | `--from-phase N` | Start from specific phase | Skip completed earlier phases |
 | `--from-skill SKILL` | Start from specific SKILL | Direct SKILL entry point |
@@ -144,7 +144,7 @@ Else:
   → Default to --new (create fresh project)
 
 User can override with:
-  --from-phase 2  → Skip phase 0-1, start analysis
+  --from-phase 2  → Skip phase 0-1, start parser
   --from-skill parser  → Start directly from scenario_parser
   --from-skill analyzer → Start directly from scenario_analyzer
   --from-skill modeler → Start directly from scenario_modeler
@@ -175,7 +175,7 @@ When --from-skill is specified:
 /scenario_engineering --from-skill parser
 → Input: /path/to/documents/*.pdf
 → Skips: Phase 0 (init), Phase 1 (survey)
-→ Starts: Phase 2a (parser)
+→ Starts: Phase 2 (parser)
 → Requires: Valid PDF/Text input directory
 ```
 
@@ -187,7 +187,7 @@ When --from-skill is specified:
 
 **Input Source Determination**:
 
-Phase 2 (Analysis) has two possible input sources:
+Phase 2 (Parser) has two possible input sources:
 1. **Survey Output**: Narratives from Phase 1 (`outputs/phase1-survey/narratives/`)
 2. **Independent Files**: User-provided documents directory (PDFs, texts)
 
@@ -207,7 +207,7 @@ If no independent directory provided:
 **User Prompt for Input Directory**:
 When starting a new project or `--from-phase 2`:
 ```
-"请提供独立文档目录路径（如果跳过survey阶段直接进入analysis）：
+"请提供独立文档目录路径（如果跳过survey阶段直接进入文档提取流程）：
 → 目录路径: /path/to/documents/
 → 包含文件: PDF文件为主，支持.txt和.md
 → 如不提供，将使用survey阶段的输出作为输入"
@@ -262,13 +262,7 @@ When starting a new project or `--from-phase 2`:
 
 ---
 
-### Phase 2: Document Extraction & Analysis (Parser + Analyzer)
-
-Phase 2 is now split into two sub-phases for better separation of concerns:
-
----
-
-### Phase 2a: Document Extraction (scenario_parser)
+### Phase 2: Document Extraction (scenario_parser)
 
 **Purpose**: Extract structured data from documents into intermediate format
 
@@ -288,14 +282,14 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 4. Generate dual-format outputs (MD + JSON)
 5. Track processed/pending/failed documents
 6. Update state.json after each batch
-7. Generate phase2a-parser-progress.md
+7. Generate phase2-parser-progress.md
 8. Generate problem documents list
 
 **Output**:
 - `outputs/phase2-parser/extracted/*-extracted.md`
 - `outputs/phase2-parser/extracted/*-extracted.json`
 - `outputs/phase2-parser/problems/problem-documents-list.md`
-- `outputs/progress/phase2a-parser-progress.md`
+- `outputs/progress/phase2-parser-progress.md`
 
 **Completion Criteria**: All valid documents extracted to MD + JSON
 
@@ -312,7 +306,7 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 
 ---
 
-### Phase 2b: Structured Analysis (scenario_analyzer)
+### Phase 3: Structured Analysis (scenario_analyzer)
 
 **Purpose**: Generate 12-section analysis reports from Parser outputs
 
@@ -326,7 +320,7 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 | Parser JSON | `outputs/phase2-parser/extracted/*-extracted.json` | Structured data |
 
 **Pre-Conditions**:
-- Phase 2a completed
+- Phase 2 completed
 - Parser extracted files available
 
 **Actions**:
@@ -336,11 +330,11 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 4. Generate 12-section analysis reports
 5. Track processed/pending/failed documents
 6. Update state.json after each batch
-7. Generate phase2b-analyzer-progress.md
+7. Generate phase3-analyzer-progress.md
 
 **Output**:
-- `outputs/phase2b-analyzer/reports/*-analysis.md`
-- `outputs/progress/phase2b-analyzer-progress.md`
+- `outputs/phase3-analyzer/reports/*-analysis.md`
+- `outputs/progress/phase3-analyzer-progress.md`
 
 **Completion Criteria**: All Parser outputs analyzed
 
@@ -358,32 +352,32 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 
 ---
 
-### Phase 3: Cross-Case Modeling (scenario_modeler)
+### Phase 4: Cross-Case Modeling (scenario_modeler)
 
 **Purpose**: Synthesize multiple analyses into models
 
 **SKILL Invocation**: `/scenario_modeler`
 
 **Actions**:
-1. Collect all phase2b-analyzer reports
+1. Collect all phase3-analyzer reports
 2. Invoke scenario_modeler for synthesis
 3. Generate Industry/Stakeholder/Purchase models
 4. Generate cross-analysis matrices
 5. Update state.json
-6. Generate phase3-model-progress.md
+6. Generate phase4-model-progress.md
 
 **Output**:
-- `outputs/phase3-model/industry-model.md`
-- `outputs/phase3-model/stakeholder-model.md`
-- `outputs/phase3-model/purchase-factor-model.md`
-- `outputs/phase3-model/cross-analysis.md`
-- `outputs/progress/phase3-model-progress.md`
+- `outputs/phase4-model/industry-model.md`
+- `outputs/phase4-model/stakeholder-model.md`
+- `outputs/phase4-model/purchase-factor-model.md`
+- `outputs/phase4-model/cross-analysis.md`
+- `outputs/progress/phase4-model-progress.md`
 
 **Completion Criteria**: All model files generated
 
 ---
 
-### Phase 4: Finalization
+### Phase 5: Finalization
 
 **Purpose**: Validate and summarize execution
 
@@ -395,8 +389,8 @@ Phase 2 is now split into two sub-phases for better separation of concerns:
 5. Update state.json phase_status to all completed
 
 **Output**:
-- `outputs/final-report/execution-summary.md`
-- `outputs/final-report/completeness-check.md`
+- `outputs/phase5-final-report/execution-summary.md`
+- `outputs/phase5-final-report/completeness-check.md`
 - `archive/state-final.json`
 
 **Completion Criteria**: All phases verified complete
@@ -415,9 +409,9 @@ project-{name}-{timestamp}/
 │   ├── progress/                  # MD progress reports (human readable)
 │   │   ├── phase0-init-report.md
 │   │   ├── phase1-survey-progress.md
-│   │   ├── phase2a-parser-progress.md    # NEW
-│   │   ├── phase2b-analyzer-progress.md  # NEW
-│   │   ├── phase3-model-progress.md
+│   │   ├── phase2-parser-progress.md     # NEW
+│   │   ├── phase3-analyzer-progress.md   # NEW
+│   │   ├── phase4-model-progress.md
 │   │   └── final-summary.md
 │   │
 │   ├── phase1-survey/
@@ -429,19 +423,19 @@ project-{name}-{timestamp}/
 │   │   │   ├── customer1-extracted.md
 │   │   │   ├── customer1-extracted.json
 │   │   │   └── ...
-│   │   └── problems/
+│   │   └── problems/              # Parser issues and skipped files
 │   │
-│   ├── phase2b-analyzer/          # NEW: Analyzer outputs
+│   ├── phase3-analyzer/           # NEW: Analyzer outputs
 │   │   ├── reports/               # *-analysis.md files
-│   │   └── problems/
+│   │   └── problems/              # Incomplete or failed analysis reports
 │   │
-│   ├── phase3-model/
+│   ├── phase4-model/
 │   │   ├── industry-model.md
 │   │   ├── stakeholder-model.md
 │   │   ├── purchase-factor-model.md
-│   │   └ cross-analysis.md
+│   │   └── cross-analysis.md
 │   │
-│   └── final-report/
+│   └── phase5-final-report/
 │       ├── execution-summary.md
 │       └── completeness-check.md
 │
@@ -463,7 +457,7 @@ project-{name}-{timestamp}/
 - Updated in real-time during execution
 - Contains detailed task lists
 
-### State File Structure (Updated for Phase 2a/2b)
+### State File Structure (Updated for Phase 0-5)
 
 ```json
 {
@@ -482,17 +476,17 @@ project-{name}-{timestamp}/
     "parallel_agents": 4
   },
   "progress": {
-    "current_phase": "2b",
+    "current_phase": 3,
     "phase_status": {
       "phase0_init": "completed",
       "phase1_survey": "completed",
-      "phase2a_parser": "completed",
-      "phase2b_analyzer": "in_progress",
-      "phase3_model": "pending",
-      "phase4_final": "pending"
+      "phase2_parser": "completed",
+      "phase3_analyzer": "in_progress",
+      "phase4_model": "pending",
+      "phase5_final": "pending"
     },
     "phase_details": {
-      "phase2a_parser": {
+      "phase2_parser": {
         "total_documents": 15,
         "processed": 15,
         "pending": 0,
@@ -501,7 +495,7 @@ project-{name}-{timestamp}/
         "pending_files": [],
         "failed_files": []
       },
-      "phase2b_analyzer": {
+      "phase3_analyzer": {
         "total_documents": 15,
         "processed": 8,
         "pending": 5,
@@ -513,11 +507,11 @@ project-{name}-{timestamp}/
     }
   },
   "checkpoints": [
-    {"timestamp": "...", "phase": "2a", "action": "parser_complete"}
+    {"timestamp": "...", "phase": 2, "action": "parser_complete"}
   ],
   "errors": [],
   "resume_info": {
-    "resume_from_phase": "2b",
+    "resume_from_phase": 3,
     "resume_action": "continue_analyzer",
     "resume_files": ["doc-009-extracted.json", ...]
   }
@@ -554,9 +548,10 @@ Each phase generates an MD report with:
 | Scenario | Resume Action |
 |----------|---------------|
 | Phase 1 incomplete | Continue questionnaire/narrative generation |
-| Phase 2 partial | Skip processed files, continue pending list |
-| Phase 2 failed docs | Retry failed docs or skip with warning |
-| Phase 3 not started | Collect phase2 reports, start synthesis |
+| Phase 2 partial | Skip processed files, continue pending parser list |
+| Phase 2 failed docs | Retry failed parser docs or skip with warning |
+| Phase 3 partial | Skip processed files, continue pending analyzer list |
+| Phase 4 not started | Collect phase3 reports, start synthesis |
 | Crash mid-batch | Load checkpoint, continue from last document |
 
 ### Recovery Rules
@@ -619,7 +614,7 @@ Each phase generates an MD report with:
 ```
 /scenario_modeler
 → Provide: list of analysis files
-→ Output to: outputs/phase3-model/
+→ Output to: outputs/phase4-model/
 → Generate: Industry, Stakeholder, Purchase Factor models
 ```
 
@@ -639,26 +634,30 @@ Phase 1:
 - [ ] Narratives generated (if applicable)
 
 Phase 2:
+- [ ] Parser outputs generated (MD + JSON for all valid documents)
+- [ ] Reference traceability preserved in extracted files
+
+Phase 3:
 - [ ] Analysis reports generated (all valid documents)
 - [ ] Each report has 12 sections (0-12)
 - [ ] Traceability present in each report
 
-Phase 3:
+Phase 4:
 - [ ] Industry model generated
 - [ ] Stakeholder model generated
 - [ ] Purchase factor model generated
 - [ ] Cross analysis generated
 
-Phase 4:
+Phase 5:
 - [ ] Execution summary generated
 - [ ] Completeness check generated
 ```
 
-**Output**: `outputs/final-report/completeness-check.md` listing all missing items
+**Output**: `outputs/phase5-final-report/completeness-check.md` listing all missing items
 
 ### Final Summary Content
 
-`outputs/final-report/execution-summary.md` includes:
+`outputs/phase5-final-report/execution-summary.md` includes:
 - Project metadata (name, industry, country)
 - Execution timeline (start, end, duration)
 - Phase completion status
@@ -688,18 +687,25 @@ Phase 4:
 → Generated: questionnaires, narratives
 → Updated: state.json
 
-# Phase 2: Analysis
-/scenario_analyzer (parallel, 4 agents)
+# Phase 2: Parser
+# Phase 2: Parser
+/scenario_parser (parallel, 4 agents)
 → Processed: 15 documents
+→ Generated: extracted MD + JSON pairs
+→ Updated: state.json after each batch
+
+# Phase 3: Analysis
+/scenario_analyzer (parallel, 4 agents)
+→ Processed: 15 parser outputs
 → Generated: 15 analysis reports
 → Updated: state.json after each batch
 
-# Phase 3: Modeling
+# Phase 4: Modeling
 /scenario_modeler
 → Input: 15 analysis files
 → Generated: Industry, Stakeholder, Purchase models
 
-# Phase 4: Finalization
+# Phase 5: Finalization
 → Generated: execution-summary.md
 → Generated: completeness-check.md
 → Archived: state-final.json
@@ -708,26 +714,26 @@ Phase 4:
 ### Resume from Interruption
 
 ```
-# Previous run stopped at phase 2 (8/15 docs processed)
+# Previous run stopped at phase 3 (8/15 analyses processed)
 /scenario_engineering --resume
 
 # Recovery logic:
 → Read state.json
-→ Phase status: phase2_analysis in_progress
+→ Phase status: phase3_analyzer in_progress
 → Pending: 7 documents (doc-009 to doc-015)
-→ Resume: continue_analysis
+→ Resume: continue_analyzer
 
 # Continue execution:
-/scenario_analyzer (remaining 7 docs)
+/scenario_analyzer (remaining 7 parser outputs)
 → Processed: doc-009 to doc-015
 → Generated: 7 analysis reports
 → Updated: state.json
 
-# Proceed to phase 3:
+# Proceed to phase 4:
 /scenario_modeler
 → Generated: models
 
-# Phase 4: Finalization
+# Phase 5: Finalization
 → Completed
 ```
 
@@ -737,12 +743,12 @@ Phase 4:
 /scenario_engineering --validate
 → Read: state.json
 → Check: all output files
-→ Report: outputs/final-report/completeness-check.md
+→ Report: outputs/phase5-final-report/completeness-check.md
 
 Missing items reported:
 - [ ] doc-003-analysis.md (failed: PDF corrupted)
 - [ ] Section 7 in doc-005-analysis.md (missing lifecycle)
-- [ ] industry-model.md (phase 3 not executed)
+- [ ] industry-model.md (phase 4 not executed)
 ```
 
 ## Assets Structure
@@ -775,7 +781,7 @@ scenario_engineering/
   - Updated execution modes table
 
 - **0.1.0** (2026-04-21): Initial scenario_engineering SKILL design
-  - Top-level orchestration for scenario_survey → scenario_analyzer → scenario_modeler
+  - Top-level orchestration for scenario_survey → scenario_parser → scenario_analyzer → scenario_modeler
   - 5-phase execution model (0-4)
   - Dual-format progress tracking (JSON + MD)
   - Recovery mechanism with checkpoint-based resume

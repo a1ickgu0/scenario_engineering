@@ -8,6 +8,17 @@ This document provides methodological guidance for building synthesis models fro
 
 ## Core Principles
 
+### 0. Business Insight Principle
+
+**Definition**: Primary model outputs must explain business meaning before presenting inventories, matrices, and traceability tables.
+
+**Requirements**:
+- Start Industry, Stakeholder, Purchase Factor, and Cross-Analysis outputs with an executive business insight summary
+- Convert every major pattern into a business reasoning chain: context -> pressure -> stakeholder tension -> purchase factor -> capability -> measurable outcome -> risk -> recommended action
+- Treat product and solution frequency as supporting evidence, not as the conclusion itself
+- Include counter-evidence, missing evidence, and confidence level for major conclusions
+- Avoid generic statements unless they are qualified by segment, trigger, stakeholder, metric, or decision implication
+
 ### 1. Traceability Principle
 
 **Definition**: Every model conclusion must be traceable to original source documents.
@@ -87,7 +98,15 @@ This document provides methodological guidance for building synthesis models fro
 4. Identify patterns (high-frequency, cross-cutting)
 5. Identify variations (low-frequency, isolated)
 
-### Phase 4: Model Synthesis
+### Phase 4: Business Interpretation
+
+1. Identify the top business pressures and triggers by segment
+2. Explain the stakeholder decision tensions behind each pressure
+3. Map purchase factors to capability groups and measurable outcomes
+4. Identify counter-evidence, data gaps, and confidence level
+5. Produce recommended actions for discovery, positioning, or scenario modeling
+
+### Phase 5: Model Synthesis
 
 1. Build model structure (tables, trees, matrices)
 2. Populate with aggregated data
@@ -95,13 +114,14 @@ This document provides methodological guidance for building synthesis models fro
 4. Document patterns and variations
 5. Generate key insights
 
-### Phase 5: Quality Validation
+### Phase 6: Quality Validation
 
 1. Check traceability completeness
 2. Validate frequency calculations
 3. Review grouping criteria
 4. Verify abstraction mappings
 5. Check output format compliance
+6. Check business insight quality using `business-insight-quality-framework.md`
 
 ---
 

@@ -4,10 +4,10 @@ Top-level orchestration SKILL for the complete customer requirements engineering
 
 ## Overview
 
-This SKILL coordinates three downstream SKILLs in a structured pipeline:
+This SKILL coordinates four downstream SKILLs in a structured pipeline:
 
 ```
-scenario_survey → scenario_analyzer → scenario_modeler
+scenario_survey → scenario_parser → scenario_analyzer → scenario_modeler
 ```
 
 **Key Features**:
@@ -21,7 +21,7 @@ scenario_survey → scenario_analyzer → scenario_modeler
 
 | Mode | Description | Usage |
 |------|-------------|-------|
-| `--new` | Start fresh project | New analysis pipeline |
+| `--new` | Start fresh project | New workflow pipeline |
 | `--resume` | Resume interrupted task | Recovery from crash |
 | `--from-phase N` | Start from specific phase | Skip earlier phases |
 | `--validate` | Validate existing outputs | Quality check only |
@@ -33,9 +33,10 @@ scenario_survey → scenario_analyzer → scenario_modeler
 |-------|------|-------|--------|
 | 0 | Initialization | - | Directory structure, state.json |
 | 1 | Pre-Sales Survey | scenario_survey | Questionnaires, narratives |
-| 2 | Structured Analysis | scenario_analyzer | Analysis reports (12 sections) |
-| 3 | Cross-Case Modeling | scenario_modeler | Industry/Stakeholder/Purchase models |
-| 4 | Finalization | - | Execution summary, completeness check |
+| 2 | Document Extraction | scenario_parser | extracted.md + extracted.json |
+| 3 | Structured Analysis | scenario_analyzer | Analysis reports (12 sections) |
+| 4 | Cross-Case Modeling | scenario_modeler | Industry/Stakeholder/Purchase models |
+| 5 | Finalization | - | Execution summary, completeness check |
 
 ## Directory Structure
 
@@ -49,9 +50,14 @@ project-{name}-{timestamp}/
 ├── outputs/
 │   ├── progress/                  # MD progress reports
 │   ├── phase1-survey/
-│   ├── phase2-analysis/
-│   ├── phase3-model/
-│   └── final-report/
+│   ├── phase2-parser/
+│   │   ├── extracted/
+│   │   └── problems/
+│   ├── phase3-analyzer/
+│   │   ├── reports/
+│   │   └── problems/
+│   ├── phase4-model/
+│   └── phase5-final-report/
 └── archive/
     └── state-final.json
 ```
@@ -59,6 +65,9 @@ project-{name}-{timestamp}/
 ## Quick Start
 
 ```bash
+# Initialize a new project workspace from templates
+python3 scenario_engineering/scripts/init_project.py --project-name hospitality-poc
+
 # New project
 /scenario_engineering --new
 → Industry: Hospitality

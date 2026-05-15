@@ -24,7 +24,7 @@ scenario_engineering (orchestrator)
 │   │
 │   └── Skip when: input_mode = "independent"
 │
-├── Phase 2a ──► scenario_parser (NEW)
+├── Phase 2 ──► scenario_parser (NEW)
 │   ├── Input Sources:
 │   │   ├── Survey output: outputs/phase1-survey/narratives/*.md
 │   │   ├── Independent files: inputs/raw/*.pdf, *.txt
@@ -33,15 +33,15 @@ scenario_engineering (orchestrator)
 │   │
 │   └── Recovery: Parser outputs are checkpoint files
 │
-├── Phase 2b ──► scenario_analyzer (MODIFIED)
+├── Phase 3 ──► scenario_analyzer (MODIFIED)
 │   ├── Input: outputs/phase2-parser/extracted/*-extracted.md + *.json
 │   ├── Invokes: /scenario_analyzer
 │   └── Outputs: *-analysis.md (12 sections)
 │   │
 │   └── Recovery: Can resume from Parser checkpoint
 │
-└── Phase 3 ──► scenario_modeler
-│   ├── Input: outputs/phase2b-analyzer/reports/*-analysis.md
+└── Phase 4 ──► scenario_modeler
+│   ├── Input: outputs/phase3-analyzer/reports/*-analysis.md
 │   ├── Invokes: /scenario_modeler
 │   └── Outputs: Industry/Stakeholder/Purchase models
 ```
@@ -52,7 +52,7 @@ scenario_engineering (orchestrator)
 
 ### User Prompt Sequence
 
-When starting a new project or `--from-phase 2a`:
+When starting a new project or `--from-phase 2`:
 
 ```
 Step 1: Determine input source type
@@ -75,7 +75,7 @@ Step 3: Confirm
 
 ### Input Mode Configuration
 
-| Mode | Phase 1 | Phase 2a Input | Phase 2b Input | Use Case |
+| Mode | Phase 1 | Phase 2 Input | Phase 3 Input | Use Case |
 |------|---------|-----------------|----------------|----------|
 | survey | Execute | outputs/phase1-survey/narratives/*.md | outputs/phase2-parser/extracted/* | Complete workflow |
 | independent | Skip | inputs/raw/*.pdf, *.txt | outputs/phase2-parser/extracted/* | Direct processing |
@@ -89,7 +89,7 @@ Step 3: Confirm
 Phase 1 is skipped when:
 - `input_mode = "independent"`
 - User specifies `--skip-phase1`
-- User specifies `--from-phase 2a`
+- User specifies `--from-phase 2`
 
 ### Invocation Context
 
@@ -106,7 +106,7 @@ Context provided:
 
 ---
 
-## Phase 2a: scenario_parser Invocation
+## Phase 2: scenario_parser Invocation
 
 ### Pre-Invocation Setup
 
@@ -140,11 +140,11 @@ Instructions:
 |-------------|----------|--------------|
 | Extracted MD | `outputs/phase2-parser/extracted/*-extracted.md` | Add to processed_files |
 | Extracted JSON | `outputs/phase2-parser/extracted/*-extracted.json` | Add to processed_files |
-| Progress Report | `outputs/progress/phase2a-parser-progress.md` | Update after each batch |
+| Progress Report | `outputs/progress/phase2-parser-progress.md` | Update after each batch |
 
 ---
 
-## Phase 2b: scenario_analyzer Invocation
+## Phase 3: scenario_analyzer Invocation
 
 ### Pre-Invocation Setup
 
@@ -162,7 +162,7 @@ Instructions:
 Context provided:
 - Parser MD: outputs/phase2-parser/extracted/{{CUSTOMER}}-extracted.md
 - Parser JSON: outputs/phase2-parser/extracted/{{CUSTOMER}}-extracted.json
-- Output directory: outputs/phase2b-analyzer/reports/
+- Output directory: outputs/phase3-analyzer/reports/
 
 Instructions:
 1. Load extracted.md for context verification
@@ -178,18 +178,18 @@ Instructions:
 
 | Output Type | Location | State Update |
 |-------------|----------|--------------|
-| Analysis Report | `outputs/phase2b-analyzer/reports/*-analysis.md` | Add to processed_files |
-| Progress Report | `outputs/progress/phase2b-analyzer-progress.md` | Update after each batch |
+| Analysis Report | `outputs/phase3-analyzer/reports/*-analysis.md` | Add to processed_files |
+| Progress Report | `outputs/progress/phase3-analyzer-progress.md` | Update after each batch |
 
 ---
 
-## Phase 3: scenario_modeler Invocation
+## Phase 4: scenario_modeler Invocation
 
 ### Pre-Invocation Setup
 
 | Step | Action | Data Source |
 |------|--------|-------------|
-| 1 | Collect analysis file paths | outputs/phase2b-analyzer/reports/*.md |
+| 1 | Collect analysis file paths | outputs/phase3-analyzer/reports/*.md |
 | 2 | Validate minimum count | ≥ 3 files for synthesis |
 
 ### Invocation Context
@@ -199,48 +199,48 @@ Instructions:
 
 Context provided:
 - Analysis files: [
-    outputs/phase2b-analyzer/reports/customer1-analysis.md,
-    outputs/phase2b-analyzer/reports/customer2-analysis.md,
+    outputs/phase3-analyzer/reports/customer1-analysis.md,
+    outputs/phase3-analyzer/reports/customer2-analysis.md,
     ...
   ]
-- Output directory: outputs/phase3-model/
+- Output directory: outputs/phase4-model/
 ```
 
 ---
 
 ## State Synchronization
 
-### After Phase 2a (Parser)
+### After Phase 2 (Parser)
 
 ```json
 {
   "progress": {
-    "current_phase": "2a",
+    "current_phase": 2,
     "phase_status": {
-      "phase2a_parser": "completed",
-      "phase2b_analyzer": "pending"
+      "phase2_parser": "completed",
+      "phase3_analyzer": "pending"
     }
   },
   "checkpoints": [
-    {"timestamp": "...", "phase": "2a", "action": "parser_complete"}
+    {"timestamp": "...", "phase": 2, "action": "parser_complete"}
   ]
 }
 ```
 
-### After Phase 2b (Analyzer)
+### After Phase 3 (Analyzer)
 
 ```json
 {
   "progress": {
-    "current_phase": "2b",
+    "current_phase": 3,
     "phase_status": {
-      "phase2a_parser": "completed",
-      "phase2b_analyzer": "completed"
+      "phase2_parser": "completed",
+      "phase3_analyzer": "completed"
     }
   },
   "checkpoints": [
-    {"timestamp": "...", "phase": "2a", "action": "parser_complete"},
-    {"timestamp": "...", "phase": "2b", "action": "analyzer_complete"}
+    {"timestamp": "...", "phase": 2, "action": "parser_complete"},
+    {"timestamp": "...", "phase": 3, "action": "analyzer_complete"}
   ]
 }
 ```
@@ -291,28 +291,28 @@ Phase 1 (optional): scenario_survey
 │       ├── Invoke /scenario_survey
 │       └── Update state
 │
-Phase 2a: scenario_parser
+Phase 2: scenario_parser
 │   ├── Build document list
 │   ├── for each batch:
 │   │   ├── Invoke /scenario_parser
 │   │   ├── Generate extracted.md + extracted.json
 │   │   └── Update state
-│   └── Set phase2a completed
+│   └── Set phase2 completed
 │
-Phase 2b: scenario_analyzer
+Phase 3: scenario_analyzer
 │   ├── Load Parser outputs
 │   ├── for each batch:
 │   │   ├── Invoke /scenario_analyzer
 │   │   ├── Generate analysis.md
 │   │   └── Update state
-│   └── Set phase2b completed
+│   └── Set phase3 completed
 │
-Phase 3: scenario_modeler
+Phase 4: scenario_modeler
 │   ├── Collect analysis files
 │   ├── Invoke /scenario_modeler
 │   └── Update state
 │
-Phase 4: Finalization
+Phase 5: Finalization
 ```
 
 ---

@@ -123,7 +123,7 @@ This document defines the comprehensive quality assurance framework for the SKIL
 |------------|---------|---------|--------------|--------------|
 | **Partial Completion** | Phase completed with errors | Continue remaining, don't reprocess completed items |
 | **Checkpoint Resume** | Previous session interrupted | Load checkpoint, skip to next pending item |
-| **Quality Gate** | Phase 2a complete but quality check failed | Hold for Phase 2b until validated |
+| **Quality Gate** | Phase 2 complete but quality check failed | Hold for Phase 3 until validated |
 | **Fallback to Previous SKILL** | Current SKILL input invalid | Re-process with previous SKILL output |
 
 ---

@@ -12,6 +12,24 @@
 
 ---
 
+## 0. Executive Industry Insight Summary
+
+> Purpose: explain industry-specific business behavior before listing industry counts.
+
+### 0.1 Industry Business Thesis
+
+| Industry / Segment | Business Context | Trigger / Pressure | Dominant Purchase Logic | Key Stakeholder Tension | Capability Implication | Evidence Strength | Recommended Action |
+|--------------------|------------------|--------------------|-------------------------|-------------------------|------------------------|-------------------|--------------------|
+| [INDUSTRY] | [OPERATING MODEL / SCALE / REGULATION] | [WHY NOW] | [WHY THEY BUY] | [TRADE-OFF] | [CAPABILITY NEEDED] | [HIGH/MEDIUM/LOW] | [ACTION] |
+
+### 0.2 Cross-Industry Differentiation
+
+| Pattern | Industries Where Strong | Industries Where Weak / Missing | Explanation | Decision Implication | Counter-Evidence / Data Gap |
+|---------|-------------------------|----------------------------------|-------------|----------------------|-----------------------------|
+| [PATTERN] | [INDUSTRIES] | [INDUSTRIES] | [WHY DIFFERENT] | [SO WHAT] | [LIMITATION] |
+
+---
+
 ## 1. Industry Classification
 
 ### Primary Industry Distribution
@@ -166,16 +184,18 @@
 
 ## 7. Key Insights (Enhanced Traceability)
 
-### Pattern 1: [PATTERN_NAME]
+| Insight Type | Pattern | Business Mechanism | Segment / Industry Impact | Customer Evidence | Decision Implication | Confidence | Recommended Action |
+|--------------|---------|--------------------|---------------------------|-------------------|----------------------|------------|--------------------|
+| Causal Insight | [PATTERN] | [WHY IT HAPPENS] | [WHERE IT MATTERS] | [CUSTOMER + QUOTE] | [SO WHAT] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Segmentation Insight | [PATTERN] | [WHY IT DIFFERS] | [WHERE IT MATTERS] | [CUSTOMER + QUOTE] | [SO WHAT] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Counter-Insight | [PATTERN] | [ALTERNATIVE EXPLANATION] | [WHERE DATA IS WEAK] | [CUSTOMER + QUOTE] | [SO WHAT] | [HIGH/MEDIUM/LOW] | [ACTION] |
 
-| Aspect | Finding | Customer Name | Original Quote | Source Cases |
-|--------|---------|---------------|----------------|--------------|
-| [ASPECT] | [FINDING] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [CASE_IDS] |
+### Industry Insight Narrative Requirements
 
-### Pattern 2: [PATTERN_NAME]
-
-| Aspect | Finding | Customer Name | Original Quote | Source Cases |
-|--------|---------|---------------|----------------|--------------|
+- Do not repeat the industry distribution table as an insight.
+- Explain how operating model, regulation, site count, user criticality, or budget model changes the purchase logic.
+- State whether each industry pattern affects discovery, solution positioning, risk validation, or DSL scenario design.
+- Tie every industry insight to at least one representative customer quote and one limitation.
 
 ---
 

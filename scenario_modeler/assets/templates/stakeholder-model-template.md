@@ -13,6 +13,33 @@
 
 ---
 
+## Part 0: Stakeholder Decision System
+
+> Purpose: explain how stakeholders shape purchase decisions before listing role catalogs.
+
+### 0.1 Decision System Map
+
+| Decision Moment | Decision Owner | Evidence Owner | Risk / Compliance Owner | Affected User | Partner / Delivery Owner | Decision Tension | Required Evidence |
+|-----------------|----------------|----------------|--------------------------|---------------|--------------------------|------------------|-------------------|
+| Need recognition | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [TRADE-OFF] | [EVIDENCE] |
+| Solution evaluation | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [TRADE-OFF] | [EVIDENCE] |
+| Purchase approval | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [TRADE-OFF] | [EVIDENCE] |
+| Deployment acceptance | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [TRADE-OFF] | [EVIDENCE] |
+| Operations expansion | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [ROLE] | [TRADE-OFF] | [EVIDENCE] |
+
+### 0.2 Stakeholder Engagement Playbook
+
+| Stakeholder Category | Business Question They Care About | Proof They Need | Objection They May Raise | Purchase Factor They Strengthen | Recommended Engagement Action | Confidence |
+|----------------------|-----------------------------------|-----------------|--------------------------|----------------------------------|-------------------------------|------------|
+| Decision Maker | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+| IT Lead | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+| Operator | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+| User | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+| Regulator | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+| Partner | [QUESTION] | [PROOF] | [OBJECTION] | [FACTOR] | [ACTION] | [HIGH/MEDIUM/LOW] |
+
+---
+
 ## Part A: Category Layer (类别层)
 
 ### A1. Category Definitions
@@ -276,18 +303,18 @@ Partner
 
 ## Part C: Key Insights (Enhanced Traceability)
 
-### C1. Pattern: [PATTERN_NAME]
+| Insight Type | Stakeholder Pattern | Decision Mechanism | Business Implication | Evidence | Counter-Evidence / Limitation | Confidence | Engagement Action |
+|--------------|---------------------|--------------------|----------------------|----------|-------------------------------|------------|-------------------|
+| Stakeholder Insight | [PATTERN] | [HOW THIS ROLE CHANGES DECISION] | [SO WHAT] | [CUSTOMER + QUOTE] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Conflict Insight | [PATTERN] | [TRADE-OFF] | [SO WHAT] | [CUSTOMER + QUOTE] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Segment Insight | [PATTERN] | [WHY IT DIFFERS BY INDUSTRY] | [SO WHAT] | [CUSTOMER + QUOTE] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
 
-| Aspect | Finding | Customer Name | Original Quote | Business Implication | Source Cases |
-|--------|---------|---------------|----------------|--------------------|--------------|
-| [ASPECT] | [FINDING] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [IMPLICATION] | [CASE_IDS] |
+### Stakeholder Insight Narrative Requirements
 
-### C2. Pattern: [PATTERN_NAME]
-
-| Aspect | Finding | Customer Name | Original Quote | Business Implication | Source Cases |
-|--------|---------|---------------|----------------|--------------------|--------------|
-
-[Continue for other patterns...]
+- Distinguish decision authority, evidence authority, risk authority, usage impact, and delivery responsibility.
+- Do not equate role frequency with decision influence unless evidence supports it.
+- For each key role, state what proof would move that stakeholder forward.
+- Include at least one blocker or objection pattern and how to handle it.
 
 ---
 

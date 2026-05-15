@@ -13,17 +13,46 @@
 
 ---
 
+## 0. Executive Business Insight Summary
+
+> Purpose: explain why customers buy before listing what appears. Product names must support the business explanation, not replace it.
+
+### 0.1 Top Business Conclusions
+
+| Rank | Business Conclusion | Segment / Industry Where It Matters Most | Evidence Strength | Why It Matters | Recommended Action |
+|------|---------------------|------------------------------------------|-------------------|----------------|--------------------|
+| 1 | [CONCLUSION] | [SEGMENT] | [HIGH/MEDIUM/LOW + BASIS] | [BUSINESS CONSEQUENCE] | [DISCOVERY / POSITIONING / MODELING ACTION] |
+| 2 | [CONCLUSION] | [SEGMENT] | [HIGH/MEDIUM/LOW + BASIS] | [BUSINESS CONSEQUENCE] | [DISCOVERY / POSITIONING / MODELING ACTION] |
+| 3 | [CONCLUSION] | [SEGMENT] | [HIGH/MEDIUM/LOW + BASIS] | [BUSINESS CONSEQUENCE] | [DISCOVERY / POSITIONING / MODELING ACTION] |
+
+### 0.2 Business Reasoning Chain
+
+| Business Context | Trigger / Pressure | Stakeholder Decision Tension | Purchase Factor (Business Intent) | Technical Capability | Measurable Outcome / Gap | Risk or Counter-Evidence | Recommended Action |
+|------------------|--------------------|------------------------------|-----------------------------------|----------------------|--------------------------|--------------------------|--------------------|
+| [INDUSTRY + OPERATING MODEL] | [WHY NOW] | [TRADE-OFF] | [CUSTOMER VALUE] | [CAPABILITY, NOT PRODUCT ONLY] | [METRIC OR MISSING METRIC] | [LIMITATION] | [NEXT STEP] |
+
+### 0.3 Decision Implication Map
+
+| Stakeholder | Decision They Influence | Evidence They Need | Purchase Factor They Strengthen | Objection / Risk | Engagement Move |
+|-------------|-------------------------|--------------------|----------------------------------|------------------|-----------------|
+| Decision Maker | [BUDGET / RISK / STRATEGY] | [ROI / RISK / SCALE EVIDENCE] | [FACTOR] | [OBJECTION] | [ACTION] |
+| IT Lead / Operator | [ARCHITECTURE / OPERATIONS] | [FEASIBILITY / RUNBOOK / KPI] | [FACTOR] | [OBJECTION] | [ACTION] |
+| Security / Governance | [POLICY / AUDIT / COMPLIANCE] | [CONTROL / AUDIT / INCIDENT EVIDENCE] | [FACTOR] | [OBJECTION] | [ACTION] |
+| User / Business Owner | [ADOPTION / EXPERIENCE] | [SERVICE / EXPERIENCE KPI] | [FACTOR] | [OBJECTION] | [ACTION] |
+
+---
+
 ## 1. Business Driver Layer Frequency Distribution
 
-| Business Driver | 频率 | 客户名称 | 原文引用 | 适用行业 | 来源案例 |
-|-----------------|-----------|---------------|----------------|------------|--------------|
-| User/Customer Experience | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| Efficiency & Cost Optimization | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| Security & Compliance | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| Innovation/Digital Transformation | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| Business Growth & Expansion | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| Sustainability | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
-| High Availability/Continuity | [%] | [CUSTOMER_NAME] | [QUOTE] (Page X) | [INDUSTRIES] | [CASE_IDS] |
+| Business Driver | 频率 | Segment Where Strongest | Business Mechanism | Customer Evidence | Metric / Measurement Gap | Confidence | Source Cases |
+|-----------------|-----------|--------------------------|--------------------|-------------------|--------------------------|------------|--------------|
+| User/Customer Experience | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| Efficiency & Cost Optimization | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| Security & Compliance | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| Innovation/Digital Transformation | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| Business Growth & Expansion | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| Sustainability | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
+| High Availability/Continuity | [%] | [SEGMENT] | [WHY THIS DRIVER EXISTS] | [CUSTOMER + QUOTE] | [METRIC OR GAP] | [HIGH/MEDIUM/LOW] | [CASE_IDS] |
 
 ---
 
@@ -215,29 +244,20 @@ High Availability/Continuity
 
 ## 8. Key Insights (Enhanced Traceability)
 
-### Pattern 1: Experience 是跨行业首要驱动
+| Insight Type | Finding | Why It Happens | Business Implication | Evidence | Counter-Evidence / Limitation | Confidence | Recommended Action |
+|--------------|---------|----------------|----------------------|----------|-------------------------------|------------|--------------------|
+| Causal Insight | [FINDING] | [MECHANISM] | [IMPLICATION] | [CUSTOMER + QUOTE + FREQUENCY] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Segmentation Insight | [FINDING] | [MECHANISM] | [IMPLICATION] | [CUSTOMER + QUOTE + FREQUENCY] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Stakeholder Insight | [FINDING] | [MECHANISM] | [IMPLICATION] | [CUSTOMER + QUOTE + FREQUENCY] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
+| Metric Insight | [FINDING] | [MECHANISM] | [IMPLICATION] | [CUSTOMER + QUOTE + FREQUENCY] | [LIMITATION] | [HIGH/MEDIUM/LOW] | [ACTION] |
 
-| 维度 | 发现 | 客户名称 | 原文引用 | 业务影响 | 来源案例 |
-|--------|---------|---------------|----------------|--------------------|--------------|
-| 频率 | 75% (21/28) 案例以体验为首要驱动 | Southern Sun, Tottenham Hotspur | "Wi-Fi is a fundamental commodity, the same as water or coffee" (Southern Sun); "Everything we thought of was about the fan experience" (Tottenham) | Wi-Fi覆盖方案为核心产品，体验导向销售策略 | Aberdeen, Southern Sun, Tottenham |
+### Insight Narrative Requirements
 
-### Pattern 2: Efficiency + AIOps 是IT Lead核心诉求
-
-| 维度 | 发现 | 客户名称 | 原文引用 | 业务影响 | 来源案例 |
-|--------|---------|---------------|----------------|--------------------|--------------|
-| 频率 | 60% (17/28) 采用Mist AI/Marvis | Aberdeen City Council, Moreno Valley USD | "100% Reduction in network-related trouble tickets" (Aberdeen); "5 days to 5 minutes" (Moreno Valley) | Mist AI/Marvis产品契合核心需求，运维简化价值主张 | Moreno Valley, Annie Wright, Southern Sun |
-
-### Pattern 3: Security 在高合规行业为必要条件
-
-| 维度 | 发现 | 客户名称 | 原文引用 | 业务影响 | 来源案例 |
-|--------|---------|---------------|----------------|--------------------|--------------|
-| 频率 | 55% (16/28) 提及安全/合规 | Schnellecke Logistics, Thomas More University | "Our network cannot drop, even for 30 minutes" (Schnellecke); "ZTNA creates an environment of continuous verification" (Thomas More) | ZTNA/ClearPass方案为高合规行业必要配置 | Schnellecke, Royal Devon, Thomas More |
-
-### Pattern 4: NaaS 在预算约束行业受欢迎
-
-| 维度 | 发现 | 客户名称 | 原文引用 | 业务影响 | 来源案例 |
-|--------|---------|---------------|----------------|--------------------|--------------|
-| 频率 | 30% (8/28) 采用GreenLake/NaaS | Annie Wright Schools, Colep Packaging | "Budget cycles don't always align perfectly with the need to replace or upgrade" (Annie Wright); "Our priority is packaging, not IT" (Colep) | NaaS为预算敏感客户提供成本可预测性 | Annie Wright, Ikyu, Colep |
+- Explain the causal mechanism behind each high-frequency driver.
+- Name the segment where the insight is strongest and where it is weaker.
+- State whether the technical capability is table stakes, differentiating, or optional.
+- Include the measurement gap when source cases lack quantified proof.
+- End each insight with a concrete discovery question, positioning action, or scenario modeling action.
 
 ---
 

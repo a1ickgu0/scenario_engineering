@@ -4,10 +4,10 @@
 
 ## 概述
 
-本 SKILL 协调三个下游 SKILL 构成结构化流水线：
+本 SKILL 协调四个下游 SKILL 构成结构化流水线：
 
 ```
-scenario_survey → scenario_analyzer → scenario_modeler
+scenario_survey → scenario_parser → scenario_analyzer → scenario_modeler
 ```
 
 **核心特性**：
@@ -21,7 +21,7 @@ scenario_survey → scenario_analyzer → scenario_modeler
 
 | 模式 | 描述 | 用途 |
 |------|------|------|
-| `--new` | 启动新项目 | 新分析流水线 |
+| `--new` | 启动新项目 | 新工作流流水线 |
 | `--resume` | 恢复中断任务 | 从崩溃恢复 |
 | `--from-phase N` | 从指定阶段开始 | 跳过已完成阶段 |
 | `--validate` | 验证现有输出 | 仅质量检查 |
@@ -33,9 +33,10 @@ scenario_survey → scenario_analyzer → scenario_modeler
 |------|------|-------|------|
 | 0 | 初始化 | - | 目录结构、state.json |
 | 1 | 售前调研 | scenario_survey | 问卷、叙事文档 |
-| 2 | 结构化分析 | scenario_analyzer | 分析报告（12 章节） |
-| 3 | 跨案例建模 | scenario_modeler | 行业/利益相关者/购买模型 |
-| 4 | 最终化 | - | 执行摘要、完整性检查 |
+| 2 | 文档提取 | scenario_parser | extracted.md + extracted.json |
+| 3 | 结构化分析 | scenario_analyzer | 分析报告（12 章节） |
+| 4 | 跨案例建模 | scenario_modeler | 行业/利益相关者/购买模型 |
+| 5 | 最终化 | - | 执行摘要、完整性检查 |
 
 ## 目录结构
 
@@ -49,9 +50,14 @@ project-{name}-{timestamp}/
 ├── outputs/
 │   ├── progress/                  # MD 进度报告
 │   ├── phase1-survey/
-│   ├── phase2-analysis/
-│   ├── phase3-model/
-│   └── final-report/
+│   ├── phase2-parser/
+│   │   ├── extracted/
+│   │   └── problems/
+│   ├── phase3-analyzer/
+│   │   ├── reports/
+│   │   └── problems/
+│   ├── phase4-model/
+│   └── phase5-final-report/
 └── archive/
     └── state-final.json
 ```
@@ -59,6 +65,9 @@ project-{name}-{timestamp}/
 ## 快速开始
 
 ```bash
+# 用模板初始化一个新项目工作区
+python3 scenario_engineering/scripts/init_project.py --project-name hospitality-poc
+
 # 新项目
 /scenario_engineering --new
 → 行业：酒店业

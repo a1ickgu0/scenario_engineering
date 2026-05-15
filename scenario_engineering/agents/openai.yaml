@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Engineering"
+  short_description: "Orchestrate the full requirements workflow"
+  default_prompt: "Use $scenario_engineering to initialize, resume, or validate the full customer requirements workflow."
+
+policy:
+  allow_implicit_invocation: true

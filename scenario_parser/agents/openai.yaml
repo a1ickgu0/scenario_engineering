@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Parser"
+  short_description: "Extract structured data from source documents"
+  default_prompt: "Use $scenario_parser to extract traceable MD and JSON data from PDF, text, or narrative inputs."
+
+policy:
+  allow_implicit_invocation: true

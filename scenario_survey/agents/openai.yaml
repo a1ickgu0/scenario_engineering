@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Survey"
+  short_description: "Generate customer-friendly pre-sales surveys"
+  default_prompt: "Use $scenario_survey to create a customer-friendly pre-sales questionnaire for a target industry and country."
+
+policy:
+  allow_implicit_invocation: true

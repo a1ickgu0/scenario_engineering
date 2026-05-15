@@ -28,9 +28,10 @@
     "base_directory": "project-{{PROJECT_NAME}}-{{TIMESTAMP}}",
     "progress_directory": "outputs/progress",
     "phase1_directory": "outputs/phase1-survey",
-    "phase2_directory": "outputs/phase2-analysis",
-    "phase3_directory": "outputs/phase3-model",
-    "final_directory": "outputs/final-report"
+    "phase2_parser_directory": "outputs/phase2-parser",
+    "phase3_analyzer_directory": "outputs/phase3-analyzer",
+    "phase4_directory": "outputs/phase4-model",
+    "phase5_directory": "outputs/phase5-final-report"
   },
   "processing": {
     "parallel_agents": 4,
@@ -43,6 +44,10 @@
     "scenario_survey": {
       "template_path": "../scenario_survey/assets/templates/{{INDUSTRY}}-template.md",
       "skill_path": "../scenario_survey/SKILL.md"
+    },
+    "scenario_parser": {
+      "templates_path": "../scenario_parser/assets/templates/",
+      "skill_path": "../scenario_parser/SKILL.md"
     },
     "scenario_analyzer": {
       "prompt_path": "../scenario_analyzer/assets/prompts/customer-story-analysis.prompt.md",

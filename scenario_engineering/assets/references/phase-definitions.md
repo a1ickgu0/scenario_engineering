@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the 6 execution phases (0-4, including 2a/2b) for scenario_engineering, including transitions, pre-conditions, and completion criteria.
+This document defines the 6 execution phases (0-5) for scenario_engineering, including transitions, pre-conditions, and completion criteria.
 
 ---
 
@@ -14,15 +14,15 @@ Setup project structure, determine input sources, validate inputs.
 
 ### Input Source Determination
 
-Phase 2 (Analysis) has two possible input sources:
+Phase 2 (Parser) has two possible input sources:
 1. **Survey Output**: Narratives from Phase 1 (`outputs/phase1-survey/narratives/`)
 2. **Independent Files**: User-provided documents (PDFs primarily)
 
 ### User Prompt for Input Directory
 
-When starting with `--new` or `--from-phase 2a`:
+When starting with `--new` or `--from-phase 2`:
 ```
-"请提供独立文档目录路径（如果跳过survey阶段直接进入analysis）：
+"请提供独立文档目录路径（如果跳过survey阶段直接进入文档提取流程）：
 → 目录路径: /path/to/documents/
 → 包含文件: PDF文件为主，支持 .txt 和 .md 格式
 → 如不提供，将使用survey阶段的输出作为输入"
@@ -80,11 +80,11 @@ If no independent_directory:
 ### Transition
 
 ```
-Phase 0 → Phase 1 OR Phase 2a
+Phase 0 → Phase 1 OR Phase 2
 
 If input_mode = "independent":
   → Skip Phase 1
-  → Phase 0 → Phase 2a (with skip_phase1 = true)
+  → Phase 0 → Phase 2 (with skip_phase1 = true)
 
 If input_mode = "survey":
   → Phase 0 → Phase 1 (normal flow)
@@ -107,7 +107,7 @@ Generate industry-specific questionnaires, synthesize narratives from interviews
 Phase 1 is skipped when:
 - `input_mode = "independent"`
 - User specifies `--skip-phase1`
-- User specifies `--from-phase 2a`
+- User specifies `--from-phase 2`
 
 ### Pre-Conditions (when not skipped)
 
@@ -138,16 +138,16 @@ Phase 1 is skipped when:
 ### Transition
 
 ```
-Phase 1 → Phase 2a
+Phase 1 → Phase 2
 Conditions:
   - phase1 status = completed
-  - phase2a status = pending
+  - phase2 status = pending
   - narratives available OR narratives skipped
 ```
 
 ---
 
-## Phase 2a: Document Extraction (scenario_parser)
+## Phase 2: Document Extraction (scenario_parser)
 
 ### Purpose
 
@@ -180,14 +180,14 @@ Extract structured data from documents into intermediate format (MD + JSON).
 | 3 | Generate extracted.md | `outputs/phase2-parser/extracted/*-extracted.md` |
 | 4 | Generate extracted.json | `outputs/phase2-parser/extracted/*-extracted.json` |
 | 5 | Track progress per batch | Update state.json |
-| 6 | Generate progress report | `outputs/progress/phase2a-parser-progress.md` |
+| 6 | Generate progress report | `outputs/progress/phase2-parser-progress.md` |
 | 7 | Set phase completed | Update state.json |
 
 ### Output
 
 - `outputs/phase2-parser/extracted/*-extracted.md`
 - `outputs/phase2-parser/extracted/*-extracted.json`
-- `outputs/progress/phase2a-parser-progress.md`
+- `outputs/progress/phase2-parser-progress.md`
 
 ### Parallel Strategy
 
@@ -207,16 +207,16 @@ Extract structured data from documents into intermediate format (MD + JSON).
 ### Transition
 
 ```
-Phase 2a → Phase 2b
+Phase 2 → Phase 3
 Conditions:
-  - phase2a_parser status = completed
-  - phase2b_analyzer status = pending
+  - phase2_parser status = completed
+  - phase3_analyzer status = pending
   - Parser outputs available
 ```
 
 ---
 
-## Phase 2b: Structured Analysis (scenario_analyzer)
+## Phase 3: Structured Analysis (scenario_analyzer)
 
 ### Purpose
 
@@ -230,7 +230,7 @@ Generate 12-section analysis reports from Parser outputs.
 
 | Condition | Source |
 |-----------|--------|
-| Phase 2a completed | state.json phase2a_parser status |
+| Phase 2 completed | state.json phase2_parser status |
 | Parser outputs available | outputs/phase2-parser/extracted/*.md + *.json |
 
 ### Actions
@@ -240,15 +240,15 @@ Generate 12-section analysis reports from Parser outputs.
 | 1 | Load Parser outputs | extracted.md + extracted.json |
 | 2 | Validate input completeness | Check required fields |
 | 3 | Invoke scenario_analyzer per document | /scenario_analyzer |
-| 4 | Generate 12-section reports | `outputs/phase2b-analyzer/reports/*-analysis.md` |
+| 4 | Generate 12-section reports | `outputs/phase3-analyzer/reports/*-analysis.md` |
 | 5 | Track progress per batch | Update state.json |
-| 6 | Generate progress report | `outputs/progress/phase2b-analyzer-progress.md` |
+| 6 | Generate progress report | `outputs/progress/phase3-analyzer-progress.md` |
 | 7 | Set phase completed | Update state.json |
 
 ### Output
 
-- `outputs/phase2b-analyzer/reports/*-analysis.md`
-- `outputs/progress/phase2b-analyzer-progress.md`
+- `outputs/phase3-analyzer/reports/*-analysis.md`
+- `outputs/progress/phase3-analyzer-progress.md`
 
 ### Parallel Strategy
 
@@ -277,17 +277,17 @@ Follow scenario_analyzer's quality requirements:
 ### Transition
 
 ```
-Phase 2b → Phase 3
+Phase 3 → Phase 4
 Conditions:
-  - phase2b_analyzer status = completed
-  - phase3 status = pending
+  - phase3_analyzer status = completed
+  - phase4_model status = pending
   - At least 3 analysis reports generated
   (Minimum 3 for meaningful cross-case synthesis)
 ```
 
 ---
 
-## Phase 3: Cross-Case Modeling (scenario_modeler)
+## Phase 4: Cross-Case Modeling (scenario_modeler)
 
 ### Purpose
 
@@ -301,46 +301,46 @@ Synthesize multiple analyses into Industry, Stakeholder, Purchase Factor models.
 
 | Condition | Source |
 |-----------|--------|
-| Phase 2b completed | state.json |
-| Analysis reports available | outputs/phase2b-analyzer/reports/*.md |
+| Phase 3 completed | state.json |
+| Analysis reports available | outputs/phase3-analyzer/reports/*.md |
 | Minimum 3 reports | For meaningful synthesis |
 
 ### Actions
 
 | Step | Action | Output |
 |------|--------|--------|
-| 1 | Collect analysis file paths | From phase2b outputs |
+| 1 | Collect analysis file paths | From phase3 outputs |
 | 2 | Invoke scenario_modeler | Provide file list |
-| 3 | Generate Industry Model | `outputs/phase3-model/industry-model.md` |
-| 4 | Generate Stakeholder Model | `outputs/phase3-model/stakeholder-model.md` |
-| 5 | Generate Purchase Factor Model | `outputs/phase3-model/purchase-factor-model.md` |
-| 6 | Generate Cross Analysis | `outputs/phase3-model/cross-analysis.md` |
-| 7 | Update state.json | Set phase3 completed |
+| 3 | Generate Industry Model | `outputs/phase4-model/industry-model.md` |
+| 4 | Generate Stakeholder Model | `outputs/phase4-model/stakeholder-model.md` |
+| 5 | Generate Purchase Factor Model | `outputs/phase4-model/purchase-factor-model.md` |
+| 6 | Generate Cross Analysis | `outputs/phase4-model/cross-analysis.md` |
+| 7 | Update state.json | Set phase4 completed |
 
 ### Output
 
-- `outputs/phase3-model/industry-model.md`
-- `outputs/phase3-model/stakeholder-model.md`
-- `outputs/phase3-model/purchase-factor-model.md`
-- `outputs/phase3-model/cross-analysis.md`
+- `outputs/phase4-model/industry-model.md`
+- `outputs/phase4-model/stakeholder-model.md`
+- `outputs/phase4-model/purchase-factor-model.md`
+- `outputs/phase4-model/cross-analysis.md`
 
 ### Completion Criteria
 
 - All 4 model files generated
-- state.json phase3 = completed
+- state.json phase4 = completed
 
 ### Transition
 
 ```
-Phase 3 → Phase 4
+Phase 4 → Phase 5
 Conditions:
-  - phase3 status = completed
-  - phase4 status = pending
+  - phase4_model status = completed
+  - phase5_final status = pending
 ```
 
 ---
 
-## Phase 4: Finalization
+## Phase 5: Finalization
 
 ### Purpose
 
@@ -358,8 +358,8 @@ Validate outputs, generate execution summary, archive state.
 | Step | Action | Output |
 |------|--------|--------|
 | 1 | Run completeness check | Scan all output directories |
-| 2 | Generate execution summary | `outputs/final-report/execution-summary.md` |
-| 3 | Generate completeness check report | `outputs/final-report/completeness-check.md` |
+| 2 | Generate execution summary | `outputs/phase5-final-report/execution-summary.md` |
+| 3 | Generate completeness check report | `outputs/phase5-final-report/completeness-check.md` |
 | 4 | Archive state.json | `archive/state-final.json` |
 | 5 | Update state final status | All phases completed |
 
@@ -368,10 +368,10 @@ Validate outputs, generate execution summary, archive state.
 ```
 Phase 0: state.json, config.json valid
 Phase 1: Questionnaires/narratives count matches
-Phase 2a: All extracted files present (MD + JSON)
-Phase 2b: All reports have 12 sections, traceability present
-Phase 3: All 4 model files present
-Phase 4: Reports generated, state archived
+Phase 2: All extracted files present (MD + JSON)
+Phase 3: All reports have 12 sections, traceability present
+Phase 4: All 4 model files present
+Phase 5: Reports generated, state archived
 ```
 
 ### Completion Criteria
@@ -387,12 +387,12 @@ Phase 4: Reports generated, state archived
 
 | From | To | Trigger | Skip Condition |
 |------|-----|---------|----------------|
-| 0 | 1 | Init complete | input_mode=independent → go to 2a |
-| 1 | 2a | Survey complete | - |
-| 2a | 2b | Parser complete | - |
-| 2b | 3 | Analyzer complete | <3 reports → skip phase3 |
-| 3 | 4 | Models complete | - |
-| 4 | End | Validation complete | - |
+| 0 | 1 | Init complete | input_mode=independent → go to 2 |
+| 1 | 2 | Survey complete | - |
+| 2 | 3 | Parser complete | - |
+| 3 | 4 | Analyzer complete | <3 reports → skip phase4 |
+| 4 | 5 | Models complete | - |
+| 5 | End | Validation complete | - |
 
 ---
 
@@ -414,7 +414,7 @@ If phase incomplete at crash:
 3. pending_files tracks remaining items
 4. Resume from pending list
 
-### Independent Recovery (Phase 2a/2b)
+### Independent Recovery (Phase 2/3)
 
 | Scenario | Resume Action |
 |----------|---------------|

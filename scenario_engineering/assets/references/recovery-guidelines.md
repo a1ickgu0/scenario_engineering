@@ -86,9 +86,10 @@ const pendingFiles = state.progress.phase_details[`phase${currentPhase}`].pendin
 |-----------------|--------|
 | `phase0_init` pending | Complete initialization, create directories |
 | `phase1_survey` in_progress | Continue questionnaire/narrative generation |
-| `phase2_analysis` in_progress | Skip processed, continue pending documents |
-| `phase3_model` pending | Collect phase2 reports, start synthesis |
-| `phase4_final` pending | Generate final reports |
+| `phase2_parser` in_progress | Skip processed, continue pending documents |
+| `phase3_analyzer` in_progress | Skip processed, continue pending analyses |
+| `phase4_model` pending | Collect phase3 reports, start synthesis |
+| `phase5_final` pending | Generate final reports |
 | Crash mid-batch | Continue from last checkpoint document |
 
 ### Step 4: Update State
@@ -123,8 +124,9 @@ writeFile('state.json', JSON.stringify(state));
 | Phase 0 | Once (at completion) | No |
 | Phase 1 | After each questionnaire | Yes |
 | Phase 2 | Every 5 documents | Yes (config.checkpoint_frequency) |
-| Phase 3 | After each model | Yes |
-| Phase 4 | Once (at completion) | No |
+| Phase 3 | Every 5 analyses | Yes (config.checkpoint_frequency) |
+| Phase 4 | After each model | Yes |
+| Phase 5 | Once (at completion) | No |
 
 ---
 

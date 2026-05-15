@@ -11,6 +11,22 @@
 
 ---
 
+## 0. Strategic Cross-Model Insight Summary
+
+> Purpose: synthesize what changes when industry, stakeholder, and purchase-factor models are read together.
+
+| Strategic Insight | Cross-Model Evidence | Business Mechanism | Decision Implication | Counter-Evidence / Data Gap | Recommended Action | Confidence |
+|-------------------|----------------------|--------------------|----------------------|-----------------------------|--------------------|------------|
+| [INSIGHT] | [INDUSTRY + STAKEHOLDER + FACTOR EVIDENCE] | [WHY IT HAPPENS] | [SO WHAT] | [LIMITATION] | [ACTION] | [HIGH/MEDIUM/LOW] |
+
+### 0.1 Segment Playbook
+
+| Segment | Dominant Trigger | Primary Stakeholder Tension | Best-Fit Capability Group | Metric to Prove | Discovery Question | Scenario Modeling Implication |
+|---------|------------------|-----------------------------|---------------------------|-----------------|-------------------|-------------------------------|
+| [SEGMENT] | [TRIGGER] | [TRADE-OFF] | [CAPABILITY] | [METRIC] | [QUESTION] | [DSL / SCENARIO INPUT] |
+
+---
+
 ## 1. Industry × Stakeholder Category Matrix
 
 | Industry | Decision Maker | IT Lead | Operator | User | Regulator | Partner | Dominant Category |
@@ -151,26 +167,12 @@
 
 ## 7. Key Cross-Dimension Insights
 
-### Insight 1: Universal Patterns
-
-| Pattern | Matrix | Observation | Interpretation | Source Cases |
-|---------|--------|-------------|----------------|--------------|
-| User universality | Industry × Category | User in all industries | Direct usage fundamental | [CASE_IDS] |
-| Efficiency universal | Industry × Driver | Efficiency in all industries | Operational improvement universal | [CASE_IDS] |
-
-### Insight 2: Industry Differentiation
-
-| Pattern | Matrix | Observation | Interpretation | Source Cases |
-|---------|--------|-------------|----------------|--------------|
-| Healthcare Security | Industry × Driver | Security primary in Healthcare | Compliance-driven industry | [CASE_IDS] |
-| Hospitality Cost | Industry × Driver | Cost primary in Hospitality | Subscription model preference | [CASE_IDS] |
-
-### Insight 3: Stakeholder-Driver Alignment
-
-| Pattern | Matrix | Observation | Interpretation | Source Cases |
-|---------|--------|-------------|----------------|--------------|
-| IT Lead-Efficiency | Category × Driver | IT Lead prioritizes Efficiency | Technical operations focus | [CASE_IDS] |
-| User-Experience | Role × Driver | User prioritizes Experience | Direct usage impact | [CASE_IDS] |
+| Insight Type | Pattern | Matrices Used | Observation | Business Mechanism | Decision Implication | Evidence | Limitation | Action |
+|--------------|---------|---------------|-------------|--------------------|----------------------|----------|------------|--------|
+| Universal Pattern | [PATTERN] | [MATRICES] | [WHAT] | [WHY] | [SO WHAT] | [SOURCE CASES / QUOTES] | [LIMITATION] | [ACTION] |
+| Differentiation Pattern | [PATTERN] | [MATRICES] | [WHAT] | [WHY] | [SO WHAT] | [SOURCE CASES / QUOTES] | [LIMITATION] | [ACTION] |
+| Alignment Pattern | [PATTERN] | [MATRICES] | [WHAT] | [WHY] | [SO WHAT] | [SOURCE CASES / QUOTES] | [LIMITATION] | [ACTION] |
+| Counter-Pattern | [PATTERN] | [MATRICES] | [WHAT] | [WHY] | [SO WHAT] | [SOURCE CASES / QUOTES] | [LIMITATION] | [ACTION] |
 
 ---
 

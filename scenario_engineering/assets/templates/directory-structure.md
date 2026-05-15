@@ -35,8 +35,9 @@ project-{name}-{timestamp}/
 │   ├── progress/                   # MD progress reports (human readable)
 │   │   ├── phase0-init-report.md   # Initialization summary
 │   │   ├── phase1-survey-progress.md
-│   │   ├── phase2-analysis-progress.md
-│   │   ├── phase3-model-progress.md
+│   │   ├── phase2-parser-progress.md
+│   │   ├── phase3-analyzer-progress.md
+│   │   ├── phase4-model-progress.md
 │   │   └── final-summary.md        # Final execution summary
 │   │
 │   ├── phase1-survey/              # scenario_survey outputs
@@ -48,7 +49,15 @@ project-{name}-{timestamp}/
 │   │       ├── {customer}-narrative.md
 │   │       └── ...
 │   │
-│   ├── phase2-analysis/            # scenario_analyzer outputs
+│   ├── phase2-parser/              # scenario_parser outputs
+│   │   ├── extracted/              # Structured extraction checkpoint files
+│   │   │   ├── {customer}-extracted.md
+│   │   │   ├── {customer}-extracted.json
+│   │   │   └── ...
+│   │   └── problems/               # Parser problem tracking
+│   │       └── problem-documents-list.md
+│   │
+│   ├── phase3-analyzer/           # scenario_analyzer outputs
 │   │   ├── reports/                # Structured analysis reports
 │   │   │   ├── {customer}-analysis.md (12 sections: 0-12)
 │   │   │   └── ...
@@ -57,14 +66,14 @@ project-{name}-{timestamp}/
 │   │       ├── problem-documents-list.md
 │   │       └── incomplete-reports-list.md
 │   │
-│   ├── phase3-model/               # scenario_modeler outputs
+│   ├── phase4-model/               # scenario_modeler outputs
 │   │   ├── industry-model.md       # Industry patterns
 │   │   ├── stakeholder-model.md    # Category + Role hierarchy
 │   │   ├── purchase-factor-model.md # Driver → Implementation → Metrics
 │   │   ├── cross-analysis.md       # Cross-case matrices
 │   │   └── critical-analysis.md    # Credibility ratings
 │   │
-│   └── final-report/               # Final validation
+│   └── phase5-final-report/        # Final validation
 │       ├── execution-summary.md    # Complete execution log
 │       ├── completeness-check.md   # Missing items report
 │       └── recommendations.md      # Next steps suggestions
@@ -103,11 +112,13 @@ Phase 0 creates directories in this order:
 4. `outputs/progress/`
 5. `outputs/phase1-survey/questionnaires/`
 6. `outputs/phase1-survey/narratives/`
-7. `outputs/phase2-analysis/reports/`
-8. `outputs/phase2-analysis/problems/`
-9. `outputs/phase3-model/`
-10. `outputs/final-report/`
-11. `archive/`
+7. `outputs/phase2-parser/extracted/`
+8. `outputs/phase2-parser/problems/`
+9. `outputs/phase3-analyzer/reports/`
+10. `outputs/phase3-analyzer/problems/`
+11. `outputs/phase4-model/`
+12. `outputs/phase5-final-report/`
+13. `archive/`
 
 ## State File Location
 

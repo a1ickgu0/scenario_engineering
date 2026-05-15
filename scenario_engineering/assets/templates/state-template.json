@@ -26,9 +26,10 @@
     "phase_status": {
       "phase0_init": "pending",
       "phase1_survey": "pending",
-      "phase2_analysis": "pending",
-      "phase3_model": "pending",
-      "phase4_final": "pending"
+      "phase2_parser": "pending",
+      "phase3_analyzer": "pending",
+      "phase4_model": "pending",
+      "phase5_final": "pending"
     },
     "phase_details": {
       "phase0_init": {
@@ -46,7 +47,7 @@
         "started_at": null,
         "completed_at": null
       },
-      "phase2_analysis": {
+      "phase2_parser": {
         "total_documents": 0,
         "processed": 0,
         "pending": 0,
@@ -57,13 +58,24 @@
         "started_at": null,
         "completed_at": null
       },
-      "phase3_model": {
+      "phase3_analyzer": {
+        "total_documents": 0,
+        "processed": 0,
+        "pending": 0,
+        "failed": 0,
+        "processed_files": [],
+        "pending_files": [],
+        "failed_files": [],
+        "started_at": null,
+        "completed_at": null
+      },
+      "phase4_model": {
         "analysis_files_collected": 0,
         "models_generated": false,
         "started_at": null,
         "completed_at": null
       },
-      "phase4_final": {
+      "phase5_final": {
         "validation_complete": false,
         "started_at": null,
         "completed_at": null

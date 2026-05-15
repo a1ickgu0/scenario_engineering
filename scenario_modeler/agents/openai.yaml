@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scenario Modeler"
+  short_description: "Synthesize cross-case scenario models"
+  default_prompt: "Use $scenario_modeler to synthesize multiple analysis reports into cross-case scenario models."
+
+policy:
+  allow_implicit_invocation: true

@@ -9,7 +9,7 @@ tags:
   - purchase-factor
   - openscenario-preparation
   - cross-case-analysis
-version: "0.5.0"
+version: "0.9.0"
 ---
 
 # Scenario Modeler SKILL
@@ -23,14 +23,20 @@ This SKILL synthesizes and abstracts structured models from multiple `scenario_a
 2. **Stakeholder Model**: Two-layer structure (Category Layer + Role Layer) with mappings
 3. **Purchase Factor Model**: Hierarchical structure (Business Driver + Technical Implementation + Quantified Metrics)
 
+**Strategic Market Advisory Outputs (Gartner-style)**:
+4. **Use Case Fit Model**: Which use cases fit which customer segments, triggers, and solution patterns
+5. **Critical Capability Model**: Which capabilities are table stakes, differentiators, emerging differentiators, or optional enhancers by use case
+6. **Buying Committee Model**: Who approves, blocks, validates, operates, funds, and uses the solution, and what proof each role needs
+7. **Competitive Positioning Model**: Market boundary, alternatives, differentiators, table stakes, proof burden, and positioning risks
+
 **Supporting Models for OpenSCENARIO Preparation**:
-4. **Lifecycle Model**: Scenario phases, triggers, actions, completion criteria
-5. **State Model**: Stakeholder/system/organization states and transitions
-6. **Environment Model**: Industry constraints, regional characteristics, organizational context
-7. **Entity Model**: Organizations, systems, external entities with attributes
-8. **Relationship Model**: Hierarchical, collaborative, conflicting, dependency relations
-9. **Interaction Sequence Model**: Actor-to-actor action flows with triggers and conditions
-10. **Parameterization Model**: Configurable parameters for metrics, roles, scenarios, constraints
+8. **Lifecycle Model**: Scenario phases, triggers, actions, completion criteria
+9. **State Model**: Stakeholder/system/organization states and transitions
+10. **Environment Model**: Industry constraints, regional characteristics, organizational context
+11. **Entity Model**: Organizations, systems, external entities with attributes
+12. **Relationship Model**: Hierarchical, collaborative, conflicting, dependency relations
+13. **Interaction Sequence Model**: Actor-to-actor action flows with triggers and conditions
+14. **Parameterization Model**: Configurable parameters for metrics, roles, scenarios, constraints
 
 ---
 
@@ -43,58 +49,214 @@ This SKILL synthesizes and abstracts structured models from multiple `scenario_a
 | Quality Dimension | Requirement Standard | Acceptance Method |
 |-------------------|---------------------|-------------------|
 | **Completeness** | Three core models must be fully generated, each model contains all required sections | Output checklist verification |
-| **Traceability** | Each model conclusion must annotate customer name - original quote (source case ID - original content) | Citation format check |
+| **Traceability** | Each model conclusion must annotate customer name - original quote - Chinese translation (for non-Chinese sources) | Citation format check |
 | **Accuracy** | Aggregated conclusions must accurately reflect source case content, frequency statistics must be precise | Source case cross-reference verification |
 | **Structure** | Matrix tables must be complete, tree structures must have clear hierarchy, hierarchical relationships complete | Format compliance check |
 | **Criticality** | Each model must contain critical analysis chapter, conclusion credibility rating must be annotated | Critical chapter check |
+| **Confidence** | All inferred information must have explicit confidence level (HIGH/MEDIUM/LOW) and basis category | Confidence level check |
+| **MoE Credibility** | All quantified metrics must have MoE indicators with source traceability and credibility assessment | MoE indicator check |
+| **Business Priority** | Analysis must follow business-first principle: business background and business drivers analyzed before technical implementation | Analysis order verification |
+| **Business Insight Quality** | Primary models must explain context, pressure, stakeholder tension, purchase factor, capability, measurable outcome, counter-evidence, and recommended action before inventory tables | Business Insight Quality Framework check |
+| **Template Conformance** | Every output must follow its bound template exactly: required sections, section order, table schemas, and completion placeholders must be preserved or filled | Template compliance check |
+| **Strategic Market Advisory Quality** | Gartner-style outputs must define market/use-case boundary, critical capabilities, buying committee, competitive alternatives, proof burden, evidence strength, and scenario implication | Gartner-style strategic modeling check |
+
+### Mandatory Template Output Rules
+
+**CRITICAL**: `scenario_modeler` is a template-driven SKILL. Free-form model reports are invalid even when their content is analytically correct.
+
+#### TR-01 Template Binding
+
+Before generating any model output, bind the target output to its template file and read the template structure.
+
+| Output | Required Template |
+|--------|-------------------|
+| Industry Model | `assets/templates/industry-model-template.md` |
+| Stakeholder Model | `assets/templates/stakeholder-model-template.md` |
+| Purchase Factor Model | `assets/templates/purchase-factor-template.md` |
+| Use Case Fit Model | `assets/templates/use-case-fit-model-template.md` |
+| Critical Capability Model | `assets/templates/critical-capability-model-template.md` |
+| Buying Committee Model | `assets/templates/buying-committee-model-template.md` |
+| Competitive Positioning Model | `assets/templates/competitive-positioning-model-template.md` |
+| Cross Analysis | `assets/templates/cross-analysis-template.md` |
+| Lifecycle Model | `assets/templates/lifecycle-model-template.md` |
+| State Model | `assets/templates/state-model-template.md` |
+| Environment Model | `assets/templates/environment-model-template.md` |
+| Entity Model | `assets/templates/entity-model-template.md` |
+| Relationship Model | `assets/templates/relationship-model-template.md` |
+| Interaction Sequence Model | `assets/templates/interaction-sequence-template.md` |
+| Parameterization Model | `assets/templates/parameterization-template.md` |
+| Stakeholder Category Model | `assets/templates/stakeholder-category-template.md` |
+| Stakeholder Role Model | `assets/templates/stakeholder-role-template.md` |
+| Solution Preference Model | `assets/templates/solution-preference-template.md` |
+| Conflict Pattern Model | `assets/templates/conflict-pattern-template.md` |
+| Template Compliance Check Report | `assets/templates/template-compliance-check-template.md` |
+
+#### TR-02 No Section Dropping or Merging
+
+All headings from the bound template must appear in the generated output in the same order. Do not drop, rename, merge, or reorder template sections. If evidence is missing, keep the section and mark it as `No direct evidence found` with a limitation note and recommended validation question.
+
+#### TR-03 Table Schema Preservation
+
+All template tables must preserve their required columns. Columns may be filled, expanded with additional rows, or supplemented with extra columns only when needed, but required columns must not be removed or renamed.
+
+#### TR-04 Placeholder Completion
+
+Template placeholders such as `[INSIGHT]`, `[CASE_IDS]`, `[CUSTOMER_NAME]`, `[QUOTE]`, `[HIGH/MEDIUM/LOW]`, and `TBD` must be replaced with case-grounded content. If the source data does not support a field, fill it with a clear evidence-gap statement instead of leaving the placeholder.
+
+#### TR-05 Template Deviation Control
+
+Any deviation from the bound template must be listed in the final validation report with:
+- Deviated section or table
+- Reason for deviation
+- Risk to downstream use
+- Corrective action or explicit user approval requirement
+
+Unexplained template deviation is a blocking defect.
 
 ### Output Completeness Checklist
 
 Each model output must contain all of the following sections:
 
+**Template Compliance Check (applies to every output file)**:
+```
+Bound template file declared ✓/✗
+All template headings present ✓/✗
+Template heading order preserved ✓/✗
+Required table columns preserved ✓/✗
+All placeholders replaced or explicitly marked as evidence gaps ✓/✗
+No free-form replacement of template structure ✓/✗
+Deviation log present when deviations exist ✓/✗
+```
+
 **Industry Model Completeness Check**:
 ```
+## Document Information ✓/✗
+## 0. Executive Industry Insight Summary ✓/✗
 ## 1. Industry Classification ✓/✗
 ## 2. Regional Distribution ✓/✗
-## 3. Typical Challenges by Industry ✓/✗
-## 4. Stakeholder Distribution ✓/✗
-## 5. Solution Preferences ✓/✗
-## 6. Purchase Factor Synthesis per Industry ✓/✗
-## 7. Key Insights ✓/✗
-## 8. Traceability Summary ✓/✗
-## 9. Critical Analysis ✓/✗
+## 3. Typical Challenges by Industry (Enhanced Traceability) ✓/✗
+## 4. Stakeholder Distribution by Industry ✓/✗
+## 5. Solution Preference by Industry (Enhanced Traceability) ✓/✗
+## 6. Purchase Factor Synthesis per Industry (MANDATORY - 3-5 items each) ✓/✗
+## 7. Key Insights (Enhanced Traceability) ✓/✗
+## 8. Traceability Summary (Enhanced - 4 Sub-tables) ✓/✗
+## 9. Critical Analysis (MANDATORY) ✓/✗
+## 10. Notes ✓/✗
 ```
 
 **Stakeholder Model Completeness Check**:
 ```
-## Part A: Category Layer ✓/✗
+## Document Information ✓/✗
+## Part 0: Stakeholder Decision System ✓/✗
+## Part A: Category Layer (类别层) ✓/✗
   - Category Definitions ✓/✗
   - Category × Industry Matrix ✓/✗
   - Category Typical Expectations ✓/✗
   - Category Influence Distribution ✓/✗
 
-## Part B: Role Layer ✓/✗
+## Part B: Role Layer (角色层) ✓/✗
   - Master Role Catalog ✓/✗
   - Category → Role Hierarchy ✓/✗
   - Role × Industry Matrix ✓/✗
   - Role Detailed Attributes ✓/✗
 
-## Part C: Key Insights ✓/✗
-## Part D: Traceability Summary ✓/✗
-## Part E: Critical Analysis ✓/✗
+## Part C: Key Insights (Enhanced Traceability) ✓/✗
+## Part D: Traceability Summary (Enhanced - 4 Sub-tables) ✓/✗
+## Part E: Critical Analysis (MANDATORY) ✓/✗
+## Part F: Notes ✓/✗
 ```
 
 **Purchase Factor Model Completeness Check**:
 ```
-## 1. Business Driver Layer ✓/✗
-## 2. Technical Implementation Layer ✓/✗
-## 3. Quantified Metrics Layer ✓/✗
-## 4. Industry × Business Driver Matrix ✓/✗
-## 5. Solution Chain ✓/✗
-## 6. Stakeholder × Driver Mapping ✓/✗
-## 7. Key Insights ✓/✗
+## Document Information ✓/✗
+## 0. Executive Business Insight Summary ✓/✗
+## 1. Business Driver Layer Frequency Distribution ✓/✗
+## 2. Technical Implementation Layer Frequency Distribution ✓/✗
+## 3. Quantified Metric Patterns ✓/✗
+## 4. Industry × Business Driver Priority Matrix ✓/✗
+## 5. Business Driver → Technical Implementation → Solution Chain ✓/✗
+## 6. Purchase Factor Detailed Analysis Table (Enhanced Traceability) ✓/✗
+## 7. Stakeholder × Driver Mapping ✓/✗
+## 8. Key Insights (Enhanced Traceability) ✓/✗
+## 9. Traceability Summary (Enhanced - 4 Sub-tables) ✓/✗
+## 10. Critical Analysis (MANDATORY) ✓/✗
+## 11. Notes ✓/✗
+```
+
+**Cross Analysis Completeness Check**:
+```
+## Document Information ✓/✗
+## 0. Strategic Cross-Model Insight Summary ✓/✗
+## 1. Industry × Stakeholder Category Matrix ✓/✗
+## 2. Industry × Stakeholder Role Matrix (Top Roles) ✓/✗
+## 3. Industry × Business Driver Matrix ✓/✗
+## 4. Stakeholder Category × Business Driver Matrix ✓/✗
+## 5. Stakeholder Role × Business Driver Matrix (Top Roles) ✓/✗
+## 6. Stakeholder Category × Conflict Matrix ✓/✗
+## 7. Key Cross-Dimension Insights ✓/✗
 ## 8. Traceability Summary ✓/✗
-## 9. Critical Analysis ✓/✗
+## Notes ✓/✗
+```
+
+**Use Case Fit Model Completeness Check**:
+```
+## Document Information ✓/✗
+## 0. Executive Use-Case Fit Summary ✓/✗
+## 1. Market and Use-Case Definition ✓/✗
+## 2. Use Case × Industry Fit Matrix ✓/✗
+## 3. Use Case Decision Logic ✓/✗
+## 4. Adoption Trigger and Barrier Analysis ✓/✗
+## 5. Use Case Fit Scoring ✓/✗
+## 6. Traceability Summary ✓/✗
+## 7. Strategic Insights ✓/✗
+## 8. Notes ✓/✗
+```
+
+**Critical Capability Model Completeness Check**:
+```
+## Document Information ✓/✗
+## 0. Executive Capability Summary ✓/✗
+## 1. Capability Taxonomy ✓/✗
+## 2. Capability × Use Case Criticality Matrix ✓/✗
+## 3. Table Stakes vs Differentiator Analysis ✓/✗
+## 4. Capability Weighting by Industry ✓/✗
+## 5. Capability Proof Burden ✓/✗
+## 6. Capability-to-Scenario Mapping ✓/✗
+## 7. Traceability Summary ✓/✗
+## 8. Strategic Insights ✓/✗
+## 9. Notes ✓/✗
+```
+
+**Buying Committee Model Completeness Check**:
+```
+## Document Information ✓/✗
+## 0. Executive Buying Committee Summary ✓/✗
+## 1. Buying Committee Role Taxonomy ✓/✗
+## 2. Role × Use Case Influence Matrix ✓/✗
+## 3. Buying Journey Decision Map ✓/✗
+## 4. Stakeholder Proof Burden ✓/✗
+## 5. Buying Committee Archetypes ✓/✗
+## 6. Engagement Playbook ✓/✗
+## 7. Traceability Summary ✓/✗
+## 8. Strategic Insights ✓/✗
+## 9. Notes ✓/✗
+```
+
+**Competitive Positioning Model Completeness Check**:
+```
+## Document Information ✓/✗
+## 0. Executive Competitive Positioning Summary ✓/✗
+## 1. Market Definition and Boundary ✓/✗
+## 2. Competitive Alternative Map ✓/✗
+## 3. Vendor Narrative vs Customer Evidence ✓/✗
+## 4. Differentiator vs Table Stakes Matrix ✓/✗
+## 5. Positioning by Use Case ✓/✗
+## 6. Competitive Risk and Objection Analysis ✓/✗
+## 7. Proof Burden and Validation Plan ✓/✗
+## 8. Scenario Modeling Implications ✓/✗
+## 9. Traceability Summary ✓/✗
+## 10. Strategic Insights ✓/✗
+## 11. Notes ✓/✗
 ```
 
 ### Traceability Requirements
@@ -361,7 +523,7 @@ Phase 3: 结果整合与验证
 - **正在处理模型**: Y 个 (当前Agent任务)
 - **已完成模型**: Z 个
 - **问题模型**: W 个
-- **当前完成率**: Z/3 %
+- **当前完成率**: Z/7 % (3 primary models + 4 strategic market advisory models)
 
 ## Agent 任务状态追踪
 | Agent ID | 分配模型 | 源案例数 | 已完成章节 | 缺失章节 | 状态 | 开始时间 |
@@ -444,10 +606,17 @@ Phase 3: 结果整合与验证
 │   ├── industry_model.md
 │   ├── stakeholder_model.md
 │   └── purchase_factor_model.md
+├── strategic_models/
+│   ├── use_case_fit_model.md
+│   ├── critical_capability_model.md
+│   ├── buying_committee_model.md
+│   └── competitive_positioning_model.md
 ├── cross_analysis/
 │   └ cross_analysis_matrix.md
 └── validation/
+    ├── template_compliance_check.md
     ├── completeness_check.md
+    ├── business_insight_check.md
     └── credibility_ratings.md
 ```
 
@@ -498,24 +667,56 @@ Step 1: Source Case Coverage Verification
 ├── Identify uncited source cases
 └── Calculate coverage rate
 
-Step 2: Model Completeness Verification
-├── Check Industry Model 9 sections completeness
-├── Check Stakeholder Model 5 Parts completeness
-├── Check Purchase Factor Model 9 sections completeness
+Step 2: Template Compliance Verification
+├── Confirm each output declares or maps to the required template
+├── Compare generated headings against template headings
+├── Verify heading order is unchanged
+├── Verify required table columns are present and not renamed
+├── Detect unresolved placeholders: [.*], TBD, TODO, N/A without evidence-gap note
+├── Identify sections replaced by generic summaries
+└── Generate Template Compliance Check Report
+
+Step 3: Model Completeness Verification
+├── Check Industry Model 11 template sections completeness
+├── Check Stakeholder Model 7 template sections completeness
+├── Check Purchase Factor Model 12 template sections completeness
+├── Check Use Case Fit Model 10 template sections completeness
+├── Check Critical Capability Model 11 template sections completeness
+├── Check Buying Committee Model 11 template sections completeness
+├── Check Competitive Positioning Model 13 template sections completeness
+├── Check Cross Analysis template sections completeness
 ├── Verify traceability citation format
 └── Confirm critical analysis chapter exists
 
-Step 3: Data Quality Verification
+Step 4: Data Quality Verification
 ├── Frequency statistics accuracy verification
 ├── Customer name - original quote consistency verification
 ├── Credibility rating rationality verification
 └── Critical analysis logic completeness verification
 
-Step 4: Issue List Generation
+Step 5: Business Insight Quality Verification
+├── Executive insight summary presence verification
+├── Business reasoning chain completeness verification
+├── Product-as-factor guard verification
+├── Counter-evidence and measurement gap verification
+└── Recommended action specificity verification
+
+Step 6: Strategic Market Advisory Verification
+├── Use case boundary and fit scoring verification
+├── Critical capability classification verification
+├── Buying committee proof-burden verification
+├── Competitive alternative and differentiator verification
+├── Scenario modeling implication verification
+└── Gartner-style framework compliance verification
+
+Step 7: Issue List Generation
 ├── Uncited source case list
 ├── Missing sections list
 ├── Incomplete traceability list
-└── Missing credibility rating list
+├── Missing credibility rating list
+├── Template deviation list
+├── Strategic advisory gap list
+└── Unresolved placeholder list
 ```
 
 ### Processing Report Output Structure
@@ -538,12 +739,29 @@ After model synthesis completion, must generate processing report:
 | Stakeholder Model | 122/122 | 100% | 0 | ✓ Complete |
 | Purchase Factor Model | 46/122 | 37.7% | 76 | ○ Quantified data insufficient |
 
+## Template Compliance Verification Results
+| Output File | Bound Template | Heading Match | Heading Order | Required Columns | Placeholder Resolution | Deviations | Status |
+|-------------|----------------|---------------|---------------|------------------|------------------------|------------|--------|
+| industry_model.md | industry-model-template.md | 11/11 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| stakeholder_model.md | stakeholder-model-template.md | 7/7 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| purchase_factor_model.md | purchase-factor-template.md | 12/12 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| use_case_fit_model.md | use-case-fit-model-template.md | 10/10 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| critical_capability_model.md | critical-capability-model-template.md | 11/11 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| buying_committee_model.md | buying-committee-model-template.md | 11/11 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| competitive_positioning_model.md | competitive-positioning-model-template.md | 13/13 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+| cross_analysis_matrix.md | cross-analysis-template.md | 10/10 | ✓ | ✓ | ✓ | 0 | ✓ Pass |
+
 ## Model Completeness Verification Results
 | Model Name | Required Sections | Completed Sections | Missing Sections | Completeness | Critical Analysis |
 |------------|------------------|-------------------|-----------------|--------------|-------------------|
-| Industry Model | 9 | 9 | 0 | ✓ | ✓ Contains credibility rating |
-| Stakeholder Model | 5 | 5 | 0 | ✓ | ✓ Contains credibility rating |
-| Purchase Factor Model | 9 | 9 | 0 | ✓ | ✓ Contains credibility rating |
+| Industry Model | 11 | 11 | 0 | ✓ | ✓ Contains credibility rating |
+| Stakeholder Model | 7 | 7 | 0 | ✓ | ✓ Contains credibility rating |
+| Purchase Factor Model | 12 | 12 | 0 | ✓ | ✓ Contains credibility rating |
+| Use Case Fit Model | 10 | 10 | 0 | ✓ | N/A |
+| Critical Capability Model | 11 | 11 | 0 | ✓ | N/A |
+| Buying Committee Model | 11 | 11 | 0 | ✓ | N/A |
+| Competitive Positioning Model | 13 | 13 | 0 | ✓ | N/A |
+| Cross Analysis | 10 | 10 | 0 | ✓ | N/A |
 
 ## Traceability Verification Results
 | Model Name | Customer Name Annotation | Original Quote | Quote Location | Status |
@@ -564,6 +782,7 @@ After model synthesis completion, must generate processing report:
 |----|-----------|--------------|----------------|------------|
 | 1 | Quantified data missing | 76 cases without quantified indicators | Purchase Factor Model | Mark credibility downgrade, retain existing data |
 | 2 | Insufficient industry cases | 3 industries <5 cases | Industry Model | Infer from existing cases, annotate data limitations |
+| 3 | Template deviation | Any missing heading, reordered section, removed required column, or unresolved placeholder | Any output | Blocking defect; repair output before final delivery |
 
 ## Recommendations and Follow-up Actions
 - [ ] Supplement quantified data extraction for 76 cases
@@ -764,35 +983,64 @@ Interaction Sequence
 | Role × Purchase Factor | Which roles care about which factors | Stakeholder expectation patterns |
 | Role × Conflict | Which roles are involved in which conflicts | Conflict stakeholder patterns |
 
+## Strategic Market Advisory Models
+
+These Gartner-style models are mandatory when the user requests market, industry, competitive, sales, or strategic analysis. They are also recommended for vendor case-study corpora in data communication, networking, and cybersecurity domains.
+
+| Model | Purpose | Required Framework |
+|-------|---------|--------------------|
+| Use Case Fit Model | Determine which customer use cases fit which segments, adoption triggers, barriers, and scenario implications | `gartner-style-modeling-framework.md` |
+| Critical Capability Model | Identify capability criticality, table-stakes vs differentiator status, proof burden, and scenario parameters | `gartner-style-modeling-framework.md` |
+| Buying Committee Model | Model approval, blocking, validation, operation, funding, and user influence across the buying journey | `gartner-style-modeling-framework.md` |
+| Competitive Positioning Model | Define market boundary, alternatives, vendor narrative vs customer evidence, differentiators, and proof burden | `gartner-style-modeling-framework.md` |
+
 ## Output Requirements
+
+### Template-First Output Contract
+
+Every output file must be generated from the corresponding template in `assets/templates/`. Treat the template as the output contract, not as a loose example.
+
+For each generated file:
+1. Declare the bound template at the top of the output or in the processing report.
+2. Preserve every template heading in the same order.
+3. Preserve required table columns from the template.
+4. Fill all placeholder cells with source-grounded content or explicit evidence-gap text.
+5. Do not replace a detailed template section with a summary paragraph.
+6. After generation, run the Template Compliance Check and include the result in `validation/template_compliance_check.md` or the final processing report.
 
 ### Industry Model Output Structure
 
-The Industry Model output must include the following sections:
+The Industry Model output must follow `industry-model-template.md` exactly and include the following sections in template order:
 
+0. **Executive Industry Insight Summary**: Industry business thesis and cross-industry differentiation before inventory tables
 1. **Industry Classification**: Primary and secondary industry taxonomy with case counts
 2. **Regional Distribution**: Region × Industry matrix with concentration analysis
-3. **Typical Challenges by Industry**: Challenge types with frequency and original quotes
-4. **Stakeholder Distribution**: Industry × Stakeholder category matrix
-5. **Solution Preferences**: Cross-industry and industry-specific solution patterns
-6. **Purchase Factor Synthesis per Industry**: **MANDATORY** - Each industry must have 3-5 purchase factors with:
+3. **Typical Challenges by Industry (Enhanced Traceability)**: Challenge types with frequency and original quotes
+4. **Stakeholder Distribution by Industry**: Industry × Stakeholder category matrix
+5. **Solution Preference by Industry (Enhanced Traceability)**: Cross-industry and industry-specific solution patterns
+6. **Purchase Factor Synthesis per Industry (MANDATORY - 3-5 items each)**: **MANDATORY** - Each industry must have 3-5 purchase factors with:
    - Ranking and business importance
    - Typical expressions from source documents
    - **Customer name attribution** (e.g., "Aberdeen City Council")
    - **Original quote reference** (e.g., Page number or line number)
-7. **Key Insights**: Pattern discoveries with traceability
-8. **Traceability Summary**: Enhanced traceability tables with customer names and original quotes
-9. **Critical Analysis**: **MANDATORY** - Independent chapter addressing:
+7. **Key Insights (Enhanced Traceability)**: Pattern discoveries with traceability, confidence, counter-evidence, and recommended action
+8. **Traceability Summary (Enhanced - 4 Sub-tables)**: Enhanced traceability tables with customer names and original quotes
+9. **Critical Analysis (MANDATORY)**: **MANDATORY** - Independent chapter addressing:
    - Data source limitations (supplier bias, survivorship bias)
    - Objective correction of industry insights
    - Technical solution objective assessment
    - Market distribution objective interpretation
    - Data usage recommendations
    - Conclusion credibility rating
+10. **Notes**: Standardization notes, limitations, and follow-up actions
 
 ### Stakeholder Model Output Structure
 
-The Stakeholder Model output must include the following sections:
+The Stakeholder Model output must follow `stakeholder-model-template.md` exactly and include the following sections in template order:
+
+**Part 0: Stakeholder Decision System**
+1. **Decision System Map**: Decision owner, evidence owner, risk/compliance owner, affected user, delivery owner, decision tension, and required evidence
+2. **Stakeholder Engagement Playbook**: Business question, proof need, objection, purchase factor strengthened, recommended engagement action, and confidence
 
 **Part A: Category Layer**
 1. **Category Definitions**: Six standard categories with definitions, traits, frequency, and source cases
@@ -839,11 +1087,19 @@ The Stakeholder Model output must include the following sections:
    - Industry role pattern credibility
    - Co-occurrence pattern credibility
 
+**Part F: Notes**
+- Category standardization notes
+- Role standardization notes
+- Data limitations
+- Recommended follow-up
+
 ### Purchase Factor Model Output Structure
 
 **CRITICAL**: Purchase Factor Model must follow "Business Intent Priority" principle. All analyses center on customer's business value propositions, NOT products/technologies.
 
-The Purchase Factor Model output must include the following sections:
+The Purchase Factor Model output must follow `purchase-factor-template.md` exactly and include the following sections in template order:
+
+0. **Executive Business Insight Summary**: Top business conclusions, business reasoning chain, and decision implication map before frequency tables
 
 1. **Business Driver Layer Frequency Distribution**: Purchase factors (business intents) frequency distribution, including:
    - Frequency statistics (customer uniqueness principle)
@@ -852,83 +1108,79 @@ The Purchase Factor Model output must include the following sections:
 
 2. **Technical Implementation Layer Frequency Distribution**: Technical solutions purchased to achieve purchase factors, with explicit linkage to business drivers
 
-3. **Quantified Metrics Layer Frequency Distribution**: Quantified measurement indicator type statistics
+3. **Quantified Metric Patterns**: Quantified measurement indicator type statistics and detailed metric evidence
 
 4. **Industry × Purchase Factor Priority Matrix**: Industry × purchase factor priority matrix
 
-5. **Purchase Factor → Technical Implementation Chain**: Purchase factor → technical implementation mapping chain
+5. **Business Driver → Technical Implementation → Solution Chain**: purchase factor → capability → solution mapping chain
 
-6. **Quantified Dimensions Analysis (NEW - MANDATORY)**:
-   - Decompose quantifiable dimensions for each purchase factor
-   - List cases providing quantified data with their quantified values
-   - Classify quantified dimension types (efficiency improvement, cost savings, coverage rate, time reduction, certification achievement, etc.)
+6. **Purchase Factor Detailed Analysis Table (Enhanced Traceability)**: Detailed factor-level evidence, mechanism, customer quotes, metric gaps, and confidence
 
-   **Quantified Dimensions Analysis Table Format**:
-   ```
-   | Purchase Factor | Quantified Dimension | Quantified Cases | Representative Cases (Values) | Original Quote |
-   |-----------------|---------------------|------------------|------------------------------|----------------|
-   | Operations efficiency | Ticket reduction rate | 25 cases | Austrian Red Cross(30%); Aberdeen(70%); Cheval(90%) | "operations simplified 30%" |
-   | Operations efficiency | Deployment time reduction | 18 cases | Grove City(30min); Cheval(90%); Flintshire(hours→days) | "deployment completed in 30min" |
-   | Security compliance | Certification achievement | 12 cases | Amiri(HIMSS Level 5); ADA(ISO 27001); Schnellecke(TISAX) | "HIMSS Level 5 certified" |
-   | Cost efficiency | Cost savings percentage | 15 cases | CELSA(40%); Hindalco(30%); Cairo Amman(50%) | "MPLS cost 40% reduction" |
-   ```
+7. **Stakeholder × Driver Mapping**: Stakeholder category × driver mapping matrix and driver-stakeholder matrix
 
-7. **Lead User Identification (NEW - MANDATORY)**:
-   - Identify lead users/customers for each purchase factor
-   - Lead user definition: Customers representing purchase factor development direction, having innovative procurement motivation, leading industry trends
-   - Lead user identification criteria:
-     - **Time Leadership**: First to propose or achieve the purchase factor (e.g., Golden State Warriors proposing WiFi 6E need in 2021)
-     - **Quantification Leadership**: Achieved most challenging quantified goals (e.g., University of Illinois 100GbE research competitiveness)
-     - **Industry Benchmark**: Having demonstration effect within industry (e.g., Amiri Hospital HIMSS Level 5 first in Kuwait)
-     - **Innovation Motivation**: Having innovative business drivers rather than following needs (e.g., Nobu Hotels AI-driven hyper-personalized experience)
+8. **Key Insights (Enhanced Traceability)**: Pattern discoveries with causal mechanism, segmentation, stakeholder implication, metric gaps, counter-evidence, confidence, and recommended action
 
-   **Lead User Identification Table Format**:
-   ```
-   | Purchase Factor | Lead User | Leadership Type | Leadership Reason | Industry Impact |
-   |-----------------|-----------|-----------------|-------------------|-----------------|
-   | WiFi innovation experience | Golden State Warriors(2022) | Time+Benchmark | First WiFi 6E venue in North America, leading industry by 2 years in 2022, fan experience innovation driven | Sports entertainment WiFi 6E benchmark |
-   | Research competitiveness | University of Illinois(2024) | Quantification+Benchmark | 100GbE fabric research competitiveness, grant winning capability, research university benchmark | Higher education HPC benchmark |
-   | Smart hospital certification | Amiri Hospital(2021) | Benchmark+Quantification | HIMSS Level 5 first in Kuwait, Level 6 target, smart hospital benchmark | Healthcare HIMSS certification benchmark |
-   | Cost efficiency | CELSA Group(2022) | Quantification+Benchmark | MPLS→SD-WAN 40% cost savings, 70 European locations unified management, manufacturing benchmark | Manufacturing SD-WAN benchmark |
-   | Hyper-personalized experience | Nobu Hotels(2024) | Innovation+Benchmark | AI-driven concierge service, Zero Trust+IoT combination, hospitality innovation pioneer | Hospitality AI experience benchmark |
-   ```
+9. **Traceability Summary (Enhanced - 4 Sub-tables)**: Business driver, technical implementation, quantified metric, and industry driver pattern traceability
 
-8. **Purchase Factor Year Evolution Analysis (NEW - MANDATORY)**:
-   - Focus on listing purchase factor changes across different years
-   - List emerging/strengthened/evolving purchase factors for each year
-   - Provide evidence (lead user cases + original quotes)
-
-   **Purchase Factor Year Evolution Table Format**:
-   ```
-   | Year | Emerging Purchase Factors | Strengthened Purchase Factors | Evolving Purchase Factors | Lead User Evidence |
-   |------|---------------------------|------------------------------|---------------------------|--------------------|
-   | 2021 | Remote healthcare support | Security compliance certification | - | Amiri: "400 remote consultations"(emerging); HIMSS Level 5(strengthened) |
-   | 2022 | WiFi 6E innovation experience | Cost efficiency optimization | Operations efficiency→AIOps | GSW: "WiFi 6E North America first"(emerging); CELSA: "40% cost reduction"(strengthened) |
-   | 2023 | IoT smart building | Zero Trust architecture | WiFi 6→WiFi 6E | Nobu: "IoT smart room"(emerging); Rotana: "Zero Trust"(strengthened) |
-   | 2024 | Research competitiveness(HPC) | SASE/ZTNA | SD-WAN→SASE | UI: "100GbE research competitiveness"(emerging); Schnellecke: "ZTNA"(strengthened) |
-   | 2025 | Edge AI prediction | Hyper-personalized experience | Zero Trust→SASE | Bosch: "30-60 day prediction"(emerging); Gloria: "AI-driven experience"(strengthened) |
-   | 2026 | WiFi 7 readiness | NaaS subscription model | WiFi 6E→WiFi 7 | Al-Nassr: "WiFi 7 readiness"(emerging); Grove City: "NaaS"(strengthened) |
-   ```
-
-9. **Stakeholder × Purchase Factor Mapping**: Stakeholder category × purchase factor mapping matrix
-
-10. **Key Insights**: Pattern discoveries, including:
-    - Purchase factor evolution trend insights
-    - Lead user driving pattern insights
-    - Industry differentiated purchase factor insights
-
-11. **Traceability Summary**: Purchase factor traceability summary, including:
-    - Quantified dimensions traceability table
-    - Lead user traceability table
-    - Year evolution traceability table
-
-12. **Critical Analysis (MANDATORY)**:
+10. **Critical Analysis (MANDATORY)**:
     - Data source limitations assessment
     - Objective purchase factor correction
     - Lead user identification credibility assessment
     - Year evolution evidence completeness assessment
     - Data usage recommendations
     - Conclusion credibility rating
+
+11. **Notes**: Factor standardization notes, layer mapping notes, limitations, and recommended follow-up
+
+### Gartner-Style Strategic Market Advisory Output Structure
+
+All four strategic advisory outputs must follow `gartner-style-modeling-framework.md` and their bound templates exactly. They translate the primary models into market-facing guidance.
+
+#### Use Case Fit Model
+
+The Use Case Fit Model must follow `use-case-fit-model-template.md` exactly and include:
+1. Market and use-case boundary
+2. Use case × industry fit matrix
+3. Decision logic by use case
+4. Adoption trigger and barrier analysis
+5. Fit scoring
+6. Traceability and strategic insights
+7. Scenario modeling implications
+
+#### Critical Capability Model
+
+The Critical Capability Model must follow `critical-capability-model-template.md` exactly and include:
+1. Capability taxonomy for data communication domains
+2. Capability × use case criticality matrix
+3. Table stakes vs differentiator classification
+4. Capability weighting by industry
+5. Proof burden, MoE/KPI, and measurement gaps
+6. Capability-to-scenario mapping
+7. Traceability and strategic insights
+
+#### Buying Committee Model
+
+The Buying Committee Model must follow `buying-committee-model-template.md` exactly and include:
+1. Buying committee role taxonomy
+2. Role × use case influence matrix
+3. Buying journey decision map
+4. Stakeholder proof burden
+5. Buying committee archetypes
+6. Engagement playbook
+7. Traceability and strategic insights
+
+#### Competitive Positioning Model
+
+The Competitive Positioning Model must follow `competitive-positioning-model-template.md` exactly and include:
+1. Market definition and boundary
+2. Competitive alternative map
+3. Vendor narrative vs customer evidence
+4. Differentiator vs table stakes matrix
+5. Positioning by use case
+6. Competitive risk and objection analysis
+7. Proof burden and validation plan
+8. Scenario modeling implications
+9. Traceability and strategic insights
 
 ### Traceability Requirements (Enhanced)
 
@@ -1127,19 +1379,55 @@ Industry × Year Matrix:
 
 ## Workflow
 
+### Phase 0: Preparation and Validation
+
 1. **Input Collection**: Gather multiple `-analysis.md` documents
-2. **Document Parsing**: Extract structured fields from each document
-3. **Dimension Extraction**: Extract industry, stakeholders, purchase factors, etc.
-4. **Cross-Case Aggregation**: Group and count patterns across documents
-5. **Model Synthesis**: Generate synthesis models with frequency and traceability
-6. **Critical Analysis**: Apply objective correction and credibility assessment
-7. **Cross-Analysis Generation**: Build cross-dimension matrixes
-8. **Output Formatting**: Format outputs using defined templates
+2. **Input Validation**: Apply Input Validation Framework to validate all inputs
+3. **Document Parsing**: Extract structured fields from each document
+
+### Phase 1: Business-First Analysis (MANDATORY)
+
+4. **Business Background Analysis**: Extract and document industry, organizational, operational, and strategic context (see Business Background Driver Priority Framework)
+5. **Business Driver Identification**: Identify and prioritize business drivers with quantified business value
+6. **Business Impact Assessment**: Document impact of inaction and define success criteria
+
+### Phase 2: Confidence and Credibility Assessment
+
+7. **Confidence Assignment**: Assign confidence levels (HIGH/MEDIUM/LOW) and basis categories to all inferred information (see Confidence Level Framework)
+8. **MoE Indicator Extraction**: Extract and document all quantified metrics with source traceability and credibility assessment (see MoE Indicators Framework)
+
+### Phase 3: Dimension Extraction
+
+9. **Stakeholder Analysis**: Extract stakeholders with three-level role hierarchy classification (Category → Subcategory → Concrete Role)
+10. **Dimension Extraction**: Extract industry, purchase factors, operational scenarios, etc.
+11. **Cross-Case Aggregation**: Group and count patterns across documents
+
+### Phase 4: Model Synthesis
+
+12. **Template Binding**: Bind every target output to its required template and extract required headings/tables before writing
+13. **Business Insight Chain Generation**: Apply Business Insight Quality Framework to convert major patterns into context -> pressure -> stakeholder tension -> purchase factor -> capability -> measurable outcome -> risk -> recommended action chains
+14. **Template-Based Model Generation**: Generate synthesis models by filling the bound templates section-by-section; do not skip sections with sparse evidence
+15. **Critical Analysis**: Apply objective correction, counter-evidence, and credibility assessment inside the template's required critical-analysis section
+16. **Strategic Advisory Model Generation**: Apply `assets/prompts/strategic-advisory.prompt.md` and Gartner-Style Strategic Modeling Framework to generate Use Case Fit, Critical Capability, Buying Committee, and Competitive Positioning models
+17. **Cross-Analysis Generation**: Build cross-dimension matrixes with strategic cross-model insight summary using `cross-analysis-template.md`
+
+### Phase 5: Validation and Formatting
+
+18. **Template Compliance Validation**: Verify heading presence/order, table schemas, placeholder resolution, and deviation log before other quality checks
+19. **Consistency Validation**: Apply Cross-Model Consistency Framework
+20. **Business Insight Validation**: Run Business Insight Quality Framework gate before finalizing primary models
+21. **Strategic Advisory Validation**: Verify use-case boundary, capability classification, buying committee proof burden, competitive alternative, and scenario implication completeness
+22. **Automated Validation**: Run Automated Validation Framework checks
+23. **Output Formatting**: Format outputs using defined templates with all quality requirements
 
 ---
 
 ## Version History
 
+- **0.9.0** (2026-05-09): Gartner-style strategic market modeling enhancement - Added four mandatory strategic advisory model templates for data communication and cybersecurity market analysis: Use Case Fit Model, Critical Capability Model, Buying Committee Model, and Competitive Positioning Model. Added Gartner-Style Strategic Modeling Framework, template bindings, completeness checks, output directory support, workflow generation step, and validation requirements for market/use-case boundary, table-stakes vs differentiator classification, proof burden, competitive alternatives, and scenario modeling implications.
+- **0.8.1** (2026-05-09): Template conformance hardening - Added mandatory template binding for every output file, no section dropping/merging rules, table schema preservation rules, placeholder completion rules, and deviation logging. Post-analysis validation now includes Template Compliance Verification before completeness and quality checks, with required reporting for heading match, heading order, required columns, unresolved placeholders, and template deviations.
+- **0.8.0** (2026-05-09): Business insight quality enhancement - Added mandatory Business Insight Quality Framework integration for primary models. Industry, Stakeholder, Purchase Factor, and Cross-Analysis outputs now start with executive insight summaries before inventory tables; major conclusions must include business context, trigger or pressure, stakeholder decision tension, purchase factor, capability, measurable outcome or gap, counter-evidence, confidence, and recommended action. Templates and validation flow now explicitly guard against generic conclusions and product-name-as-driver outputs.
+- **0.7.0** (2026-05-07): Major analysis quality enhancements - Added five comprehensive analysis quality frameworks based on user optimization requirements: (1) **Business Background Driver Priority Framework** - establishes business-first analysis order requiring business background and business driver analysis before technical implementation; (2) **Confidence Level Framework** - defines three-level confidence system (HIGH/MEDIUM/LOW) with explicit basis categories (Explicit Statement, Direct Citation, Multiple Source Agreement, Industry Standard, Contextual Inference, Quantitative Support, Expert Judgment, Speculative Inference) and mandatory confidence assignment for all inferred information; (3) **MoE Indicators Framework** - establishes Metrics of Effectiveness indicator standards with mandatory source traceability, credibility requirements, and quantified metric verification; defines five source types (Direct Measurement, Vendor Claim, Customer Statement, Industry Benchmark, Calculated/Inferred) with credibility assessment; (4) **Stakeholder Role Hierarchy Framework** - defines three-level stakeholder classification (Category Layer → Subcategory Layer → Concrete Role Layer) with complete hierarchy trees for all six standard categories and 60+ concrete roles across industries; (5) **Bilingual Quote Reference Framework** - mandates bilingual quote requirements for all non-Chinese sources with translation quality standards (accuracy, completeness, terminology consistency, readability) and comprehensive implementation guidelines. All frameworks integrate with existing validation and consistency frameworks for end-to-end quality assurance.
 - **0.5.0** (2026-04-14): Major enhancement - **Purchase Factor Definition Clarification**: Purchase factors are business intents/value propositions, NOT products/technologies purchased; Added three MANDATORY new sections to Purchase Factor Model: (1) **Quantified Dimensions Analysis** - decompose quantifiable dimensions for each purchase factor with case data; (2) **Lead User Identification** - identify customers representing purchase factor development direction with leadership criteria (time leadership, quantification leadership, industry benchmark, innovation motivation); (3) **Purchase Factor Year Evolution Analysis** - track purchase factor changes across years with lead user evidence. All analyses must follow "Business Intent Priority" principle.
 - **0.4.0** (2026-04-14): Added Statistical Conclusion Standards - Customer uniqueness principle (each customer counts once in frequency statistics), Multi-customer citation requirements (list top 3-5 important customers with original quotes), Business driver/purchase element elaboration requirements (each item needs supplementary explanation with specific manifestations, quantified metrics, implementation methods, business value), Analysis table synthesis requirements (each table needs synthesis and elaboration section covering core findings, distribution patterns, anomalies, business implications, data limitations)
 - **0.3.0** (2026-04-14): Major enhancement - Added Quality Requirements section with mandatory quality standards and output completeness checklist for all three models; Added Parallel Processing Strategy for multi-Agent efficiency optimization based on input volume; Added Processing Progress Report for real-time progress tracking during model synthesis; Added Post-Analysis Validation process with source case coverage verification, completeness check, and problem data identification
